@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DeenPath - Your Guide to the Straight Path</title>
+        <link rel="icon" type="image/png" href="pics/logo.jpg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Scheherazade&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #002b18;
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background: linear-gradient(to right, #013220, #014d2c);
+            border-bottom: 2px solid gold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            padding: 10px 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .navbar::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .navbar-nav .nav-link {
+            color: gold !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 18px;
+            margin: 0 5px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: rgb(10, 7, 7) !important;
+            transform: translateY(-2px);
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link.active {
+            color: rgb(10, 7, 7) !important;
+            font-weight: bold;
+        }
+
+        #current-date {
+            color: gold;
+            font-size: 14px;
+            font-weight: bold;
+            margin-left: 15px;
+            font-weight: bold;
+        }
+
+        /* Digital Clock Styling */
+        #clock {
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+            color: black;
+            font-weight: bold;
+            margin-left: 20px;
+            line-height: 1.2;
+        }
+
+        #day-date {
+            font-size: 16px;
+            color: black;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+        }
+
+        #time {
+            font-size: 18px;
+            color: black;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+            font-family: 'Courier New', Courier, monospace;
+            letter-spacing: 1px;
+        }
+        
+        #namaz-now {
+            color: white;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+            font-size: 14px;
+        }
+
+        /* Hero Section */
+        .bgp {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('pics/Quranhead.jpg') no-repeat center center/cover;
+            width: 100%;
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 80px;
+            animation: fadeIn 1.5s ease-in-out;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Particle Animation Container */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: gold;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float-particle 15s infinite linear;
+        }
+
+        .bgp .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .bgp .content h1 {
+            font-family: 'Scheherazade', serif;
+            font-size: 3.5rem;
+            color: gold;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
+            animation: slideDown 1.2s ease;
+        }
+
+        .bgp .content p {
+            font-size: 1.2rem;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .bgp .btn-warning {
+            background: gold;
+            color: black;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bgp .btn-warning::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .bgp .btn-warning:hover {
+            background: goldenrod;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #002b18, #003d26);
+        }
+
+        .features-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .features-title h2 {
+            font-family: 'Scheherazade', serif;
+            font-size: 2.5rem;
+            color: gold;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .features-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, gold, transparent);
+        }
+
+        .features-title p {
+            color: #ccc;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .feature-card {
+            background: rgba(0, 43, 24, 0.7);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:nth-child(2n) {
+            animation-delay: 0.5s;
+        }
+
+        .feature-card:nth-child(3n) {
+            animation-delay: 1s;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, gold, transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .feature-card:hover::after {
+            transform: translateX(100%);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: gold;
+            animation-play-state: paused;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: gold;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1);
+        }
+
+        .feature-card h3 {
+            font-family: 'Scheherazade', serif;
+            font-size: 1.5rem;
+            color: gold;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        /* Testimonials Section */
+        .testimonials-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #003d26, #002b18);
+            position: relative;
+        }
+
+        .testimonials-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, gold, transparent);
+        }
+
+        .testimonials-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .testimonials-title h2 {
+            font-family: 'Scheherazade', serif;
+            font-size: 2.5rem;
+            color: gold;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .testimonials-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, gold, transparent);
+        }
+
+        .testimonials-title p {
+            color: #ccc;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .testimonial-card {
+            background: rgba(0, 43, 24, 0.7);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .testimonial-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, gold, transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s;
+        }
+
+        .testimonial-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: gold;
+        }
+
+        .testimonial-card::after {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 4rem;
+            color: rgba(255, 215, 0, 0.3);
+            font-family: 'Scheherazade', serif;
+            z-index: 1;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #ccc;
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: gold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #002b18;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .author-info h4 {
+            margin: 0;
+            color: gold;
+            font-size: 1.1rem;
+        }
+
+        .author-info p {
+            margin: 0;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .testimonial-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 8px 20px;
+            background: transparent;
+            color: gold;
+            border: 2px solid gold;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .testimonial-btn:hover {
+            background: gold;
+            color: #002b18;
+            transform: translateY(-2px);
+        }
+
+        /* Call to Action Section */
+        .cta-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #004d32, #003d26);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, gold, transparent);
+        }
+
+        .cta-content h2 {
+            font-family: 'Scheherazade', serif;
+            font-size: 2.5rem;
+            color: gold;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .cta-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, gold, transparent);
+        }
+
+        .cta-content p {
+            color: #ccc;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .cta-buttons .btn {
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: gold;
+            color: #002b18;
+            border: none;
+        }
+
+        .btn-primary::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .btn-primary:hover {
+            background: goldenrod;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: gold;
+            border: 2px solid gold;
+        }
+
+        .btn-outline::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .btn-outline:hover {
+            background: gold;
+            color: #002b18;
+            transform: translateY(-2px);
+        }
+
+        /* Footer Styles */
+        footer {
+            background: linear-gradient(135deg, #013220, #002b18);
+            padding: 60px 0 20px;
+            border-top: 2px solid gold;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: gold;
+            font-family: 'Scheherazade', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        .footer-logo img {
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .footer-logo p {
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .social {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.2);
+            color: gold;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .social a:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .social a:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        .social a:nth-child(4) {
+            animation-delay: 1.5s;
+        }
+
+        .social a:hover {
+            background: gold;
+            color: #002b18;
+            transform: translateY(-3px) rotate(360deg);
+            animation: none;
+        }
+
+        footer h3 {
+            color: gold;
+            font-family: 'Scheherazade', serif;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        footer h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: gold;
+        }
+
+        footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        footer ul li {
+            margin-bottom: 12px;
+        }
+
+        footer ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        footer ul li a:hover {
+            color: gold;
+            padding-left: 5px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+            color: #ccc;
+        }
+
+        /* Testimonial Modal Styles */
+        .testimonial-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .testimonial-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #003d26, #002b18);
+            border: 2px solid gold;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .testimonial-modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-family: 'Scheherazade', serif;
+            font-size: 1.8rem;
+            color: gold;
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: gold;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-testimonial {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .modal-testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .modal-author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: gold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #002b18;
+            font-weight: bold;
+            font-size: 2rem;
+        }
+
+        .modal-author-info h3 {
+            margin: 0;
+            color: gold;
+            font-size: 1.5rem;
+        }
+
+        .modal-author-info p {
+            margin: 5px 0 0;
+            color: #ccc;
+            font-size: 1.1rem;
+        }
+
+        .modal-testimonial-text {
+            font-style: italic;
+            color: #ccc;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .modal-testimonial-text::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            font-size: 3rem;
+            color: rgba(255, 215, 0, 0.3);
+            font-family: 'Scheherazade', serif;
+        }
+
+        .modal-testimonial-text::after {
+            content: '"';
+            position: absolute;
+            bottom: -30px;
+            right: -10px;
+            font-size: 3rem;
+            color: rgba(255, 215, 0, 0.3);
+            font-family: 'Scheherazade', serif;
+        }
+
+        .modal-testimonial-details {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .modal-testimonial-details h4 {
+            color: gold;
+            font-family: 'Scheherazade', serif;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-testimonial-details p {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideDown {
+            from { 
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes pulse {
+            0% { 
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+                transform: scale(1);
+            }
+            70% { 
+                box-shadow: 0 0 0 15px rgba(255, 215, 0, 0);
+                transform: scale(1.05);
+            }
+            100% { 
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes float-particle {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Behavior */
+        @media (max-width: 768px) {
+            .bgp .content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .features-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .footer-logo h3 {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-logo p {
+                text-align: center;
+            }
+
+            .social {
+                justify-content: center;
+            }
+
+            footer h3 {
+                text-align: center;
+            }
+
+            footer ul {
+                text-align: center;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 20px;
+            }
+
+            .modal-body {
+                padding: 20px;
+            }
+
+            .modal-testimonial-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        
+        /* Loader Styles */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #002b18; /* Matches website theme */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: gold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            animation: pulse 1.5s infinite ease-in-out;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+        }
+
+        .loader-logo img {
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+        }
+
+        .loader-text {
+            color: gold;
+            font-family: Lucida Handwriting;
+            font-size: 2rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+
+        .luxury-btn {
+            display: inline-block;
+            padding: 14px 40px;
+            font-size: 13px;
+            font-family: Times New Roman (Headings CS);
+            color: gold;
+            font-weight: bold;
+            background:rgb(1, 74, 42); /* Gold gradient */
+            border: 2px solid linear-gradient(135deg, #b8860b, #d4af37);
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+            transition: all 0.4s ease;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .luxury-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        .luxury-btn:hover {
+            background: gold;
+            color: #fff;
+            box-shadow: 0 12px 28px rgba(212, 175, 55, 0.6);
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        .luxury-btn:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+        
+        /* Animated Login Button */
+        .animated-login-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #002b18;
+            background: linear-gradient(135deg, #ffd700, #f5c518);
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: loginPulse 2s infinite;
+            z-index: 1;
+            margin-top: 15px;
+        }
+        
+        .animated-login-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+            z-index: -1;
+        }
+        
+        .animated-login-btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .animated-login-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .animated-login-btn:hover {
+            background: linear-gradient(135deg, #f5c518, #e6ac00);
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
+            animation: none;
+        }
+        
+        .animated-login-btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(255, 215, 0, 0.4);
+        }
+        
+        @keyframes loginPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
+                transform: scale(1.05);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+                transform: scale(1);
+            }
+        }
+        
+        /* Login button container */
+        .login-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body  >
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-logo">
+                <img src="pics/logo.jpg" alt="" style="width: 100px;height: 100px;">
+            </div>
+            <div class="loader-text">DeenPath</div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">
+                <img src="pics/logo.jpg" alt="DeenPath" style="height: 50px; border-radius: 10px; box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);">
+            </a><i style="font-family: Lucida Handwriting;color: gold;margin-left: auto;">DeenPath</i>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="index.html" style="color: gold;">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                    <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    <li class="nav-item"><a class="nav-link" href="feature.html">Feature</a></li>
+                </ul>
+
+                <div id="clock" class="ms-3 me-4 text-end">
+                    <div id="day-date"></div>
+                    <div id="time"></div>
+                    <div class="mt-2 text-white">
+                        <strong></strong> <span id="namaz-now"></span>
+                    </div>
+                </div>
+            </div>
+        </div><div>
+        <a href="register.html" class="luxury-btn">Register</a>
+    </div>
+
+    </nav>
+
+    <section class="bgp">
+        <div class="particles" id="particles"></div>
+        <div class="content">
+            <h1>Welcome to DeenPath</h1>
+            <p>Your Guide To Authentic Islamic Knowledge</p>
+            <a href="explore.html" class="btn btn-warning mt-3">Explore</a>
+        </div>
+    </section>
+
+    <section class="features-section" id="features">
+        <div class="features-title">
+            <h2>Discover Islamic Knowledge</h2>
+            <p>Explore our comprehensive collection of Islamic resources designed to guide you on your spiritual journey</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card" onclick="window.location.href='quran.html'">
+                <div class="feature-icon">
+                    <i class="fas fa-book-quran"></i>
+                </div>
+                <h3>Quranic Studies</h3>
+                <p>Access the complete Quran with translations, tafsir, and recitations by renowned Qaris</p>
+            </div>
+            
+            <div class="feature-card" onclick="window.location.href='nt.html'">
+                <div class="feature-icon">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <h3>Prayer Times</h3>
+                <p>Accurate prayer times based on your location with customizable athan settings</p>
+            </div>
+            
+            <div class="feature-card" onclick="window.location.href='qibla.html'">
+                <div class="feature-icon">
+                    <i class="fas fa-compass"></i>
+                </div>
+                <h3>Qibla Direction</h3>
+                <p>Find the exact Qibla direction from anywhere in the world with our compass tool</p>
+            </div>
+            
+            <div class="feature-card" onclick="window.location.href='calender.html'">
+                <div class="feature-icon">
+                    <i class="fas fa-calendar-days"></i>
+                </div>
+                <h3>Islamic Calendar</h3>
+                <p>Stay updated with Islamic dates, events, and important Islamic holidays</p>
+            </div>
+            
+            <div class="feature-card" onclick="window.location.href='mosque.html'">
+                <div class="feature-icon">
+                    <i class="fas fa-mosque"></i>
+                </div>
+                <h3>Mosque Finder</h3>
+                <p>Locate mosques near you with prayer times, facilities, and directions</p>
+            </div>
+            
+            <div class="feature-card" onclick="window.location.href='counter.html'">
+                <div class="feature-icon">
+                    <i class="fas fa-praying-hands"></i>
+                </div>
+                <h3>Tasbeeh Counter</h3>
+                <p>Digital tasbeeh counter to help you keep track of your dhikr and adhkar</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials-section" id="testimonials">
+        <div class="testimonials-title">
+            <h2>What Our Users Say</h2>
+            <p>Discover how DeenPath has helped Muslims around the world in their spiritual journey</p>
+        </div>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">DeenPath has transformed my daily Islamic practices. The prayer time reminders and Quran translations have made it easier for me to stay connected with my faith.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">AK</div>
+                    <div class="author-info">
+                        <h4>Ahmed Khan</h4>
+                        <p>Software Engineer</p>
+                    </div>
+                </div>
+                <a href="#" class="testimonial-btn" data-testimonial="1">Learn More</a>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">As a new convert, DeenPath has been my guide. The resources are authentic and easy to understand. I especially love the Islamic calendar feature.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">SM</div>
+                    <div class="author-info">
+                        <h4>Sarah Miller</h4>
+                        <p>Teacher</p>
+                    </div>
+                </div>
+                <a href="#" class="testimonial-btn" data-testimonial="2">Learn More</a>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">The Qibla compass and mosque finder have been invaluable during my travels. I can always find a nearby mosque and know the exact prayer direction.</p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">MR</div>
+                    <div class="author-info">
+                        <h4>Mohammed Rahman</h4>
+                        <p>Business Consultant</p>
+                    </div>
+                </div>
+                <a href="#" class="testimonial-btn" data-testimonial="3">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Start Your Islamic Journey Today</h2>
+            <p>Join our community of Muslims seeking knowledge and spiritual growth</p>
+            <div class="cta-buttons">
+                <a href="register.html" class="btn btn-primary">Sign Up Now</a>
+                <a href="about.html" class="btn btn-outline">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <h3>
+                    <img src="pics/logo.jpg" alt="DeenPath Logo">
+                    <b>DeenPath</b>
+                </h3>
+                <p>DeenPath is your trusted companion for authentic Islamic knowledge and spiritual growth.</p>
+                <div class="social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="FAQs.html">FAQs</a></li>
+                    <li><a href="portfolio.html">portfolio</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Islamic Resources</h3>
+                <ul>
+                    <li><a href="quran.html">Quran</a></li>
+                    <li><a href="namaz-time.html">Namaz Time</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="counter.html">Tasbeeh Counter</a></li>
+                    <li><a href="course.html">Course</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="mailto:mohsingohar759@gmail.com">mohsingohar759@gmail.com</a></li>
+                    <li><a href="#">+92 300 1234567</a></li>
+                    <li><a href="#">Karachi, Pakistan</a></li>
+                </ul>
+                <div class="login-btn-container">
+                    <a href="login.html" class="animated-login-btn">Login</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            © <span id="year"></span> DeenPath. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Testimonial Modal -->
+    <div class="testimonial-modal" id="testimonialModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">User Testimonial</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-testimonial" id="modalTestimonialContent">
+                    <!-- Content will be dynamically inserted here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 2px and 6px
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Random animation delay and duration
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 10 + 10;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Update Clock and Namaz Time
+        function updateClockAndNamaz() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const totalMinutes = hours * 60 + minutes;
+
+            // Day & Time
+            const dayOptions = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
+            const dayDate = now.toLocaleDateString('en-US', dayOptions);
+            const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('day-date').textContent = dayDate;
+            document.getElementById('time').textContent = time;
+
+            // Namaz schedule (in minutes)
+            const namazSchedule = [
+                { name: "Fajr", start: 5 * 60, end: 12 * 60 },      // 05:00 - 12:00
+                { name: "Dhuhr", start: 12 * 60, end: 16 * 60 },   // 12:00 - 16:00
+                { name: "Asr", start: 16 * 60, end: 18 * 60 },      // 16:00 - 18:00
+                { name: "Maghrib", start: 18 * 60, end: 20 * 60 }, // 18:00 - 20:00
+                { name: "Isha", start: 20 * 60, end: 5 * 60 + 24 * 60 } // 20:00 - 05:00 next day
+            ];
+
+            let currentNamaz = "Not Found"; // Default value
+            for (let i = 0; i < namazSchedule.length; i++) {
+                let namaz = namazSchedule[i];
+                if (namaz.start < namaz.end) {
+                    if (totalMinutes >= namaz.start && totalMinutes < namaz.end) {
+                        currentNamaz = namaz.name;
+                    }
+                } else {
+                    // For Isha crossing midnight
+                    if (totalMinutes >= namaz.start || totalMinutes < namaz.end) {
+                        currentNamaz = namaz.name;
+                    }
+                }
+            }
+
+            // Show current Namaz with example static time
+            const namazTimes = {
+                "Fajr": "05:00 AM",
+                "Dhuhr": "12:30 PM",
+                "Asr": "04:00 PM",
+                "Maghrib": "06:30 PM",
+                "Isha": "08:00 PM",
+                "Not Found": "N/A"
+            };
+            document.getElementById('namaz-now').textContent = `${currentNamaz} (${namazTimes[currentNamaz]})`;
+        }
+
+        // Initialize particles when page loads
+        window.addEventListener('load', () => {
+            createParticles();
+            updateClockAndNamaz();
+            setInterval(updateClockAndNamaz, 1000);
+            
+            // Hide loader after delay
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1500);
+        });
+
+        // Dynamic Year Update
+        document.getElementById("year").textContent = new Date().getFullYear();
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Testimonial Modal Functionality
+        const testimonialModal = document.getElementById('testimonialModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const modalTestimonialContent = document.getElementById('modalTestimonialContent');
+
+        // Testimonial data
+        const testimonials = [
+            {
+                id: 1,
+                name: "Ahmed Khan",
+                initials: "AK",
+                profession: "Software Engineer",
+                shortText: "DeenPath has transformed my daily Islamic practices. The prayer time reminders and Quran translations have made it easier for me to stay connected with my faith.",
+                fullText: "DeenPath has transformed my daily Islamic practices. The prayer time reminders and Quran translations have made it easier for me to stay connected with my faith. As a busy professional, I often struggled to maintain a consistent prayer schedule, but with the accurate prayer time notifications and Qibla direction feature, I can now perform my prayers on time no matter where I am. The app's interface is intuitive and the wealth of Islamic knowledge available has helped me deepen my understanding of Islam. I particularly appreciate the tasbeeh counter which helps me maintain my daily dhikr routine. DeenPath has truly become an essential part of my spiritual journey.",
+                details: "Ahmed has been using DeenPath for over 2 years and recommends it to all his friends and family. He finds the mosque finder feature especially useful during his business travels."
+            },
+            {
+                id: 2,
+                name: "Sarah Miller",
+                initials: "SM",
+                profession: "Teacher",
+                shortText: "As a new convert, DeenPath has been my guide. The resources are authentic and easy to understand. I especially love the Islamic calendar feature.",
+                fullText: "As a new convert, DeenPath has been my guide. The resources are authentic and easy to understand. I especially love the Islamic calendar feature. When I first embraced Islam, I felt overwhelmed by all the new information I needed to learn. DeenPath made this journey so much easier with its comprehensive yet simple approach to Islamic teachings. The Quranic studies section with translations and tafsir has helped me understand the holy book better. The prayer times feature ensures I never miss my prayers, and the Qibla compass gives me confidence that I'm praying in the right direction. The Islamic calendar keeps me updated with important Islamic dates and events, helping me connect more deeply with the Muslim community. I'm grateful for this amazing resource that supports my new faith journey every day.",
+                details: "Sarah converted to Islam 18 months ago and uses DeenPath daily. She credits the app with helping her integrate into her local Muslim community and understand Islamic practices."
+            },
+            {
+                id: 3,
+                name: "Mohammed Rahman",
+                initials: "MR",
+                profession: "Business Consultant",
+                shortText: "The Qibla compass and mosque finder have been invaluable during my travels. I can always find a nearby mosque and know the exact prayer direction.",
+                fullText: "The Qibla compass and mosque finder have been invaluable during my travels. I can always find a nearby mosque and know the exact prayer direction. As a business consultant who travels frequently, maintaining my religious obligations was often challenging. DeenPath has completely changed that. No matter which city or country I'm in, the mosque finder helps me locate the nearest masjid with accurate prayer times and information about facilities. The Qibla compass is incredibly precise, giving me confidence that I'm praying in the correct direction. I also appreciate the Islamic calendar which helps me keep track of important Islamic dates regardless of my location. The app has made it possible for me to stay connected to my faith while pursuing a demanding career that requires constant travel.",
+                details: "Mohammed travels to 15+ countries annually for work and relies on DeenPath to maintain his prayer schedule and Islamic practices across different time zones."
+            }
+        ];
+
+        // Function to open modal with testimonial data
+        function openTestimonialModal(testimonialId) {
+            const testimonial = testimonials.find(t => t.id === parseInt(testimonialId));
+            if (testimonial) {
+                modalTestimonialContent.innerHTML = `
+                    <div class="modal-testimonial-header">
+                        <div class="modal-author-avatar">${testimonial.initials}</div>
+                        <div class="modal-author-info">
+                            <h3>${testimonial.name}</h3>
+                            <p>${testimonial.profession}</p>
+                        </div>
+                    </div>
+                    <div class="modal-testimonial-text">
+                        ${testimonial.fullText}
+                    </div>
+                    <div class="modal-testimonial-details">
+                        <h4>More About ${testimonial.name}'s Experience</h4>
+                        <p>${testimonial.details}</p>
+                    </div>
+                `;
+                
+                testimonialModal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+            }
+        }
+
+        // Function to close modal
+        function closeTestimonialModal() {
+            testimonialModal.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        // Event listeners for testimonial buttons
+        document.querySelectorAll('.testimonial-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const testimonialId = this.getAttribute('data-testimonial');
+                openTestimonialModal(testimonialId);
+            });
+        });
+
+        // Event listener for close button
+        closeModalBtn.addEventListener('click', closeTestimonialModal);
+
+        // Close modal when clicking outside of it
+        testimonialModal.addEventListener('click', function(e) {
+            if (e.target === testimonialModal) {
+                closeTestimonialModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && testimonialModal.classList.contains('active')) {
+                closeTestimonialModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Testimonials - DeenPath Islamic Education Platform</title>
+  <!-- Google Fonts: Playfair Display (elegant serif) and Inter (clean sans-serif) -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    /* ---------- Base ---------- */
+    :root{
+      --primary: rgb(1, 63, 38);      /* deep green */
+      --primary-light: rgba(1, 63, 38, 0.8);
+      --primary-dark: rgb(0, 40, 24);
+      --secondary: rgb(139, 195, 74); /* bright green accent */
+      --accent: #d4af37;             /* gold accent for premium feel */
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.85);
+      --text-dark: #1a1a1a;
+      --bg: rgb(1, 63, 38);
+      --bg-light: rgba(1, 63, 38, 0.7);
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --card-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      --radius: 16px;
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: "Inter", sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.6;
+      overflow-x: hidden;
+    }
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+    
+    /* Typography */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Playfair Display", serif;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      color: var(--accent); /* Gold color for all headings */
+    }
+    .serif { font-family: "Playfair Display", serif; }
+    
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      text-align: center;
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+      font-size: 16px;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.4s ease-in-out;
+      z-index: -1;
+    }
+    .btn:hover::before {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 8px 20px rgba(1, 63, 38, 0.3);
+    }
+    .btn-primary:hover {
+      color: var(--primary-dark);
+    }
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: white;
+    }
+    .btn-accent {
+      background: var(--accent);
+      color: var(--primary-dark);
+    }
+    .btn-accent:hover {
+      background: white;
+      color: var(--accent);
+    }
+    
+    /* ---------- Hero Section ---------- */
+    .hero {
+      position: relative;
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 100px 0;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      z-index: -2;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 100%;
+      background: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+      opacity: 0.15;
+      z-index: -1;
+    }
+    .hero-content {
+      max-width: 800px;
+    }
+    .hero h1 {
+      font-size: 4rem;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+    }
+    .hero p {
+      font-size: 1.3rem;
+      color: var(--text-secondary);
+      margin-bottom: 2.5rem;
+      max-width: 600px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .decorative-element {
+      position: absolute;
+      bottom: 40px;
+      left: 20px;
+      width: 150px;
+      height: 5px;
+      background: var(--accent);
+      border-radius: 5px;
+    }
+    
+    /* ---------- Testimonials Section ---------- */
+    .testimonials-section {
+      padding: 80px 0;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .section-header h2 {
+      font-size: 3rem;
+      color: var(--accent);
+      margin-bottom: 15px;
+    }
+    .section-header p {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .section-header .accent-line {
+      width: 80px;
+      height: 3px;
+      background: var(--accent);
+      margin: 20px auto;
+      border-radius: 3px;
+    }
+    
+    /* Testimonials Grid */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+    .testimonial-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+      color: var(--text-dark);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-15px);
+    }
+    .testimonial-header {
+      padding: 25px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      text-align: center;
+    }
+    .testimonial-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 15px;
+      border: 4px solid var(--accent);
+      background-color: #f0f0f0; /* Fallback background color */
+    }
+    .testimonial-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block; /* Ensure image displays properly */
+    }
+    .testimonial-info h3 {
+      color: white; /* White for contrast on dark background */
+      margin-bottom: 5px;
+      font-size: 1.3rem;
+    }
+    .testimonial-info p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9rem;
+      margin: 0;
+    }
+    .testimonial-content {
+      padding: 30px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .testimonial-quote {
+      position: relative;
+      font-style: italic;
+      color: #555;
+      margin-bottom: 20px;
+      flex-grow: 1;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    .testimonial-quote::before {
+      content: '\f10d';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      top: -15px;
+      left: -10px;
+      font-size: 1.5rem;
+      color: var(--accent);
+      opacity: 0.3;
+    }
+    .testimonial-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 15px;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .testimonial-course {
+      display: flex;
+      align-items: center;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .testimonial-course i {
+      margin-right: 8px;
+    }
+    .testimonial-rating {
+      color: var(--accent);
+    }
+    
+    /* Featured Testimonial */
+    .featured-testimonial {
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(1, 63, 38, 0.2) 100%);
+      border-radius: var(--radius);
+      padding: 50px;
+      margin-bottom: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .featured-testimonial::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+      opacity: 0.1;
+      z-index: 0;
+    }
+    .featured-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .featured-content h2 {
+      color: white;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    .featured-content p {
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+    .featured-author {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+    .featured-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--accent);
+      background-color: #f0f0f0; /* Fallback background color */
+    }
+    .featured-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block; /* Ensure image displays properly */
+    }
+    .featured-info h4 {
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+    .featured-info p {
+      color: var(--text-secondary);
+      margin: 0;
+    }
+    
+    /* Stats Section */
+    .stats-section {
+      padding: 60px 0;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      margin-bottom: 80px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+    }
+    .stat-item {
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+      padding: 100px 0;
+      text-align: center;
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+      opacity: 0.1;
+      z-index: 0;
+    }
+    .cta-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .cta-content h2 {
+      font-size: 3rem;
+      color: white;
+      margin-bottom: 20px;
+    }
+    .cta-content p {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      margin-bottom: 30px;
+    }
+    
+    /* Filter Options */
+    .filter-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .filter-option {
+      padding: 8px 20px;
+      border-radius: 50px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .filter-option:hover, .filter-option.active {
+      background: var(--accent);
+      color: var(--primary-dark);
+    }
+    
+    /* Responsive */
+    @media (max-width: 992px) {
+      .hero h1 {
+        font-size: 3rem;
+      }
+      .testimonials-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .hero p {
+        font-size: 1.1rem;
+      }
+      .section-header h2 {
+        font-size: 2.2rem;
+      }
+      .featured-content h2 {
+        font-size: 2rem;
+      }
+      .cta-content h2 {
+        font-size: 2.2rem;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      .hero {
+        min-height: 60vh;
+      }
+      .section-header h2 {
+        font-size: 1.8rem;
+      }
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Student Success Stories</h1>
+        <p>Hear from our alumni who have transformed their lives through our premium Islamic education courses. Their journeys inspire us every day to continue delivering excellence.</p>
+        <div class="hero-actions">
+          <a href="#testimonials" class="btn btn-primary">Read Testimonials</a>
+          <a href="#featured" class="btn btn-outline">Featured Story</a>
+        </div>
+      </div>
+      <div class="decorative-element"></div>
+    </div>
+  </section>
+
+  <!-- Featured Testimonial -->
+  <section id="featured" class="featured-testimonial">
+    <div class="container">
+      <div class="featured-content">
+        <h2>"The Quranic recitation course completely transformed my relationship with the Quran. The personalized feedback from scholars was invaluable."</h2>
+        <div class="featured-author">
+          <div class="featured-avatar">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Aisha Khan">
+          </div>
+          <div class="featured-info">
+            <h4>Aisha Khan</h4>
+            <p>Quranic Studies Graduate</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number">5000+</div>
+          <div class="stat-label">Successful Graduates</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">98%</div>
+          <div class="stat-label">Satisfaction Rate</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">50+</div>
+          <div class="stat-label">Expert Scholars</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">30+</div>
+          <div class="stat-label">Countries</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="testimonials-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Student Testimonials</h2>
+        <div class="accent-line"></div>
+        <p>Discover how our courses have impacted the lives of students from around the world</p>
+      </div>
+      
+      <div class="filter-container">
+        <div class="filter-option active" data-filter="all">All Courses</div>
+        <div class="filter-option" data-filter="quran">Quran</div>
+        <div class="filter-option" data-filter="arabic">Arabic</div>
+        <div class="filter-option" data-filter="theology">Theology</div>
+        <div class="filter-option" data-filter="finance">Finance</div>
+      </div>
+      
+      <div class="testimonials-grid">
+        <!-- Testimonial Card 1 -->
+        <div class="testimonial-card" data-category="quran">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">
+              <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Aisha Khan">
+            </div>
+            <div class="testimonial-info">
+              <h3>Aisha Khan</h3>
+              <p>Quranic Studies Graduate</p>
+            </div>
+          </div>
+          <div class="testimonial-content">
+            <div class="testimonial-quote">
+              "The Quranic recitation course completely transformed my relationship with the Quran. The personalized feedback from scholars was invaluable. I can now recite with proper Tajweed and understand the meanings like never before."
+            </div>
+            <div class="testimonial-meta">
+              <div class="testimonial-course">
+                <i class="fas fa-book-quran"></i> Quranic Studies
+              </div>
+              <div class="testimonial-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Testimonial Card 2 -->
+        <div class="testimonial-card" data-category="finance">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Yusuf Ahmed">
+            </div>
+            <div class="testimonial-info">
+              <h3>Yusuf Ahmed</h3>
+              <p>Entrepreneur</p>
+            </div>
+          </div>
+          <div class="testimonial-content">
+            <div class="testimonial-quote">
+              "The Islamic finance course provided me with the expertise to launch my own Sharia-compliant business. The practical approach was exceptional, and the scholars were always available to answer questions."
+            </div>
+            <div class="testimonial-meta">
+              <div class="testimonial-course">
+                <i class="fas fa-coins"></i> Islamic Finance
+              </div>
+              <div class="testimonial-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Testimonial Card 3 -->
+        <div class="testimonial-card" data-category="arabic">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">
+              <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Fatima Ibrahim">
+            </div>
+            <div class="testimonial-info">
+              <h3>Fatima Ibrahim</h3>
+              <p>Researcher</p>
+            </div>
+          </div>
+          <div class="testimonial-content">
+            <div class="testimonial-quote">
+              "Studying Classical Arabic opened doors to primary sources I never thought I could access. The teaching methodology was brilliant, and the immersive environment helped me achieve fluency faster than I expected."
+            </div>
+            <div class="testimonial-meta">
+              <div class="testimonial-course">
+                <i class="fas fa-language"></i> Arabic Language
+              </div>
+              <div class="testimonial-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Testimonial Card 4 -->
+        <div class="testimonial-card" data-category="theology">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">
+              <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Omar Hassan">
+            </div>
+            <div class="testimonial-info">
+              <h3>Omar Hassan</h3>
+              <p>Islamic Scholar</p>
+            </div>
+          </div>
+          <div class="testimonial-content">
+            <div class="testimonial-quote">
+              "The Advanced Islamic Theology course deepened my understanding of our faith in ways I never imagined. The scholarly discussions and access to classical texts were unparalleled. Highly recommended for serious students."
+            </div>
+            <div class="testimonial-meta">
+              <div class="testimonial-course">
+                <i class="fas fa-mosque"></i> Islamic Theology
+              </div>
+              <div class="testimonial-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Testimonial Card 5 -->
+        <div class="testimonial-card" data-category="quran">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">
+              <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Maryam Siddiqui">
+            </div>
+            <div class="testimonial-info">
+              <h3>Maryam Siddiqui</h3>
+              <p>Tajweed Teacher</p>
+            </div>
+          </div>
+          <div class="testimonial-content">
+            <div class="testimonial-quote">
+              "As a revert to Islam, I struggled with Quranic recitation for years. DeenPath's course changed everything. The patient guidance and structured approach helped me overcome my challenges and build confidence."
+            </div>
+            <div class="testimonial-meta">
+              <div class="testimonial-course">
+                <i class="fas fa-book-quran"></i> Quranic Studies
+              </div>
+              <div class="testimonial-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Testimonial Card 6 -->
+        <div class="testimonial-card" data-category="arabic">
+          <div class="testimonial-header">
+            <div class="testimonial-avatar">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Abdullah Rahman">
+            </div>
+            <div class="testimonial-info">
+              <h3>Abdullah Rahman</h3>
+              <p>Student</p>
+            </div>
+          </div>
+          <div class="testimonial-content">
+            <div class="testimonial-quote">
+              "The Classical Arabic Mastery course exceeded my expectations. The instructors are knowledgeable, the materials are comprehensive, and the interactive sessions made learning enjoyable. I can now read classical texts with ease."
+            </div>
+            <div class="testimonial-meta">
+              <div class="testimonial-course">
+                <i class="fas fa-language"></i> Arabic Language
+              </div>
+              <div class="testimonial-rating">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Share Your Success Story</h2>
+        <p>Join thousands of students who have transformed their understanding of Islam through our premium educational platform. Your journey begins today.</p>
+        <a href="courses.html" class="btn btn-accent">Explore Courses</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Filter functionality
+    document.querySelectorAll('.filter-option').forEach(button => {
+      button.addEventListener('click', () => {
+        // Update active button
+        document.querySelectorAll('.filter-option').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        
+        const filter = button.getAttribute('data-filter');
+        const testimonialCards = document.querySelectorAll('.testimonial-card');
+        
+        testimonialCards.forEach(card => {
+          if (filter === 'all') {
+            card.style.display = 'flex';
+          } else {
+            const categories = card.getAttribute('data-category').split(' ');
+            if (categories.includes(filter)) {
+              card.style.display = 'flex';
+            } else {
+              card.style.display = 'none';
+            }
+          }
+        });
+      });
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

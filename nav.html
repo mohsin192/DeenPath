@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        /* Navbar Styling */
+.navbar {
+  background: linear-gradient(to right, #013220, #014d2c);
+  border-bottom: 2px solid gold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  padding: 10px 20px;
+}
+
+.navbar-nav .nav-link {
+  color: gold !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  font-size: 18px;
+}
+
+.navbar-nav .nav-link:hover {
+  color: white !important;
+  transform: translateY(-2px);
+}
+
+#current-date {
+  color: gold;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 15px;
+}
+/* Digital Clock Styling */
+#clock {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  color: black;
+  font-weight: bold;
+  margin-left: 20px;
+  line-height: 1.2;
+}
+
+#day-date {
+  font-size: 14px;
+  color: black;
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+}
+
+#time {
+  font-size: 16px;
+  color: white;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 1px;
+}
+
+
+    </style>
+</head>
+<body>
+
+   <!-- Navbar -->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <!-- Logo -->
+    <a class="navbar-brand" href="index.html">
+      <img src="pics/logo.jpg" alt="DeenPath" style="height: 50px; border-radius: 10px; box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);">
+    </a>
+
+    <!-- Mobile Menu Button -->
+    <button class="navbar-toggler text-gold" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Menu Items + Namaz Times -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link" href="feature.html">Feature</a></li>
+      </ul>
+
+      <!-- Digital Clock -->
+      <div id="clock" class="ms-3 me-4 text-end">
+        <div id="day-date"></div>
+        <div id="time"></div>
+        <div id="day-date" class="text-white ms-4">
+  <strong></strong> <span id="namaz-now"></span>
+</div>
+
+      </div>
+<!-- Replace your Namaz Times div with this -->
+
+    </div>
+  </div>
+</nav>
+
+<!-- Live Clock Script -->
+<script>
+  function updateClock() {
+    const now = new Date();
+
+    // Day & Date
+    const dayOptions = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
+    const dayDate = now.toLocaleDateString('en-US', dayOptions);
+
+    // Time (HH:MM:SS AM/PM)
+    const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+    // Update Elements
+    document.getElementById('day-date').textContent = dayDate;
+    document.getElementById('time').textContent = time;
+  }
+
+  function updateClockAndNamaz() {
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const totalMinutes = hours * 60 + minutes;
+
+  // Day & Time
+  const dayOptions = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
+  const dayDate = now.toLocaleDateString('en-US', dayOptions);
+  const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  document.getElementById('day-date').textContent = dayDate;
+  document.getElementById('time').textContent = time;
+
+  // Namaz schedule (in minutes)
+  const namazSchedule = [
+    { name: "Fajr", start: 5*60, end: 12*60 },      // 05:00 - 12:00
+    { name: "Dhuhr", start: 12*60, end: 16*60 },   // 12:00 - 16:00
+    { name: "Asr", start: 16*60, end: 18*60 },     // 16:00 - 18:00
+    { name: "Maghrib", start: 18*60, end: 20*60 }, // 18:00 - 20:00
+    { name: "Isha", start: 20*60, end: 5*60 + 24*60 } // 20:00 - 05:00 next day
+  ];
+
+  let currentNamaz = "";
+  for (let i = 0; i < namazSchedule.length; i++) {
+    let namaz = namazSchedule[i];
+    if (namaz.start < namaz.end) {
+      if (totalMinutes >= namaz.start && totalMinutes < namaz.end) {
+        currentNamaz = namaz.name;
+      }
+    } else {
+      // For Isha crossing midnight
+      if (totalMinutes >= namaz.start || totalMinutes < namaz.end) {
+        currentNamaz = namaz.name;
+      }
+    }
+  }
+
+  // Show current Namaz with example static time (replace with real time if you want)
+  const namazTimes = {
+    "Fajr": "05:00 AM",
+    "Dhuhr": "12:30 PM",
+    "Asr": "04:00 PM",
+    "Maghrib": "06:30 PM",
+    "Isha": "08:00 PM"
+  };
+  document.getElementById('namaz-now').textContent = `${currentNamaz} - ${namazTimes[currentNamaz]}`;
+}
+
+// Run immediately & then every second
+updateClockAndNamaz();
+setInterval(updateClockAndNamaz, 1000);
+
+</script>
+ 
+</body>
+</html>

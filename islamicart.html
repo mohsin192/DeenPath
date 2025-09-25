@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Islamic Arts & Architecture Showcase</title>
+  <link rel="icon" type="image/png" href="pics/logo.jpg">
+  <meta name="description" content="A curated gallery of Islamic art, calligraphy and architecture. Browse, filter and view details." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    :root{
+      --primary-green: rgb(0, 47, 27);
+      --secondary-green: rgb(0, 65, 41);
+      --tertiary-green: rgb(0, 85, 53);
+      --dark-bg: rgb(10, 24, 18);
+      --card-bg: rgba(0, 47, 27, 0.7);
+      --lighter-card: rgba(0, 47, 27, 0.5);
+      --muted-text: rgb(200, 220, 210);
+      --accent-gold: rgb(196, 151, 47);
+      --accent-light-gold: rgb(229, 195, 90);
+      --glass: rgba(255,255,255,0.04);
+      --glass-dark: rgba(0,0,0,0.2);
+      --radius:16px;
+      --shadow: 0 15px 35px rgba(0,0,0,0.6);
+      --container:1300px;
+      --transition: all 0.3s ease;
+    }
+    *{box-sizing:border-box; margin:0; padding:0}
+    
+    body{
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      background: radial-gradient(ellipse at top, rgba(0, 47, 27, 0.3) 0%, transparent 40%), 
+                  radial-gradient(ellipse at bottom, rgba(0,0,0,0.8) 0%, var(--dark-bg) 100%), 
+                  var(--dark-bg);
+      color:var(--muted-text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.6;
+      overflow-x:hidden;
+      position: relative;
+    }
+    
+    /* Floating particles background */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      background-color: rgba(0, 47, 27, 0.4);
+      border-radius: 50%;
+      animation: float 15s infinite linear;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    /* Header */
+    header.showcase{
+      display:flex;
+      flex-direction: column;
+      gap:30px;
+      margin-left: 200px;
+      margin-bottom:40px;
+      padding-bottom:30px;
+      border-bottom:1px solid rgba(0, 47, 27, 0.3);
+    }
+    
+    .brand{display:flex;gap:20px;align-items:center}
+    .logo{
+      width:80px;
+      height:80px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--primary-green),var(--secondary-green));
+      display:grid;
+      place-items:center;
+      font-weight:800;
+      color:#fff;
+      font-size:1.8rem;
+      box-shadow:0 8px 20px rgba(0, 47, 27, 0.4);
+      position:relative;
+      overflow:hidden;
+    }
+    
+    .brand h1{
+      margin:0 0 8px 0;
+      font-size:2.2rem;
+      font-weight:700;
+      letter-spacing:-0.5px;
+      background: linear-gradient(to right, var(--muted-text), var(--primary-green));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .brand p{
+      margin:8px 0 0 0;
+      color:var(--muted-text);
+      font-size:1.05rem;
+      font-weight:300;
+    }
+
+    /* Controls */
+    .controls{
+      display:flex;
+      flex-wrap: wrap;
+      gap:20px;
+      align-items:center;
+      justify-content:space-between;
+      margin: 20px 200px;
+    }
+    
+    .search-container {
+      position: relative;
+      flex:1;
+      max-width:500px;
+    }
+    
+    .search-container i {
+      position: absolute;
+      left:18px;
+      top:50%;
+      transform: translateY(-50%);
+      color:var(--muted-text);
+    }
+    
+    .search input{
+      width:100%;
+      padding:14px 20px 14px 48px;
+      border-radius:14px;
+      border:1px solid rgba(0, 47, 27, 0.3);
+      background:var(--glass);
+      color:var(--muted-text);
+      outline:none;
+      font-size:1rem;
+      font-weight:400;
+      box-shadow:0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .search input:focus {
+      border-color:var(--primary-green);
+      box-shadow:0 0 0 3px rgba(0, 47, 27, 0.3), 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+    
+    .filters{
+      display:flex;
+      gap:10px;
+      flex-wrap: wrap;
+    }
+    
+    .chip{
+      padding:10px 18px;
+      border-radius:30px;
+      background:transparent;
+      border:1px solid rgba(0, 47, 27, 0.3);
+      cursor:pointer;
+      color:var(--muted-text);
+      font-weight:500;
+      font-size:0.95rem;
+      position:relative;
+      overflow:hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .chip:hover {
+      border-color:var(--primary-green);
+      color:var(--muted-text);
+      background: rgba(0, 47, 27, 0.1);
+    }
+    
+    .chip.active{
+      background: linear-gradient(90deg, rgba(0, 47, 27, 0.8), rgba(0, 47, 27, 0.5));
+      border-color:var(--primary-green);
+      color:#fff;
+      font-weight:600;
+      box-shadow:0 4px 12px rgba(0, 47, 27, 0.4);
+    }
+
+    /* Gallery - MODIFIED FOR 3 CARDS PER ROW */
+    .gallery-container {
+      width: 80%;
+      max-width: 1200px;
+      margin: 30px auto;
+      position: relative;
+    }
+    
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr); /* Always 3 columns */
+      gap:20px; /* Reduced gap for tighter spacing */
+      width:100%;
+    }
+    
+    /* Card adjustments for 3 per row */
+    .card {
+      background:linear-gradient(180deg, rgba(0, 47, 27, 0.2), rgba(0, 47, 27, 0.05));
+      border:1px solid rgba(0, 47, 27, 0.3);
+      padding:16px; /* Reduced padding */
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      display:flex;
+      flex-direction: column;
+      cursor:pointer;
+      overflow:hidden;
+      position:relative;
+      transition: all 0.4s ease;
+      animation: fadeInUp 0.8s ease-out;
+      height: 100%; /* Ensure cards take full height */
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background: linear-gradient(135deg, rgba(0, 47, 27, 0.3), transparent);
+      opacity:0;
+      z-index:0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 20px 40px rgba(0, 47, 27, 0.5), 0 0 30px rgba(0, 47, 27, 0.3);
+      border-color: rgba(0, 47, 27, 0.6);
+      background: linear-gradient(180deg, rgba(0, 47, 27, 0.3), rgba(0, 47, 27, 0.1));
+    }
+    
+    .card:hover::before {
+      opacity:1;
+    }
+    
+    .thumb-container {
+      position: relative;
+      overflow:hidden;
+      border-radius:12px;
+      margin-bottom:14px; /* Reduced margin */
+      height:180px; /* Reduced height */
+      box-shadow:0 8px 20px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover .thumb-container {
+      box-shadow:0 12px 25px rgba(0, 47, 27, 0.4);
+    }
+    
+    .thumb{
+      width:100%;
+      height:100%;
+      background-size:cover;
+      background-position:center;
+      transition: transform 0.5s ease;
+    }
+    
+    .card:hover .thumb {
+      transform: scale(1.05);
+    }
+    
+    .card-overlay {
+      position: absolute;
+      bottom:0;
+      left:0;
+      right:0;
+      padding:12px;
+      background: linear-gradient(to top, rgba(0, 47, 27, 0.9), transparent);
+      color:#fff;
+      font-weight:500;
+      font-size:0.9rem;
+      opacity:0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .card:hover .card-overlay {
+      opacity:1;
+    }
+    
+    .meta{
+      flex:1;
+      position:relative;
+      z-index:1;
+    }
+    
+    .meta h3{
+      margin:0 0 8px 0;
+      font-size:1.1rem; /* Reduced font size */
+      color:var(--primary-green);
+      font-weight:600;
+      letter-spacing:-0.3px;
+      transition: color 0.3s ease;
+      line-height: 1.3; /* Adjusted line height */
+      height: 2.6em; /* Fixed height for consistency */
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+    
+    .card:hover .meta h3 {
+      color: var(--accent-light-gold);
+    }
+    
+    .meta p{
+      margin:0;
+      color:var(--muted-text);
+      font-size:0.85rem; /* Reduced font size */
+      line-height:1.4;
+      height: 3.9em; /* Fixed height for consistency (3 lines) */
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+    
+    .card:hover .meta p {
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .tags{
+      margin-top:12px; /* Reduced margin */
+      display:flex;
+      gap:6px; /* Reduced gap */
+      flex-wrap: wrap;
+    }
+    
+    .tag{
+      font-size:.75rem; /* Reduced font size */
+      padding:4px 10px; /* Reduced padding */
+      border-radius:20px;
+      background:rgba(0, 47, 27, 0.2);
+      border:1px solid rgba(0, 47, 27, 0.3);
+      color:var(--muted-text);
+      transition: all 0.3s ease;
+    }
+    
+    .card:hover .tag {
+      background: rgba(0, 47, 27, 0.5);
+      border-color: rgba(0, 47, 27, 0.6);
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    /* Featured Section */
+    .featured-section {
+      margin: 50px 200px;
+      padding: 30px;
+      background: linear-gradient(135deg, rgba(0, 47, 27, 0.3), rgba(0, 47, 27, 0.1));
+      border-radius: var(--radius);
+      border: 1px solid rgba(0, 47, 27, 0.3);
+      animation: fadeIn 1s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .featured-title {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      text-align: center;
+      color: var(--accent-light-gold);
+      font-family: 'Playfair Display', serif;
+    }
+    
+    .featured-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    
+    .featured-item {
+      flex: 1;
+      min-width: 280px;
+      max-width: 350px;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: all 0.3s ease;
+    }
+    
+    .featured-item:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 20px 40px rgba(0, 47, 27, 0.4), 0 0 30px rgba(0, 47, 27, 0.2);
+    }
+    
+    .featured-img {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.5s ease;
+    }
+    
+    .featured-item:hover .featured-img {
+      transform: scale(1.05);
+    }
+    
+    .featured-content {
+      padding: 20px;
+    }
+    
+    .featured-content h3 {
+      margin: 0 0 10px 0;
+      color: var(--primary-green);
+      transition: color 0.3s ease;
+    }
+    
+    .featured-item:hover .featured-content h3 {
+      color: var(--accent-light-gold);
+    }
+    
+    .featured-content p {
+      color: var(--muted-text);
+      font-size: 0.9rem;
+    }
+
+    /* Text animation container */
+    .text-animation-container {
+      margin: 40px 200px;
+      padding: 30px;
+      background: rgba(0, 47, 27, 0.2);
+      border-radius: var(--radius);
+      border: 1px solid rgba(0, 47, 27, 0.3);
+      text-align: center;
+      animation: slideIn 1s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .animated-text {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent-light-gold);
+      margin-bottom: 20px;
+      font-family: 'Playfair Display', Georgia, serif;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .animated-text::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 10%;
+      width: 80%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-light-gold), transparent);
+      animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: -200px center; }
+      100% { background-position: 200px center; }
+    }
+    
+    .animated-description {
+      font-size: 1.1rem;
+      color: var(--muted-text);
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    /* Empty state */
+    .empty{
+      padding:60px 20px;
+      border-radius:16px;
+      background:linear-gradient(180deg, rgba(0, 47, 27, 0.1), transparent);
+      text-align:center;
+      color:var(--muted-text);
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .empty i {
+      font-size:3rem;
+      margin-bottom:16px;
+      color:var(--primary-green);
+    }
+
+    /* Lightbox modal */
+    .modal{
+      position:fixed;
+      inset:0;
+      display:none;
+      place-items:center;
+      background:linear-gradient(180deg, rgba(0, 47, 27, 0.9), rgba(0, 0, 0, 0.95));
+      z-index:100;
+      padding:30px;
+      backdrop-filter:blur(8px);
+    }
+    
+    .modal.open{
+      display:grid;
+    }
+    
+    .modal-card{
+      max-width:1100px;
+      width:100%;
+      background:var(--card-bg);
+      border-radius:18px;
+      padding:24px;
+      border:1px solid rgba(0, 47, 27, 0.3);
+      box-shadow:0 30px 80px rgba(0, 0, 0, 0.8);
+      display:flex;
+      gap:24px;
+      max-height:90vh;
+      overflow:hidden;
+      position:relative;
+      animation: modalFadeIn 0.5s ease-out;
+    }
+    
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    @media(max-width:900px){
+      .modal-card {
+        flex-direction: column;
+        max-height:none;
+      }
+      
+      .modal-info {
+        width:100% !important;
+        max-width:100% !important;
+      }
+    }
+    
+    .modal-img-container {
+      flex:1;
+      position:relative;
+      overflow:hidden;
+      border-radius:12px;
+      box-shadow:0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    .modal-img{
+      width:100%;
+      height:70vh;
+      background-size:contain;
+      background-repeat:no-repeat;
+      background-position:center;
+      border-radius:12px;
+      background-color:rgba(0, 0, 0, 0.3);
+    }
+    
+    .modal-info {
+      width:340px;
+      min-width:280px;
+      display:flex;
+      flex-direction: column;
+    }
+    
+    .modal-info h3 {
+      font-size:1.8rem;
+      margin-bottom:16px;
+      color: var(--accent-light-gold);
+      font-family: 'Playfair Display', serif;
+    }
+    
+    .modal-info p {
+      margin-bottom:16px;
+      line-height:1.6;
+    }
+    
+    .modal-info .modal-place {
+      display:flex;
+      align-items: center;
+      gap:8px;
+      color:var(--muted-text);
+      margin-top:8px;
+      font-size:1rem;
+    }
+    
+    .modal-info .modal-place i {
+      color:var(--primary-green);
+    }
+    
+    .tags {
+      margin-top:14px;
+      display:flex;
+      gap:8px;
+      flex-wrap: wrap;
+    }
+    
+    .modal-actions {
+      margin-top:auto;
+      display:flex;
+      gap:12px;
+      flex-wrap: wrap;
+    }
+    
+    .close, .modal-btn {
+      padding:12px 20px;
+      border-radius:10px;
+      background:transparent;
+      border:1px solid rgba(0, 47, 27, 0.3);
+      cursor:pointer;
+      color:var(--muted-text);
+      font-weight:500;
+      display:inline-flex;
+      align-items: center;
+      gap:8px;
+      text-decoration:none;
+      transition: all 0.3s ease;
+    }
+    
+    .close:hover, .modal-btn:hover {
+      background:rgba(0, 47, 27, 0.3);
+      border-color:rgba(0, 47, 27, 0.5);
+      color: #fff;
+    }
+    
+    .modal-btn.primary {
+      background:linear-gradient(90deg, rgba(0, 47, 27, 0.9), rgba(0, 47, 27, 0.7));
+      border-color:transparent;
+      color: #fff;
+    }
+    
+    .modal-btn.primary:hover {
+      background:linear-gradient(90deg, rgba(0, 47, 27, 1), rgba(0, 47, 27, 0.8));
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 47, 27, 0.4);
+    }
+
+    
+    /* Scroll to top button */
+    .scroll-top {
+      position: fixed;
+      bottom:30px;
+      right:30px;
+      width:50px;
+      height:50px;
+      border-radius:50%;
+      background:linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      color:#fff;
+      cursor:pointer;
+      box-shadow:0 8px 20px rgba(0, 47, 27, 0.4);
+      opacity:0;
+      visibility:hidden;
+      z-index:50;
+      transition: all 0.3s ease;
+    }
+    
+    .scroll-top.visible {
+      opacity:1;
+      visibility:visible;
+    }
+    
+    .scroll-top:hover {
+      transform:translateY(-5px) scale(1.1);
+      box-shadow:0 12px 25px rgba(0, 47, 27, 0.5);
+    }
+
+    /* Footer Styles */
+    footer {
+      background: linear-gradient(to right, var(--primary-green), var(--secondary-green));
+      color: #ccc;
+      padding: 3rem 1.5rem 1rem;
+      position: relative;
+      margin-top: 60px;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--accent-gold), var(--accent-light-gold));
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Logo and About */
+    .footer-logo h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo img {
+      height: 50px;
+      width: 50px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+    }
+
+    .footer-logo b {
+      font-family: 'Playfair Display', serif;
+      font-size: 25px;
+      color: var(--accent-light-gold);
+      letter-spacing: 2px;
+    }
+
+    .footer-logo p {
+      color: #bbb;
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Social Icons */
+    .social {
+      display: flex;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+
+    .social a {
+      width: 40px;
+      height: 40px;
+      background: var(--primary-green);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-light-gold);
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .social a:hover {
+      background: var(--accent-light-gold);
+      color: var(--primary-green);
+      transform: scale(1.1) rotate(360deg);
+    }
+
+    /* Footer Links */
+    footer h3 {
+      color: var(--accent-light-gold);
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    footer ul {
+      list-style: none;
+    }
+
+    footer ul li {
+      margin: 0.5rem 0;
+    }
+
+    footer ul li a {
+      color: #ccc;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      position: relative;
+    }
+
+    footer ul li a::before {
+      content: "•";
+      position: absolute;
+      left: -10px;
+      color: var(--accent-gold);
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    footer ul li a:hover {
+      color: var(--accent-light-gold);
+      padding-left: 10px;
+    }
+
+    footer ul li a:hover::before {
+      opacity: 1;
+    }
+
+    /* Footer Bottom */
+    .footer-bottom {
+      text-align: center;
+      border-top: 1px solid rgba(255, 215, 0, 0.3);
+      padding-top: 1rem;
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .footer-logo h3 {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-logo p {
+        text-align: center;
+      }
+
+      .social {
+        justify-content: center;
+      }
+
+      footer h3 {
+        text-align: center;
+      }
+
+      footer ul {
+        text-align: center;
+      }
+      
+      .controls, .featured-section, .text-animation-container {
+        margin-left: 20px;
+        margin-right: 20px;
+      }
+      
+      /* For mobile, change to 1 column */
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* For medium screens, 2 columns */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating particles -->
+  <div class="particles" id="particles"></div>
+
+  <div class="wrap">
+    <header class="showcase animate__animated animate__fadeInDown">
+      <div class="brand">
+        <img class="logo" src="pics/logo.jpg" alt="">
+        <div>
+          <h1 >Islamic Arts & Architecture Showcase</h1>
+          <p>Curated selections of calligraphy, tilework, geometry and heritage buildings from across the Islamic world.</p>
+        </div>
+      </div>
+    </header>
+    
+    <!-- Text Animation Section -->
+    <div class="text-animation-container animate__animated animate__fadeIn">
+      <div class="animated-text" id="animatedTitle">Islamic Art: A Visual Journey</div>
+      <div class="animated-description" id="animatedDescription">Explore the rich heritage of Islamic artistic traditions spanning centuries and continents. From intricate calligraphy to breathtaking architecture, discover the beauty and meaning behind these masterpieces.</div>
+    </div>
+    
+    
+    <main>
+      <!-- Gallery Container with 80% width -->
+      <div class="gallery-container">
+        <section id="gallery" class="gallery" aria-live="polite">
+
+          <!-- Calligraphy -->
+          <article class="card" data-tags="calligraphy" data-title="Ottoman Quran Page" data-place="Istanbul">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/quran5.jpg')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Ottoman Quran Page</h3>
+              <p>Naskh script with gold illumination, Istanbul 17th century.</p>
+              <div class="tags"><span class="tag">Calligraphy</span><span class="tag">Istanbul</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-tags="calligraphy" data-title="Thuluth Inscription" data-place="Cairo">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Thuluth\ Inscription.jfif')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Thuluth Inscription</h3>
+              <p>Monumental thuluth script adorning Mamluk architecture, Cairo.</p>
+              <div class="tags"><span class="tag">Calligraphy</span><span class="tag">Cairo</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-tags="calligraphy" data-title="Kufic Panel" data-place="Kairouan">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Kufic\ Panel.png')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Kufic Panel</h3>
+              <p>Angular Kufic script from the Great Mosque of Kairouan.</p>
+              <div class="tags"><span class="tag">Calligraphy</span><span class="tag">Kairouan</span></div>
+            </div>
+          </article>
+
+          <!-- Architecture -->
+          <article class="card" data-tags="architecture" data-title="Shah Mosque Iwan" data-place="Isfahan">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Shah\ Mosque\ Iwan.png')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Shah Mosque Iwan</h3>
+              <p>Tilework and muqarnas of prayer hall entrance, Isfahan, Iran.</p>
+              <div class="tags"><span class="tag">Architecture</span><span class="tag">Isfahan</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-tags="architecture" data-title="Blue Mosque" data-place="Istanbul">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Blue\ Mosque.png')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Blue Mosque</h3>
+              <p>Sultan Ahmed Mosque with six minarets, Istanbul.</p>
+              <div class="tags"><span class="tag">Architecture</span><span class="tag">Istanbul</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-tags="architecture" data-title="Alhambra Courtyard" data-place="Granada">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Alhambra\ Courtyard.jfif')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Alhambra Courtyard</h3>
+              <p>Court of the Lions, Alhambra Palace, Granada, Spain.</p>
+              <div class="tags"><span class="tag">Architecture</span><span class="tag">Granada</span></div>
+            </div>
+          </article>
+
+          <!-- Geometry -->
+          <article class="card" data-tags="geometry" data-title="Girih Panel" data-place="Samarkand">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Girih\ Panel.png')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Girih Panel</h3>
+              <p>Interlaced geometric star-and-polygon design, Samarkand.</p>
+              <div class="tags"><span class="tag">Geometry</span><span class="tag">Samarkand</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-tags="geometry" data-title="Mamluk Dome Pattern" data-place="Cairo">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Mamluk\ Dome\ Pattern.jpg')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Mamluk Dome Pattern</h3>
+              <p>Star polygons adorning domes of Mamluk mosques, Cairo.</p>
+              <div class="tags"><span class="tag">Geometry</span><span class="tag">Cairo</span></div>
+            </div>
+          </article>
+
+          <!-- Tilework -->
+          <article class="card" data-tags="tilework" data-title="Iznik Tiles" data-place="Bursa">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/iznik.jpg')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Iznik Tiles</h3>
+              <p>Cobalt blue and turquoise floral tiles, Ottoman Bursa.</p>
+              <div class="tags"><span class="tag">Tilework</span><span class="tag">Ottoman</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-tags="tilework" data-title="Timurid Tiles" data-place="Samarkand">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Timurid\ Tilework.jpg')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Timurid Tilework</h3>
+              <p>Glazed turquoise and lapis lazuli tiles, Samarkand madrasa.</p>
+              <div class="tags"><span class="tag">Tilework</span><span class="tag">Samarkand</span></div>
+            </div>
+          </article>
+
+          <!-- Add 10+ more filler cards similarly -->
+          <article class="card" data-tags="architecture" data-title="Faisal Mosque" data-place="Islamabad">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Faisal\ Mosque.jpg')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Faisal Mosque</h3>
+              <p>Modern Islamic architecture with Bedouin tent design, Pakistan.</p>
+              <div class="tags"><span class="tag">Architecture</span><span class="tag">Islamabad</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-tags="calligraphy" data-title="Bismillah Panel" data-place="Iran">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Bismillah\ Panel.jpg')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Bismillah Panel</h3>
+              <p>Elegant Persian Nastaliq script of Bismillah, Iran.</p>
+              <div class="tags"><span class="tag">Calligraphy</span><span class="tag">Persia</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-tags="architecture" data-title="Taj Mahal" data-place="Agra">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Taj\ Mahal.jpg')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Taj Mahal</h3>
+              <p>White marble mausoleum, Mughal architecture, Agra, India.</p>
+              <div class="tags"><span class="tag">Architecture</span><span class="tag">India</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-tags="geometry" data-title="Islamic Star Pattern" data-place="Spain">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Islamic\ Star\ Pattern.jfif')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Islamic Star Pattern</h3>
+              <p>Complex geometric star pattern from Alhambra, Spain.</p>
+              <div class="tags"><span class="tag">Geometry</span><span class="tag">Spain</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-tags="tilework" data-title="Persian Floral Tiles" data-place="Isfahan">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Persian\ Floral\ Tiles.jpg')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Persian Floral Tiles</h3>
+              <p>Colorful floral and arabesque patterns from Safavid period.</p>
+              <div class="tags"><span class="tag">Tilework</span><span class="tag">Isfahan</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-tags="calligraphy" data-title="Diwani Script" data-place="Istanbul">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Diwani\ Script.jfif')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Diwani Script</h3>
+              <p>Ottoman cursive script developed during the reign of Suleiman the Magnificent.</p>
+              <div class="tags"><span class="tag">Calligraphy</span><span class="tag">Ottoman</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-tags="architecture" data-title="Hassan II Mosque" data-place="Casablanca">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Hassan\ II\ Mosque.jpg')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Hassan II Mosque</h3>
+              <p>Grand mosque with minaret towering over the Atlantic, Casablanca.</p>
+              <div class="tags"><span class="tag">Architecture</span><span class="tag">Morocco</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-tags="geometry" data-title="Islamic Star Pattern" data-place="Spain">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Jali\ Work.jfif')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Jali Work</h3>
+              <p>Complex geometric star pattern from Alhambra, Spain.</p>
+              <div class="tags"><span class="tag">Geometry</span><span class="tag">Spain</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-tags="tilework" data-title="Seljuk Tiles" data-place="Anatolia">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Architecture\ Elements.jpg')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Architecture Elements</h3>
+              <p>Distinctive turquoise and cobalt blue tiles from Seljuk period.</p>
+              <div class="tags"><span class="tag">Tilework</span><span class="tag">Anatolia</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-tags="calligraphy" data-title="Muhaqqaq Script" data-place="Cairo">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Gardens\ &\ Fountains\ .jpg')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Gardens & Fountains</h3>
+              <p>Elegant and bold script used in Mamluk Qurans, Cairo.</p>
+              <div class="tags"><span class="tag">Calligraphy</span><span class="tag">Mamluk</span></div>
+            </div>
+          </article>
+
+          <article class="card" data-tags="architecture" data-title="Great Mosque of Damascus" data-place="Damascus">
+            <div class="thumb-container">
+              <div class="thumb" style="background-image:url('pics/Worship and Spirituality.jfif')"></div>
+              <div class="card-overlay">View Details</div>
+            </div>
+            <div class="meta">
+              <h3>Worship and Spirituality</h3>
+              <p>Ancient city walls with Islamic architectural elements, Damascus.</p>
+              <div class="tags"><span class="tag">Architecture</span><span class="tag">Jerusalem</span></div>
+            </div>
+          </article>
+
+        </section>
+      </div>
+
+      <div id="empty" class="empty" style="display:none">
+        <i class="fas fa-search"></i>
+        <h3>No items match your search.</h3>
+        <p>Try different keywords or browse all categories.</p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scroll to top button -->
+  <div class="scroll-top" id="scrollTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <!-- Modal / Lightbox -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true">
+      <div class="modal-img-container">
+        <div id="modalImage" class="modal-img" style="background-image:''"></div>
+      </div>
+      <div class="modal-info">
+        <h3 id="modalTitle">Title</h3>
+        <p id="modalDesc">Description</p>
+        <div class="modal-place" id="modalPlace">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>Place</span>
+        </div>
+        <div class="tags" id="modalTags"></div>
+        <div class="modal-actions">
+          <button class="close" id="closeBtn">
+            <i class="fas fa-times"></i>
+            Close
+          </button>
+          <a id="openFull" href="#" class="modal-btn primary" target="_blank">
+            <i class="fas fa-expand"></i>
+            View Full Image
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ <!-- Footer Placeholder -->
+  <div id="footer"></div>
+
+  <script>
+    // Create floating particles
+    document.addEventListener('DOMContentLoaded', function() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 30;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+
+        // Random size between 3px and 8px
+        const size = Math.random() * 5 + 3;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+
+        // Random position
+        particle.style.left = `${Math.random() * 100}%`;
+
+        // Random animation duration between 10s and 20s
+        const duration = Math.random() * 10 + 10;
+        particle.style.animationDuration = `${duration}s`;
+
+        // Random delay
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+
+        particlesContainer.appendChild(particle);
+      }
+    });
+    
+    // JS: Dynamically insert footer
+    document.addEventListener("DOMContentLoaded", function () {
+      const footerHTML = `
+        <footer>
+          <div class="footer-container">
+            <!-- Logo Section -->
+            <div class="footer-logo">
+              <h3>
+                <img src="pics/logo.jpg" alt="DeenPath Logo">
+                <b>DeenPath</b>
+              </h3>
+              <p>DeenPath is your trusted companion for authentic Islamic knowledge and spiritual growth.</p>
+              <div class="social">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+              <h3>Quick Links</h3>
+              <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="FAQs.html">FAQs</a></li>
+              </ul>
+            </div>
+
+            <!-- Islamic Resources -->
+            <div>
+              <h3>Islamic Resources</h3>
+              <ul>
+                <li><a href="quran.html">Quran</a></li>
+                <li><a href="surah.html">Surah</a></li>
+                <li><a href="nt.html">Namaz Time</a></li>
+                <li><a href="calender.html">Calendar</a></li>
+                <li><a href="counter.html">Tasbeeh Counter</a></li>
+                <li><a href="course.html">Course</a></li>
+              </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div>
+              <h3>Contact</h3>
+              <ul>
+                <li><a href="mailto:mohsingohar759@gmail.com">mohsingohar759@gmail.com</a></li>
+                <li><a href="#">+92 300 1234567</a></li>
+                <li><a href="#">Karachi, Pakistan</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Footer Bottom -->
+          <div class="footer-bottom">
+            © <span id="year"></span> DeenPath. All Rights Reserved.
+          </div>
+        </footer>
+      `;
+
+      // Inject footer into the placeholder
+      document.getElementById("footer").innerHTML = footerHTML;
+
+      // Dynamic Year Update
+      document.getElementById("year").textContent = new Date().getFullYear();
+    });
+  </script>
+  <script>
+    
+    // Basic gallery search + filter + lightbox
+    const q = document.getElementById('q');
+    const chips = document.querySelectorAll('.chip');
+    const cards = Array.from(document.querySelectorAll('.card'));
+    const empty = document.getElementById('empty');
+    const scrollTop = document.getElementById('scrollTop');
+
+    function normalize(s){return (s||'').toString().toLowerCase();}
+
+    function filterGallery(){
+      const query = normalize(q.value.trim());
+      const active = document.querySelector('.chip.active')?.dataset.filter || 'all';
+      let shown = 0;
+      cards.forEach(c=>{
+        const title = normalize(c.dataset.title);
+        const place = normalize(c.dataset.place);
+        const tags = normalize(c.dataset.tags);
+        const matchQuery = query === '' || title.includes(query) || place.includes(query) || tags.includes(query);
+        const matchFilter = (active === 'all') || tags.split(',').map(x=>x.trim()).includes(active) || c.dataset.tags.includes(active);
+        if(matchQuery && matchFilter){ 
+          c.style.display = ''; 
+          shown++; 
+        } else { 
+          c.style.display = 'none'; 
+        }
+      });
+      empty.style.display = shown === 0 ? 'block' : 'none';
+    }
+
+    // Search input
+    q.addEventListener('input', filterGallery);
+
+    // Filter chips
+    chips.forEach(ch=>{
+      ch.addEventListener('click', ()=>{
+        chips.forEach(x=>x.classList.remove('active'));
+        ch.classList.add('active');
+        filterGallery();
+      });
+    });
+
+    // Lightbox
+    const modal = document.getElementById('modal');
+    const modalImage = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalTags = document.getElementById('modalTags');
+    const openFull = document.getElementById('openFull');
+    const closeBtn = document.getElementById('closeBtn');
+
+    cards.forEach(card=>{
+      card.addEventListener('click', ()=>{
+        const bg = card.querySelector('.thumb').style.backgroundImage.replace(/url\((?:"|')?/, '').replace(/(?:"|')?\)$/, '');
+        modalImage.style.backgroundImage = `url('${bg}')`;
+        modalTitle.textContent = card.querySelector('h3').textContent;
+        modalDesc.textContent = card.querySelector('p').textContent;
+        
+        // Copy tags to modal
+        const cardTags = card.querySelectorAll('.tag');
+        modalTags.innerHTML = '';
+        cardTags.forEach(tag => {
+          const newTag = tag.cloneNode(true);
+          modalTags.appendChild(newTag);
+        });
+        
+        openFull.href = bg;
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden','false');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeModal(){ 
+      modal.classList.remove('open'); 
+      modal.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+    
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e)=>{ 
+      if(e.target === modal) closeModal(); 
+    });
+    document.addEventListener('keydown', (e)=>{ 
+      if(e.key === 'Escape') closeModal(); 
+    });
+
+    // Scroll to top functionality
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        scrollTop.classList.add('visible');
+      } else {
+        scrollTop.classList.remove('visible');
+      }
+    });
+    
+    scrollTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Initial
+    filterGallery();
+
+    // Hidden name input field
+    const nameInput = document.createElement('input');
+    nameInput.type = 'text';
+    nameInput.id = 'nameField';
+    nameInput.placeholder = 'Enter your name...';
+    nameInput.style.position = 'absolute';
+    nameInput.style.top = '-9999px';
+    nameInput.style.left = '-9999px';
+    document.body.appendChild(nameInput);
+    
+    // JS: Dynamically insert footer
+    document.addEventListener("DOMContentLoaded", function () {
+      const footerHTML = `
+        <footer>
+          <div class="footer-container">
+            <!-- Logo Section -->
+            <div class="footer-logo">
+              <h3>
+                <img src="pics/logo.jpg" alt="DeenPath Logo">
+                <b>DeenPath</b>
+              </h3>
+              <p>DeenPath is your trusted companion for authentic Islamic knowledge and spiritual growth.</p>
+              <div class="social">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+              <h3>Quick Links</h3>
+              <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="FAQs.html">FAQs</a></li>
+              </ul>
+            </div>
+
+            <!-- Islamic Resources -->
+            <div>
+              <h3>Islamic Resources</h3>
+              <ul>
+                <li><a href="quran.html">Quran</a></li>
+                <li><a href="surah.html">Surah</a></li>
+                <li><a href="nt.html">Namaz Time</a></li>
+                <li><a href="calender.html">Calendar</a></li>
+                <li><a href="counter.html">Tasbeeh Counter</a></li>
+                <li><a href="course.html">Course</a></li>
+              </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div>
+              <h3>Contact</h3>
+              <ul>
+                <li><a href="mailto:mohsingohar759@gmail.com">mohsingohar759@gmail.com</a></li>
+                <li><a href="#">+92 300 1234567</a></li>
+                <li><a href="#">Karachi, Pakistan</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Footer Bottom -->
+          <div class="footer-bottom">
+            © <span id="year"></span> DeenPath. All Rights Reserved.
+          </div>
+        </footer>
+      `;
+
+      // Inject footer into the placeholder
+      document.getElementById("footer").innerHTML = footerHTML;
+
+      // Dynamic Year Update
+      document.getElementById("year").textContent = new Date().getFullYear();
+    });
+  </script>
+</body>
+</html>

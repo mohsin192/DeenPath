@@ -1,0 +1,2062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pakistan Mosque Finder - Locate All Mosques</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --secondary: #f8f9fa;
+            --accent: #006633;
+            --text-primary: #202124;
+            --text-secondary: #5f6368;
+            --map-bg: #e8eaed;
+            --map-panel: #ffffff;
+            --map-border: #dadce0;
+            --map-hover: #f1f3f4;
+            --map-blue: #1a73e8;
+            --map-red: #ea4335;
+            --map-yellow: #fbbc04;
+            --map-green: #34a853;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        body {
+            background-color: var(--map-bg);
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: var(--map-panel);
+            height: 64px;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+            z-index: 1000;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 22px;
+            font-weight: 400;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .header i {
+            color: var(--accent);
+            margin-right: 12px;
+            font-size: 24px;
+        }
+        
+        .map-container {
+            position: relative;
+            height: calc(100vh - 64px);
+            width: 100%;
+        }
+        
+        /* Google Maps-style search bar */
+        .search-container {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 1000;
+            width: 360px;
+            background-color: var(--map-panel);
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            height: 48px;
+            transition: box-shadow 0.2s;
+        }
+        
+        .search-container:focus-within {
+            box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+        }
+        
+        .search-icon {
+            color: var(--text-secondary);
+            margin-right: 12px;
+            font-size: 20px;
+        }
+        
+        .search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            padding: 12px 0;
+            background: transparent;
+        }
+        
+        .search-button {
+            background-color: var(--map-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            margin-left: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        
+        .search-button:hover {
+            background-color: #1765cc;
+        }
+        
+        /* Google Maps-style controls */
+        .map-controls {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .control-group {
+            background-color: var(--map-panel);
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            overflow: hidden;
+        }
+        
+        .control-btn {
+            background: var(--map-panel);
+            border: none;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+        
+        .control-btn:hover {
+            background-color: var(--map-hover);
+        }
+        
+        .control-btn:active {
+            background-color: var(--map-blue);
+            color: white;
+        }
+        
+        .divider {
+            height: 1px;
+            background-color: var(--map-border);
+            margin: 0 8px;
+        }
+        
+        /* Google Maps-style location button */
+        .location-btn {
+            position: absolute;
+            bottom: 120px;
+            right: 16px;
+            z-index: 1000;
+            background-color: var(--map-panel);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+        
+        .location-btn:hover {
+            background-color: var(--map-hover);
+        }
+        
+        .location-btn:active {
+            background-color: var(--map-blue);
+            color: white;
+        }
+        
+        /* Google Maps-style info window */
+        .info-window {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            z-index: 1000;
+            background-color: var(--map-panel);
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+            width: 320px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        .info-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--map-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .info-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .info-close {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .info-content {
+            padding: 16px;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 12px;
+        }
+        
+        .info-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .info-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .info-text {
+            flex: 1;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .info-actions {
+            padding: 0 16px 16px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .info-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-weight: 500;
+        }
+        
+        .directions-btn {
+            background-color: var(--map-blue);
+            color: white;
+        }
+        
+        .directions-btn:hover {
+            background-color: #1765cc;
+        }
+        
+        .save-btn {
+            background-color: var(--map-panel);
+            color: var(--map-blue);
+            border: 1px solid var(--map-border);
+        }
+        
+        .save-btn:hover {
+            background-color: var(--map-hover);
+        }
+        
+        /* Google Maps-style directions panel */
+        .directions-panel {
+            position: absolute;
+            top: 0;
+            right: -400px;
+            z-index: 1000;
+            background-color: var(--map-panel);
+            width: 400px;
+            height: 100%;
+            box-shadow: -2px 0 8px rgba(0,0,0,0.15);
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .directions-panel.active {
+            right: 0;
+        }
+        
+        .directions-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--map-border);
+            display: flex;
+            align-items: center;
+        }
+        
+        .directions-back {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text-primary);
+            cursor: pointer;
+            margin-right: 16px;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .directions-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .directions-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+        
+        .directions-inputs {
+            margin-bottom: 24px;
+        }
+        
+        .directions-input-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            background-color: var(--map-bg);
+            border-radius: 4px;
+            padding: 12px;
+        }
+        
+        .directions-input-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .directions-input {
+            flex: 1;
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 14px;
+        }
+        
+        .directions-swap {
+            background: none;
+            border: none;
+            font-size: 18px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            margin: 0 8px;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .travel-modes {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            background-color: var(--map-bg);
+            border-radius: 4px;
+            padding: 4px;
+        }
+        
+        .travel-mode {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .travel-mode:hover {
+            background-color: var(--map-hover);
+        }
+        
+        .travel-mode.active {
+            background-color: var(--map-blue);
+            color: white;
+        }
+        
+        .travel-mode i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        
+        .travel-mode span {
+            font-size: 12px;
+        }
+        
+        .directions-route {
+            background-color: var(--map-bg);
+            border-radius: 4px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .route-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .route-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .route-time {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .route-details {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        .directions-start {
+            margin-top: auto;
+            padding: 16px;
+            border-top: 1px solid var(--map-border);
+        }
+        
+        .start-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--map-blue);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .start-btn:hover {
+            background-color: #1765cc;
+        }
+        
+        /* Google Maps-style bottom panel */
+        .bottom-panel {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: var(--map-panel);
+            border-top: 1px solid var(--map-border);
+            box-shadow: 0 -1px 2px 0 rgba(60,64,67,0.3), 0 -1px 3px 1px rgba(60,64,67,0.15);
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .bottom-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .bottom-links {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .bottom-link {
+            font-size: 12px;
+            color: var(--map-blue);
+            text-decoration: none;
+        }
+        
+        /* Google Maps-style scale control */
+        .scale-control {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            z-index: 1000;
+            background-color: var(--map-panel);
+            border-radius: 2px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            padding: 4px 8px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        /* Google Maps-style attribution */
+        .map-attribution {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: rgba(255,255,255,0.7);
+            padding: 2px 4px;
+            font-size: 10px;
+            color: var(--text-secondary);
+            text-align: right;
+        }
+        
+        /* Google Maps-style markers */
+        .mosque-marker {
+            background-color: var(--accent);
+            width: 30px;
+            height: 30px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            position: relative;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .mosque-marker::before {
+            content: "";
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: white;
+            border-radius: 50%;
+            top: 6px;
+            left: 6px;
+        }
+        
+        .mosque-marker::after {
+            content: "";
+            position: absolute;
+            width: 4px;
+            height: 10px;
+            background-color: white;
+            top: 15px;
+            left: 10px;
+        }
+        
+        .user-location-marker {
+            background-color: var(--map-blue);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .user-location-marker::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background-color: rgba(26, 115, 232, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.7;
+            }
+            70% {
+                transform: scale(2);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+        
+        /* Notification */
+        .notification {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--map-panel);
+            padding: 16px 24px;
+            border-radius: 4px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+            z-index: 1001;
+            display: none;
+            animation: slideDown 0.3s ease-out;
+        }
+        
+        .notification.success {
+            border-left: 4px solid var(--map-green);
+        }
+        
+        .notification.error {
+            border-left: 4px solid var(--map-red);
+        }
+        
+        .notification.info {
+            border-left: 4px solid var(--map-blue);
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translate(-50%, -20px);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, 0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 102, 51, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Stats bar */
+        .stats {
+            position: absolute;
+            top: 64px;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            background-color: var(--map-panel);
+            padding: 8px 16px;
+            border-bottom: 1px solid var(--map-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+        }
+        
+        .stats-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        
+        /* Hidden class */
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Google Maps-style popup */
+        .leaflet-popup-content-wrapper {
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+        }
+        
+        .leaflet-popup-content {
+            margin: 0;
+            min-width: 200px;
+        }
+        
+        .leaflet-popup-tip {
+            background: white;
+        }
+        
+        /* Google Maps-style zoom controls */
+        .leaflet-control-zoom {
+            border: none;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .leaflet-control-zoom a {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 18px;
+            border: none;
+            background-color: white;
+            color: var(--text-primary);
+        }
+        
+        .leaflet-control-zoom a:hover {
+            background-color: var(--map-hover);
+        }
+        
+        .leaflet-control-zoom a:first-child {
+            border-bottom: 1px solid var(--map-border);
+        }
+        
+        /* Google Maps-style attribution */
+        .leaflet-control-attribution {
+            background-color: rgba(255,255,255,0.7);
+            font-size: 10px;
+        }
+        
+        /* Google Maps-style map tiles */
+        .leaflet-tile {
+            filter: contrast(1.05) saturate(1.05);
+        }
+        
+        /* Google Maps-style fullscreen */
+        .leaflet-control-fullscreen-button {
+            background-color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            transition: background-color 0.2s;
+        }
+        
+        .leaflet-control-fullscreen-button:hover {
+            background-color: var(--map-hover);
+        }
+        
+        /* Google Maps-style map type control */
+        .map-type-control {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            z-index: 1000;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .map-type-btn {
+            background: white;
+            border: none;
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            color: var(--text-primary);
+            text-align: left;
+            transition: background-color 0.2s;
+        }
+        
+        .map-type-btn:hover {
+            background-color: var(--map-hover);
+        }
+        
+        .map-type-btn.active {
+            background-color: var(--map-blue);
+            color: white;
+        }
+        
+        .map-type-btn:not(:last-child) {
+            border-bottom: 1px solid var(--map-border);
+        }
+        
+        /* Mosque List Styles - From Second Code */
+        .mosque-list {
+            position: absolute;
+            top: 80px;
+            left: 16px;
+            z-index: 1000;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            width: 320px;
+            max-height: calc(100vh - 180px);
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .mosque-list.active {
+            display: block;
+        }
+        
+        .list-header {
+            background-color: var(--map-blue);
+            color: white;
+            padding: 12px;
+            font-weight: 500;
+            border-radius: 8px 8px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .list-title {
+            font-size: 16px;
+        }
+        
+        .list-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .search-box {
+            padding: 12px;
+            border-bottom: 1px solid var(--map-border);
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--map-border);
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .city-filter {
+            padding: 12px;
+            border-bottom: 1px solid var(--map-border);
+        }
+        
+        .city-select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--map-border);
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .mosque-item {
+            padding: 12px;
+            border-bottom: 1px solid var(--map-border);
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .mosque-item:hover {
+            background-color: var(--map-hover);
+        }
+        
+        .mosque-item-icon {
+            color: var(--accent);
+            font-size: 18px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .mosque-item-details {
+            flex-grow: 1;
+        }
+        
+        .mosque-item-name {
+            font-weight: 500;
+            margin-bottom: 3px;
+            font-size: 14px;
+        }
+        
+        .mosque-item-location {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        
+        .mosque-list-toggle {
+            position: absolute;
+            top: 80px;
+            left: 16px;
+            z-index: 1000;
+            background-color: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.2s;
+        }
+        
+        .mosque-list-toggle:hover {
+            background-color: var(--map-hover);
+        }
+        
+        .mosque-list-toggle.active {
+            background-color: var(--map-blue);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><i class="fas fa-mosque"></i> Pakistan Mosque Finder</h1>
+    </div>
+    
+    <div class="stats">
+        <span id="mosqueCount"><div class="loading-spinner"></div> Loading mosques...</span>
+        <span id="locationStatus"></span>
+    </div>
+    
+    <div class="map-container" id="map">
+        <!-- Mosque List Toggle Button -->
+        <button class="mosque-list-toggle" id="mosqueListToggle" title="Show Mosque List">
+            <i class="fas fa-list"></i>
+        </button>
+        
+        <!-- Mosque List -->
+        <div class="mosque-list" id="mosqueList">
+            <div class="list-header">
+                <div class="list-title">
+                    <i class="fas fa-mosque"></i> Mosques List
+                </div>
+                <button class="list-close" id="listClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search mosques...">
+            </div>
+            <div class="city-filter">
+                <select class="city-select" id="citySelect">
+                    <option value="">All Cities</option>
+                </select>
+            </div>
+            <div id="mosquesListContainer"></div>
+        </div>
+        
+        <!-- Search Bar -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" id="mapSearchInput" placeholder="Search for mosques or cities...">
+            <button class="search-button" id="searchButton">Search</button>
+        </div>
+        
+        <!-- Map Type Control -->
+        <div class="map-type-control" id="mapTypeControl">
+            <button class="map-type-btn active" data-type="m">Map</button>
+            <button class="map-type-btn" data-type="s">Satellite</button>
+            <button class="map-type-btn" data-type="t">Terrain</button>
+        </div>
+        
+        <!-- Location Button -->
+        <button class="location-btn" id="locationBtn" title="My location">
+            <i class="fas fa-location-arrow"></i>
+        </button>
+        
+        <!-- Info Window -->
+        <div class="info-window" id="infoWindow">
+            <div class="info-header">
+                <div class="info-title" id="infoTitle">Mosque Details</div>
+                <button class="info-close" id="infoClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="info-content">
+                <div class="info-row">
+                    <div class="info-icon">
+                        <i class="fas fa-mosque"></i>
+                    </div>
+                    <div class="info-text" id="infoName">Mosque Name</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="info-text" id="infoCity">City, Pakistan</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="info-text" id="infoCoords">Latitude, Longitude</div>
+                </div>
+            </div>
+            <div class="info-actions">
+                <button class="info-btn directions-btn" id="directionsBtn">
+                    <i class="fas fa-directions"></i> Directions
+                </button>
+                <button class="info-btn save-btn" id="saveBtn">
+                    <i class="fas fa-star"></i> Save
+                </button>
+            </div>
+        </div>
+        
+        <!-- Directions Panel -->
+        <div class="directions-panel" id="directionsPanel">
+            <div class="directions-header">
+                <button class="directions-back" id="directionsBack">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="directions-title">Directions</div>
+            </div>
+            <div class="directions-content">
+                <div class="directions-inputs">
+                    <div class="directions-input-group">
+                        <div class="directions-input-icon">
+                            <i class="fas fa-circle"></i>
+                        </div>
+                        <input type="text" class="directions-input" id="fromInput" placeholder="Your location" readonly>
+                        <button class="directions-swap" id="swapBtn">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                    </div>
+                    <div class="directions-input-group">
+                        <div class="directions-input-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <input type="text" class="directions-input" id="toInput" placeholder="Destination" readonly>
+                    </div>
+                </div>
+                
+                <div class="travel-modes">
+                    <div class="travel-mode active" data-mode="driving">
+                        <i class="fas fa-car"></i>
+                        <span>Car</span>
+                    </div>
+                    <div class="travel-mode" data-mode="bicycling">
+                        <i class="fas fa-bicycle"></i>
+                        <span>Bike</span>
+                    </div>
+                    <div class="travel-mode" data-mode="walking">
+                        <i class="fas fa-walking"></i>
+                        <span>Walk</span>
+                    </div>
+                    <div class="travel-mode" data-mode="transit">
+                        <i class="fas fa-bus"></i>
+                        <span>Transit</span>
+                    </div>
+                </div>
+                
+                <div class="directions-route">
+                    <div class="route-header">
+                        <div class="route-title">Recommended route</div>
+                        <div class="route-time" id="routeTime">-- min</div>
+                    </div>
+                    <div class="route-details" id="routeDetails">No route available</div>
+                </div>
+            </div>
+            <div class="directions-start">
+                <button class="start-btn" id="startBtn">Start</button>
+            </div>
+        </div>
+        
+        <!-- Scale Control -->
+        <div class="scale-control" id="scaleControl">100 km</div>
+        
+        <!-- Attribution -->
+        <div class="map-attribution">Map data ©2025 Google</div>
+    </div>
+    
+    <!-- Bottom Panel -->
+    <div class="bottom-panel">
+        <div class="bottom-text">© 2023 Pakistan Mosque Finder</div>
+        <div class="bottom-links">
+            <a href="#" class="bottom-link">Terms</a>
+            <a href="#" class="bottom-link">Privacy</a>
+        </div>
+    </div>
+    
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize map focused on Pakistan
+        const map = L.map('map', {
+            zoomControl: false, // We'll use custom zoom controls
+            center: [30.3750, 69.3450],
+            zoom: 6,
+            minZoom: 4,
+            maxZoom: 20,
+            worldCopyJump: true,
+            zoomAnimation: true,
+            fadeAnimation: true,
+            markerZoomAnimation: true
+        });
+        
+        // Add Google Maps style tile layer
+        L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains:['mt0','mt1','mt2','mt3'],
+            attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a>'
+        }).addTo(map);
+        
+        // Variables to store user location and selected mosque
+        let userLocation = null;
+        let selectedMosque = null;
+        let selectedTravelMode = 'driving';
+        let userLocationMarker = null;
+        let routeLine = null;
+        let currentMapType = 'm';
+        let allMarkers = [];
+        
+        // Function to show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Function to update scale control
+        function updateScaleControl() {
+            const zoom = map.getZoom();
+            let scaleText = '';
+            
+            if (zoom < 3) {
+                scaleText = '1000 km';
+            } else if (zoom < 5) {
+                scaleText = '500 km';
+            } else if (zoom < 7) {
+                scaleText = '200 km';
+            } else if (zoom < 9) {
+                scaleText = '100 km';
+            } else if (zoom < 11) {
+                scaleText = '50 km';
+            } else if (zoom < 13) {
+                scaleText = '20 km';
+            } else if (zoom < 15) {
+                scaleText = '10 km';
+            } else if (zoom < 17) {
+                scaleText = '5 km';
+            } else if (zoom < 19) {
+                scaleText = '1 km';
+            } else {
+                scaleText = '500 m';
+            }
+            
+            document.getElementById('scaleControl').textContent = scaleText;
+        }
+        
+        // Update scale control when zoom changes
+        map.on('zoomend', updateScaleControl);
+        
+        // Function to get user's current location
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                showNotification("Getting your location...", 'info');
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        userLocation = { lat, lng };
+                        
+                        // Add marker for user's location
+                        if (userLocationMarker) {
+                            map.removeLayer(userLocationMarker);
+                        }
+                        
+                        userLocationMarker = L.marker([lat, lng], {
+                            icon: L.divIcon({
+                                className: "custom-marker",
+                                html: `<div class="user-location-marker"></div>`,
+                                iconSize: [20, 20],
+                                iconAnchor: [10, 10],
+                            }),
+                        }).addTo(map);
+                        
+                        map.setView([lat, lng], 13);
+                        document.getElementById('locationStatus').innerHTML = '<i class="fas fa-check-circle" style="color: #34A853;"></i> Location enabled';
+                        showNotification("Location found!", 'success');
+                        
+                        // Update from input in directions panel
+                        document.getElementById('fromInput').value = 'Your location';
+                    },
+                    (error) => {
+                        document.getElementById('locationStatus').innerHTML = '<i class="fas fa-exclamation-circle" style="color: #EA4335;"></i> Location disabled';
+                        showNotification("Unable to get your location. Please enable location services.", 'error');
+                        console.error("Error getting location:", error);
+                    }
+                );
+            } else {
+                document.getElementById('locationStatus').innerHTML = '<i class="fas fa-exclamation-circle" style="color: #EA4335;"></i> Location not supported';
+                showNotification("Geolocation is not supported by this browser.", 'error');
+            }
+        }
+        
+        // Function to generate random mosques
+        function generateRandomMosques(count, cities) {
+            const mosques = [];
+            const mosqueNames = [
+                "Jamia Masjid", "Masjid-e-Aqsa", "Baitul Mukarram", "Eid Gah Mosque", "Markazi Mosque",
+                "Grand Mosque", "Central Mosque", "Al-Huda Mosque", "Al-Falah Mosque", "Madina Mosque",
+                "Makkah Mosque", "Darbar Mosque", "Sultan Mosque", "Shah Mosque", "Noor Mosque",
+                "Sadiq Mosque", "Farooq-e-Azam Mosque", "Abu Bakar Mosque", "Usman Mosque", "Ali Mosque",
+                "Zainab Mosque", "Fatima Mosque", "Ayesha Mosque", "Khadija Mosque", "Bilal Mosque",
+                "Hamza Mosque", "Hassan Mosque", "Hussain Mosque", "Abbas Mosque", "Jaffar Mosque",
+                "Taqqi Mosque", "Askari Mosque", "Ghazi Mosque", "Salahuddin Mosque", "Tipu Mosque",
+                "Iqbal Mosque", "Jinnah Mosque", "Liaquat Mosque", "Benazir Mosque", "Bhutto Mosque",
+                "Sharif Mosque", "Zardari Mosque", "Khan Mosque", "Butt Mosque", "Malik Mosque",
+                "Chaudhry Mosque", "Sheikh Mosque", "Mughal Mosque", "Ghaznavi Mosque", "Ghori Mosque",
+                "Abdali Mosque", "Durrani Mosque", "Khilji Mosque", "Lodhi Mosque", "Sur Mosque",
+                "Tughlaq Mosque", "Suri Mosque", "Mujahid Mosque", "Shaheed Mosque", "Ghazi Mosque"
+            ];
+            
+            // Add street names for more specific locations
+            const streetNames = [
+                "Main Street", "Model Town", "Gulberg", "Defence Road", "Cantt Road", "Civil Lines",
+                "University Road", "Airport Road", "Highway", "Link Road", "Bypass", "Circular Road",
+                "Ferozepur Road", "Multan Road", "Shahrah-e-Faisal", "Shahrah-e-Pakistan", "Shahrah-e-Quaid",
+                "Mall Road", "Abdul Haq Road", "Jinnah Avenue", "Constitution Avenue", "Aiwan-e-Sadar Road",
+                "Kashmir Highway", "Islamabad Highway", "Grand Trunk Road", "Ravi Road", "Sutlej Road",
+                "Chenab Road", "Jhelum Road", "Indus Highway", "Karakoram Highway", "Makran Coastal Highway",
+                "Lyari Expressway", "Northern Bypass", "Southern Bypass", "Sharea Faisal", "Sharea Noor Jehan",
+                "Tariq Road", "Bahadurabad Zebunnisa Street", "Saddar", "Empress Market", "Clifton",
+                "Sea View", "Karsaz", "Gulshan-e-Iqbal", "North Nazimabad", "Federal B Area",
+                "Gulistan-e-Jauhar", "Scheme 33", "Korangi", "Landhi", "Malir", "Shah Faisal Colony",
+                "Orangi Town", "New Karachi", "North Karachi", "Surjani Town", "Baldia Town",
+                "Site Town", "Gadap Town", "Bin Qasim Town", "Kiamari Town", "Lyari Town",
+                "Saddar Town", "Jamshed Town", "Gulberg Town", "Liaquatabad Town", "North Nazimabad Town",
+                "Gulshan-e-Iqbal Town", "Korangi Town", "Landhi Town", "Shah Faisal Colony Town", "Malir Town",
+                "Orangi Town", "New Karachi Town", "Gulshan-e-Hadeed", "Steel Town", "Bahria Town",
+                "Askari", "Cantt", "Defence", "Model Town", "Gulberg", "Iqbal Town", "Samnabad",
+                "Shadbagh", "Mughalpura", "Walled City", "Ravi Road", "Baghbanpura", "Shalimar",
+                "Jallo", "Harbanspura", "LDA Avenue", "State Life Housing Society", "Valencia",
+                "Lake City", "Formanites Housing Society", "Awan Town", "Sabzazar", "Township",
+                "Raiwind Road", "Multan Road", "Ferozepur Road", "Canal Bank Road", "G.T. Road",
+                "Sheikhupura Road", "Burki Road", "Bedian Road", "Airport Road", "Sui Gas Road",
+                "Khayaban-e-Jinnah", "Khayaban-e-Firdousi", "Khayaban-e-Hafiz", "Khayaban-e-Roomi",
+                "Khayaban-e-Saadi", "Khayaban-e-Ittehad", "Khayaban-e-Bahria", "Khayaban-e-Nishat",
+                "Zamzama Boulevard", "Badar Commercial", "Tariq Road", "Bahadur Yar Jang Road",
+                "Sharea Faisal", "Sharea Noor Jehan", "Sharea Liaquat", "Sharea Quaideen",
+                "Sharea Sir Syed", "Sharea Punjab", "Sharea Sindh", "Sharea Balochistan",
+                "Sharea Khyber", "Sharea Kashmir", "Sharea Gilgit", "Sharea Baltistan"
+            ];
+            
+            const usedNames = new Set();
+            
+            // Add the existing mosques first
+            const existingMosques = [
+                // Punjab
+                { name: "Badshahi Mosque", lat: 31.5800, lng: 74.3200, city: "Lahore" },
+                { name: "Lahore Fort Mosque", lat: 31.5850, lng: 74.3120, city: "Lahore" },
+                { name: "Data Darbar Mosque", lat: 31.5800, lng: 74.3250, city: "Lahore" },
+                { name: "Grand Jamia Masjid Multan", lat: 30.1900, lng: 71.4800, city: "Multan" },
+                { name: "Wazir Khan Mosque", lat: 31.5847, lng: 74.3172, city: "Lahore" },
+                { name: "Sunehri Mosque", lat: 31.5820, lng: 74.3130, city: "Lahore" },
+                { name: "Moti Masjid", lat: 31.5870, lng: 74.3130, city: "Lahore" },
+                { name: "Dai Anga Mosque", lat: 31.5750, lng: 74.3190, city: "Lahore" },
+                { name: "Gates of Mosque", lat: 31.5700, lng: 74.3100, city: "Lahore" },
+                { name: "Faisal Mosque", lat: 33.7295, lng: 73.0375, city: "Islamabad" },
+                { name: "Shah Faisal Mosque", lat: 33.7295, lng: 73.0375, city: "Islamabad" },
+                { name: "Jamia Masjid Islamabad", lat: 33.7150, lng: 73.0560, city: "Islamabad" },
+                { name: "Red Mosque (Lal Masjid)", lat: 33.7120, lng: 73.0490, city: "Islamabad" },
+                { name: "Bari Imam Mosque", lat: 33.7400, lng: 73.0490, city: "Islamabad" },
+                { name: "Saidpur Village Mosque", lat: 33.7430, lng: 73.0900, city: "Islamabad" },
+                { name: "Jamia Masjid Al-Falah", lat: 33.6100, lng: 73.0800, city: "Rawalpindi" },
+                { name: "Jamia Masjid Rizvia", lat: 33.6000, lng: 73.0700, city: "Rawalpindi" },
+                { name: "Ghazi Mosque", lat: 33.5900, lng: 73.0600, city: "Rawalpindi" },
+                { name: "Markazi Jamia Masjid", lat: 33.5800, lng: 73.0500, city: "Rawalpindi" },
+                { name: "Eid Gah Mosque", lat: 33.6200, lng: 73.0900, city: "Rawalpindi" },
+                { name: "Jamia Masjid Baitul Mukarram", lat: 31.4150, lng: 74.2800, city: "Faisalabad" },
+                { name: "Ghanta Ghar Mosque", lat: 31.4200, lng: 74.2900, city: "Faisalabad" },
+                { name: "Jamia Masjid Madina", lat: 31.4250, lng: 74.3000, city: "Faisalabad" },
+                { name: "Clock Tower Mosque", lat: 31.4300, lng: 74.3100, city: "Faisalabad" },
+                { name: "Jamia Masjid Ashrafia", lat: 31.4350, lng: 74.3200, city: "Faisalabad" },
+                { name: "Darbar Ali Hajveri Mosque", lat: 31.5500, lng: 74.3500, city: "Lahore" },
+                { name: "Jamia Masjid Abu Huraira", lat: 31.5550, lng: 74.3550, city: "Lahore" },
+                { name: "Jamia Masjid Bilal", lat: 31.5600, lng: 74.3600, city: "Lahore" },
+                { name: "Jamia Masjid Usman", lat: 31.5650, lng: 74.3650, city: "Lahore" },
+                { name: "Jamia Masjid Omar", lat: 31.5700, lng: 74.3700, city: "Lahore" },
+                
+                // Sindh
+                { name: "Mohatta Palace Mosque", lat: 24.8600, lng: 67.0100, city: "Karachi" },
+                { name: "Shah Jahan Mosque", lat: 24.8600, lng: 67.0100, city: "Thatta" },
+                { name: "Tooba Mosque", lat: 24.8400, lng: 67.0400, city: "Karachi" },
+                { name: "Masjid e Tooba", lat: 24.8400, lng: 67.0400, city: "Karachi" },
+                { name: "Baitul Mukarram Mosque", lat: 24.8700, lng: 67.0200, city: "Karachi" },
+                { name: "Jamia Masjid Baitul Mukarram", lat: 24.8750, lng: 67.0250, city: "Karachi" },
+                { name: "Masjid e Abu Bakar", lat: 24.8800, lng: 67.0300, city: "Karachi" },
+                { name: "Masjid e Umar", lat: 24.8850, lng: 67.0350, city: "Karachi" },
+                { name: "Masjid e Usman", lat: 24.8900, lng: 67.0400, city: "Karachi" },
+                { name: "Masjid e Ali", lat: 24.8950, lng: 67.0450, city: "Karachi" },
+                { name: "Jamia Masjid Binoria", lat: 24.9000, lng: 67.0500, city: "Karachi" },
+                { name: "Jamia Masjid Amna", lat: 24.9050, lng: 67.0550, city: "Karachi" },
+                { name: "Jamia Masjid Fatima", lat: 24.9100, lng: 67.0600, city: "Karachi" },
+                { name: "Jamia Masjid Ayesha", lat: 24.9150, lng: 67.0650, city: "Karachi" },
+                { name: "Jamia Masjid Khadija", lat: 24.9200, lng: 67.0700, city: "Karachi" },
+                { name: "Jamia Masjid Zainab", lat: 24.9250, lng: 67.0750, city: "Karachi" },
+                { name: "Jamia Masjid Hassan", lat: 24.9300, lng: 67.0800, city: "Karachi" },
+                { name: "Jamia Masjid Hussain", lat: 24.9350, lng: 67.0850, city: "Karachi" },
+                { name: "Jamia Masjid Hamza", lat: 24.9400, lng: 67.0900, city: "Karachi" },
+                { name: "Jamia Masjid Abbas", lat: 24.9450, lng: 67.0950, city: "Karachi" },
+                
+                // KPK
+                { name: "Mahabat Khan Mosque", lat: 34.0100, lng: 71.5800, city: "Peshawar" },
+                { name: "Gorkhatri Mosque", lat: 34.0150, lng: 71.5850, city: "Peshawar" },
+                { name: "Qasim Ali Khan Mosque", lat: 34.0200, lng: 71.5900, city: "Peshawar" },
+                { name: "Sonehri Mosque", lat: 34.0250, lng: 71.5950, city: "Peshawar" },
+                { name: "Eid Gah Mosque", lat: 34.0300, lng: 71.6000, city: "Peshawar" },
+                { name: "Jamia Masjid Abu Hanifa", lat: 34.0350, lng: 71.6050, city: "Peshawar" },
+                { name: "Jamia Masjid Malik Saad", lat: 34.0400, lng: 71.6100, city: "Peshawar" },
+                { name: "Jamia Masjid Khyber", lat: 34.0450, lng: 71.6150, city: "Peshawar" },
+                { name: "Jamia Masjid Islamia", lat: 34.0500, lng: 71.6200, city: "Peshawar" },
+                { name: "Jamia Masjid Arshad", lat: 34.0550, lng: 71.6250, city: "Peshawar" },
+                
+                // Balochistan
+                { name: "Quetta Eid Gah Mosque", lat: 30.1900, lng: 67.0100, city: "Quetta" },
+                { name: "Masjid-e-Saddique", lat: 30.1950, lng: 67.0150, city: "Quetta" },
+                { name: "Jamia Masjid Al-Huda", lat: 30.2000, lng: 67.0200, city: "Quetta" },
+                { name: "Jamia Masjid Farooq-e-Azam", lat: 30.2050, lng: 67.0250, city: "Quetta" },
+                { name: "Jamia Masjid Usman-e-Ghani", lat: 30.2100, lng: 67.0300, city: "Quetta" },
+                { name: "Jamia Masjid Ali", lat: 30.2150, lng: 67.0350, city: "Quetta" },
+                { name: "Jamia Masjid Abu Bakar", lat: 30.2200, lng: 67.0400, city: "Quetta" },
+                { name: "Jamia Masjid Zia-ul-Uloom", lat: 30.2250, lng: 67.0450, city: "Quetta" },
+                { name: "Jamia Masjid Ashrafia", lat: 30.2300, lng: 67.0500, city: "Quetta" },
+                { name: "Jamia Masjid Hanafia", lat: 30.2350, lng: 67.0550, city: "Quetta" },
+                
+                // Gilgit-Baltistan
+                { name: "Gilgit Jamia Masjid", lat: 35.9100, lng: 74.3100, city: "Gilgit" },
+                { name: "Central Jamia Masjid Gilgit", lat: 35.9150, lng: 74.3150, city: "Gilgit" },
+                { name: "Jamia Masjid Al-Falah", lat: 35.9200, lng: 74.3200, city: "Gilgit" },
+                { name: "Jamia Masjid Noor", lat: 35.9250, lng: 74.3250, city: "Gilgit" },
+                { name: "Jamia Masjid Sadiq", lat: 35.9300, lng: 74.3300, city: "Gilgit" },
+                
+                // Azad Kashmir
+                { name: "Mirpur Grand Mosque", lat: 33.5900, lng: 73.4500, city: "Mirpur" },
+                { name: "Rawalakot Central Mosque", lat: 33.8500, lng: 73.7500, city: "Rawalakot" },
+                { name: "Jamia Masjid Muzaffarabad", lat: 34.3700, lng: 73.4700, city: "Muzaffarabad" },
+                { name: "Central Jamia Masjid Bagh", lat: 33.9700, lng: 73.7800, city: "Bagh" },
+                { name: "Jamia Masjid Kotli", lat: 33.5200, lng: 73.9000, city: "Kotli" }
+            ];
+            
+            // Add existing mosques to the result
+            existingMosques.forEach(mosque => {
+                mosques.push(mosque);
+                usedNames.add(mosque.name);
+            });
+            
+            // Generate additional mosques to reach the desired count
+            for (let i = 0; i < count - existingMosques.length; i++) {
+                const cityIndex = Math.floor(Math.random() * cities.length);
+                const city = cities[cityIndex];
+                
+                // Generate a random offset within the city area - smaller offset for more precise locations
+                const latOffset = (Math.random() - 0.5) * 0.15;
+                const lngOffset = (Math.random() - 0.5) * 0.15;
+                
+                // Generate a unique mosque name
+                let name;
+                let attempts = 0;
+                do {
+                    const nameIndex = Math.floor(Math.random() * mosqueNames.length);
+                    const streetIndex = Math.floor(Math.random() * streetNames.length);
+                    const suffix = Math.floor(Math.random() * 200) + 1;
+                    name = `${mosqueNames[nameIndex]} ${streetNames[streetIndex]} ${suffix}`;
+                    attempts++;
+                } while (usedNames.has(name) && attempts < 10);
+                
+                usedNames.add(name);
+                
+                mosques.push({
+                    name: name,
+                    lat: city.lat + latOffset,
+                    lng: city.lng + lngOffset,
+                    city: city.name
+                });
+            }
+            
+            return mosques;
+        }
+        
+        // Define cities with coordinates - expanded list with more cities
+        const cities = [
+            // Major Cities
+            { name: "Lahore", lat: 31.5800, lng: 74.3200 },
+            { name: "Karachi", lat: 24.8600, lng: 67.0100 },
+            { name: "Islamabad", lat: 33.7295, lng: 73.0375 },
+            { name: "Rawalpindi", lat: 33.6000, lng: 73.0700 },
+            { name: "Faisalabad", lat: 31.4150, lng: 74.2800 },
+            { name: "Multan", lat: 30.1900, lng: 71.4800 },
+            { name: "Peshawar", lat: 34.0100, lng: 71.5800 },
+            { name: "Quetta", lat: 30.1900, lng: 67.0100 },
+            { name: "Sialkot", lat: 32.5000, lng: 74.5300 },
+            { name: "Gujranwala", lat: 32.1600, lng: 74.1900 },
+            { name: "Hyderabad", lat: 25.3800, lng: 68.3700 },
+            { name: "Sukkur", lat: 27.7000, lng: 68.8500 },
+            { name: "Larkana", lat: 27.5600, lng: 68.2100 },
+            { name: "Mardan", lat: 34.2000, lng: 72.0500 },
+            { name: "Mingora", lat: 34.7800, lng: 72.3600 },
+            { name: "Abbottabad", lat: 34.1500, lng: 73.2200 },
+            { name: "Bahawalpur", lat: 29.4000, lng: 71.6800 },
+            { name: "Sargodha", lat: 32.0800, lng: 72.6700 },
+            { name: "Sahiwal", lat: 30.6700, lng: 73.1100 },
+            { name: "Rahim Yar Khan", lat: 28.4200, lng: 70.3000 },
+            { name: "Gujrat", lat: 32.5700, lng: 74.0700 },
+            { name: "Jhelum", lat: 32.9300, lng: 73.7300 },
+            { name: "Sheikhupura", lat: 31.7100, lng: 73.9800 },
+            { name: "Kasur", lat: 31.1200, lng: 74.4500 },
+            { name: "Okara", lat: 30.8100, lng: 73.4500 },
+            { name: "Wah Cantonment", lat: 33.7700, lng: 72.7100 },
+            { name: "Dera Ghazi Khan", lat: 30.0500, lng: 70.6300 },
+            { name: "Mirpur Khas", lat: 25.5300, lng: 69.0100 },
+            { name: "Nawabshah", lat: 26.2500, lng: 68.4100 },
+            { name: "Kamoke", lat: 31.9700, lng: 74.2200 },
+            { name: "Mandi Bahauddin", lat: 32.5800, lng: 73.4900 },
+            { name: "Chiniot", lat: 31.7200, lng: 72.9800 },
+            { name: "Khanewal", lat: 30.3000, lng: 71.9300 },
+            { name: "Hafizabad", lat: 32.0700, lng: 73.6900 },
+            { name: "Sadiqabad", lat: 28.3100, lng: 69.8100 },
+            { name: "Kamalia", lat: 30.7200, lng: 72.6500 },
+            { name: "Dera Ismail Khan", lat: 31.8300, lng: 70.9200 },
+            { name: "Vehari", lat: 30.0400, lng: 72.3600 },
+            { name: "Khuzdar", lat: 27.8100, lng: 66.6100 },
+            { name: "Chaman", lat: 30.9200, lng: 66.4500 },
+            { name: "Turbat", lat: 26.0000, lng: 63.0500 },
+            { name: "Khairpur", lat: 27.5300, lng: 68.7600 },
+            { name: "Dadu", lat: 26.7300, lng: 67.7800 },
+            { name: "Jacobabad", lat: 28.2800, lng: 68.4400 },
+            { name: "Shikarpur", lat: 27.9600, lng: 68.6400 },
+            { name: "Kandhkot", lat: 28.2500, lng: 69.1400 },
+            { name: "Ghotki", lat: 28.0000, lng: 69.3100 },
+            { name: "Rajanpur", lat: 29.1000, lng: 70.3300 },
+            { name: "Muzaffargarh", lat: 30.0700, lng: 71.1900 },
+            { name: "Jhang", lat: 31.2700, lng: 72.3200 },
+            { name: "Bhakkar", lat: 31.6200, lng: 71.0600 },
+            { name: "Layyah", lat: 30.9700, lng: 70.9400 },
+            { name: "Mianwali", lat: 32.5800, lng: 71.5400 },
+            { name: "Attock", lat: 33.7700, lng: 72.3600 },
+            { name: "Chakwal", lat: 32.9300, lng: 72.8600 },
+            { name: "Khushab", lat: 32.3000, lng: 72.3500 },
+            { name: "Bannu", lat: 32.9800, lng: 70.6000 },
+            { name: "Kohat", lat: 33.5900, lng: 71.4400 },
+            { name: "Tank", lat: 32.2200, lng: 70.2200 },
+            { name: "Lakki Marwat", lat: 32.6100, lng: 70.9100 },
+            { name: "Swabi", lat: 34.1200, lng: 72.4700 },
+            { name: "Charsadda", lat: 34.1500, lng: 71.7400 },
+            { name: "Nowshera", lat: 34.0100, lng: 71.9800 },
+            { name: "Timergara", lat: 34.8000, lng: 71.8400 },
+            { name: "Swat", lat: 35.2200, lng: 72.4200 },
+            { name: "Chitral", lat: 35.8500, lng: 71.7900 },
+            { name: "Gilgit", lat: 35.9100, lng: 74.3100 },
+            { name: "Skardu", lat: 35.3000, lng: 75.6400 },
+            { name: "Hunza", lat: 36.3100, lng: 74.6500 },
+            { name: "Ghanche", lat: 35.0200, lng: 76.0500 },
+            { name: "Astore", lat: 35.3400, lng: 74.8800 },
+            { name: "Diamer", lat: 35.4100, lng: 74.1500 },
+            { name: "Ghizer", lat: 36.1700, lng: 73.7400 },
+            { name: "Nagar", lat: 36.2600, lng: 74.6100 },
+            { name: "Shigar", lat: 35.3400, lng: 75.6600 },
+            { name: "Kharmang", lat: 35.0900, lng: 76.1700 },
+            { name: "Roundu", lat: 35.2500, lng: 75.2500 },
+            { name: "Yasin", lat: 36.3200, lng: 73.5400 },
+            { name: "Ishkoman", lat: 36.4400, lng: 73.8300 },
+            { name: "Gupis", lat: 36.1700, lng: 73.4000 },
+            { name: "Yarkhun", lat: 36.1700, lng: 72.8400 },
+            { name: "Muzaffarabad", lat: 34.3700, lng: 73.4700 },
+            { name: "Mirpur", lat: 33.1400, lng: 73.7500 },
+            { name: "Kotli", lat: 33.5200, lng: 73.9000 },
+            { name: "Bhimber", lat: 32.9500, lng: 74.0800 },
+            { name: "Bagh", lat: 33.9700, lng: 73.7800 },
+            { name: "Rawalakot", lat: 33.8500, lng: 73.7500 },
+            { name: "Pallandri", lat: 33.7200, lng: 73.7100 },
+            { name: "Hajira", lat: 33.7700, lng: 73.7700 },
+            { name: "Haveli", lat: 33.6500, lng: 74.0800 },
+            { name: "Forward Kahuta", lat: 33.6300, lng: 73.8800 },
+            { name: "Abbaspur", lat: 33.7800, lng: 73.9300 },
+            { name: "Khuiratta", lat: 33.6400, lng: 74.0300 },
+            { name: "Nakyal", lat: 33.6200, lng: 73.9300 },
+            { name: "Sehnsa", lat: 33.7300, lng: 73.9300 },
+            { name: "Tatta Pani", lat: 33.6200, lng: 73.8300 },
+            { name: "Chakswari", lat: 33.6200, lng: 73.8800 },
+            { name: "Dadyal", lat: 33.6300, lng: 73.8300 },
+            { name: "Mangla", lat: 33.2400, lng: 73.6400 },
+            { name: "Dina", lat: 32.9900, lng: 73.6000 },
+            { name: "Sarai Alamgir", lat: 32.9000, lng: 73.7500 },
+            { name: "Kallar Syedan", lat: 33.5700, lng: 73.4500 },
+            { name: "Kahuta", lat: 33.5900, lng: 73.3800 },
+            { name: "Murree", lat: 33.9100, lng: 73.3900 },
+            { name: "Kotli Sattian", lat: 33.7700, lng: 73.5100 },
+            { name: "Bhurban", lat: 33.9600, lng: 73.4300 },
+            { name: "Patriata", lat: 33.9600, lng: 73.4600 },
+            { name: "Ayubia", lat: 34.0500, lng: 73.3800 },
+            { name: "Nathia Gali", lat: 34.0700, lng: 73.3900 },
+            { name: "Thandiani", lat: 34.1300, lng: 73.3700 },
+            { name: "Haripur", lat: 34.0000, lng: 72.9400 },
+            { name: "Havelian", lat: 34.0500, lng: 72.8700 },
+            { name: "Mansehra", lat: 34.3300, lng: 73.2000 },
+            { name: "Balakot", lat: 34.3800, lng: 73.3500 },
+            { name: "Baffa", lat: 34.3700, lng: 73.2500 },
+            { name: "Shinkiari", lat: 34.3500, lng: 73.3000 },
+            { name: "Garhi Habibullah", lat: 34.4000, lng: 73.3800 },
+            { name: "Oghi", lat: 34.5000, lng: 72.5800 },
+            { name: "Battagram", lat: 34.6800, lng: 73.0200 },
+            { name: "Thakot", lat: 34.7200, lng: 72.9200 },
+            { name: "Pattan", lat: 34.9200, lng: 72.8600 },
+            { name: "Dasu", lat: 35.2800, lng: 72.8700 },
+            { name: "Besham", lat: 34.9200, lng: 72.8800 },
+            { name: "Alpuri", lat: 34.9100, lng: 72.6700 },
+            { name: "Purandar", lat: 34.8800, lng: 72.5800 },
+            { name: "Khwazakhela", lat: 34.8800, lng: 72.4900 },
+            { name: "Madyan", lat: 35.0600, lng: 72.4700 },
+            { name: "Bahrain", lat: 35.2600, lng: 72.4100 },
+            { name: "Kalam", lat: 35.5000, lng: 72.2700 },
+            { name: "Matiltan", lat: 35.5800, lng: 72.2500 },
+            { name: "Ushu", lat: 35.6400, lng: 72.2300 },
+            { name: "Utror", lat: 35.5600, lng: 72.3000 },
+            { name: "Gabral", lat: 35.5100, lng: 72.3300 },
+            { name: "Mahodand", lat: 35.6800, lng: 72.2900 },
+            { name: "Malam Jabba", lat: 34.7800, lng: 72.5200 },
+            
+            // Additional Balochistan cities
+            { name: "Gwadar", lat: 25.1300, lng: 62.3200 },
+            { name: "Turbat", lat: 26.0000, lng: 63.0500 },
+            { name: "Khuzdar", lat: 27.8100, lng: 66.6100 },
+            { name: "Chaman", lat: 30.9200, lng: 66.4500 },
+            { name: "Zhob", lat: 31.3400, lng: 69.4400 },
+            { name: "Sibi", lat: 29.5500, lng: 67.8800 },
+            { name: "Loralai", lat: 30.3700, lng: 68.6000 },
+            { name: "Nushki", lat: 29.5500, lng: 66.0200 },
+            { name: "Kharan", lat: 28.5800, lng: 65.4200 },
+            { name: "Panjgur", lat: 26.9700, lng: 64.0900 },
+            { name: "Washuk", lat: 27.9800, lng: 64.4300 },
+            { name: "Killa Saifullah", lat: 30.7000, lng: 68.3700 },
+            { name: "Mastung", lat: 29.8000, lng: 66.5500 },
+            { name: "Kalat", lat: 29.0300, lng: 66.5900 },
+            { name: "Dera Bugti", lat: 29.0300, lng: 69.1700 },
+            { name: "Kohlu", lat: 29.9000, lng: 69.2500 },
+            { name: "Ziarat", lat: 30.3800, lng: 67.7300 },
+            { name: "Harnai", lat: 30.1800, lng: 67.9500 },
+            { name: "Barkhan", lat: 29.7900, lng: 69.5400 },
+            { name: "Musakhail", lat: 30.2600, lng: 69.8100 },
+            { name: "Duki", lat: 30.1700, lng: 67.9900 },
+            { name: "Sohbatpur", lat: 28.6100, lng: 67.9700 },
+            { name: "Jafarabad", lat: 28.7800, lng: 68.4200 },
+            { name: "Jhal Magsi", lat: 28.5800, lng: 67.8800 },
+            { name: "Nasirabad", lat: 28.4200, lng: 68.0200 },
+            { name: "Bolan", lat: 29.2300, lng: 67.3500 },
+            { name: "Lasbela", lat: 25.9500, lng: 66.3300 },
+            { name: "Kech", lat: 25.9700, lng: 62.3300 },
+            { name: "Pasni", lat: 25.2500, lng: 63.4700 },
+            { name: "Ormara", lat: 25.1600, lng: 64.0400 },
+            { name: "Jiwani", lat: 25.0400, lng: 61.7400 },
+            { name: "Tump", lat: 26.0500, lng: 63.1300 },
+            { name: "Mand", lat: 25.6900, lng: 62.9200 },
+            { name: "Dasht", lat: 26.3000, lng: 63.6400 },
+            { name: "Bela", lat: 26.2300, lng: 66.3700 },
+            { name: "Uthal", lat: 25.8100, lng: 66.6200 },
+            { name: "Hub Chowki", lat: 25.0300, lng: 66.7600 },
+            { name: "Sonmiani", lat: 25.4100, lng: 66.3300 }
+        ];
+        
+        // Generate 2000 mosques (including the existing ones)
+        const mosques = generateRandomMosques(2000, cities);
+        
+        // Update mosque count with animation
+        setTimeout(() => {
+            document.getElementById('mosqueCount').textContent = `Showing ${mosques.length} mosques in Pakistan`;
+        }, 1500);
+        
+        // Store all markers for search functionality
+        let allMarkers = [];
+        
+        // Add markers to map with custom green mosque-shaped icons and animation
+        mosques.forEach((mosque, index) => {
+            // Add a delay for each marker to create a staggered animation effect
+            setTimeout(() => {
+                const marker = L.marker([mosque.lat, mosque.lng], {
+                    icon: L.divIcon({
+                        className: "custom-marker",
+                        html: `<div class="mosque-marker"></div>`,
+                        iconSize: [30, 30],
+                        iconAnchor: [15, 15],
+                    }),
+                }).addTo(map);
+
+                // Add popup to each mosque marker with mosque icon instead of location icon
+                marker.bindPopup(`
+                    <div style="text-align: center;">
+                        <i class="fas fa-mosque" style="color: var(--accent); font-size: 24px; margin-bottom: 10px;"></i>
+                        <h3 style="margin: 0 0 5px 0; color: var(--primary);">${mosque.name}</h3>
+                        <p style="margin: 0; color: var(--text-secondary);">${mosque.city}, Pakistan</p>
+                        <button onclick="showMosqueDetails('${mosque.name}', '${mosque.city}', ${mosque.lat}, ${mosque.lng})" 
+                                style="margin-top: 10px; background-color: var(--primary); color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                            <i class="fas fa-info-circle"></i> View Details
+                        </button>
+                    </div>
+                `);
+
+                // Store marker with mosque data for search
+                marker.mosqueData = mosque;
+                allMarkers.push(marker);
+            }, index * 5); // stagger markers by 5ms for faster loading
+        });
+        
+        // Map type control
+        document.querySelectorAll('.map-type-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.map-type-btn').forEach(b => {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                const mapType = this.dataset.type;
+                map.eachLayer(layer => {
+                    if (layer instanceof L.TileLayer) {
+                        layer.setUrl(`https://{s}.google.com/vt/lyrs=${mapType}&x={x}&y={y}&z={z}`);
+                    }
+                });
+            });
+        });
+        
+        // Add custom zoom controls
+        const zoomControl = L.control.zoom({
+            position: 'topright'
+        }).addTo(map);
+        
+        // Add fullscreen control
+        const fullscreenControl = L.control({position: 'topright'});
+        fullscreenControl.onAdd = function(map) {
+            const div = L.DomUtil.create('div', 'leaflet-control-fullscreen-button');
+            div.innerHTML = '<i class="fas fa-expand"></i>';
+            div.title = 'Fullscreen';
+            
+            div.onclick = function() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                    div.innerHTML = '<i class="fas fa-compress"></i>';
+                } else {
+                    document.exitFullscreen();
+                    div.innerHTML = '<i class="fas fa-expand"></i>';
+                }
+            };
+            
+            return div;
+        };
+        fullscreenControl.addTo(map);
+        
+        // Position the map type control below the zoom controls
+        const mapTypeControl = document.getElementById('mapTypeControl');
+        const zoomControls = document.querySelector('.leaflet-control-zoom');
+        const fullscreenControls = document.querySelector('.leaflet-control-fullscreen-button');
+        
+        if (zoomControls && fullscreenControls && mapTypeControl) {
+            const controlsContainer = document.createElement('div');
+            controlsContainer.className = 'map-controls';
+            controlsContainer.appendChild(zoomControls);
+            controlsContainer.appendChild(fullscreenControls);
+            
+            // Position the controls container
+            zoomControls.style.marginBottom = '8px';
+            
+            // Insert the map type control below the fullscreen control
+            const mapControlsContainer = document.createElement('div');
+            mapControlsContainer.className = 'map-controls';
+            mapControlsContainer.appendChild(controlsContainer);
+            mapControlsContainer.appendChild(mapTypeControl);
+            
+            // Replace the original controls with the new container
+            const mapContainer = document.getElementById('map');
+            const originalControls = mapContainer.querySelector('.leaflet-top.leaflet-right');
+            if (originalControls) {
+                originalControls.parentNode.replaceChild(mapControlsContainer, originalControls);
+            }
+        }
+        
+        // Location button
+        document.getElementById('locationBtn').addEventListener('click', function() {
+            getUserLocation();
+        });
+        
+        // Mosque list toggle
+        const mosqueListToggle = document.getElementById('mosqueListToggle');
+        const mosqueList = document.getElementById('mosqueList');
+        const listClose = document.getElementById('listClose');
+        
+        mosqueListToggle.addEventListener('click', function() {
+            mosqueList.classList.toggle('active');
+            mosqueListToggle.classList.toggle('active');
+        });
+        
+        listClose.addEventListener('click', function() {
+            mosqueList.classList.remove('active');
+            mosqueListToggle.classList.remove('active');
+        });
+        
+        // Populate city select
+        function populateCitySelect() {
+            const citySelect = document.getElementById('citySelect');
+            const uniqueCities = [...new Set(mosques.map(mosque => mosque.city))].sort();
+            
+            uniqueCities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+        }
+        
+        // Populate mosques list
+        function populateMosquesList(mosquesToShow = mosques) {
+            const mosquesListContainer = document.getElementById('mosquesListContainer');
+            mosquesListContainer.innerHTML = '';
+            
+            mosquesToShow.forEach(mosque => {
+                const mosqueItem = document.createElement('div');
+                mosqueItem.className = 'mosque-item';
+                mosqueItem.innerHTML = `
+                    <div class="mosque-item-icon">
+                        <i class="fas fa-mosque"></i>
+                    </div>
+                    <div class="mosque-item-details">
+                        <div class="mosque-item-name">${mosque.name}</div>
+                        <div class="mosque-item-location">${mosque.city}</div>
+                    </div>
+                `;
+                
+                mosqueItem.addEventListener('click', function() {
+                    map.setView([mosque.lat, mosque.lng], 15);
+                    
+                    // Find the marker and open its popup
+                    const marker = allMarkers.find(m => m.mosqueData.name === mosque.name && m.mosqueData.city === mosque.city);
+                    if (marker) {
+                        marker.openPopup();
+                    }
+                    
+                    // Show mosque details
+                    showMosqueDetails(mosque.name, mosque.city, mosque.lat, mosque.lng);
+                });
+                
+                mosquesListContainer.appendChild(mosqueItem);
+            });
+        }
+        
+        // Initialize the mosque list
+        populateCitySelect();
+        populateMosquesList();
+        
+        // Search functionality for the map search bar
+        document.getElementById('searchButton').addEventListener('click', function() {
+            const searchTerm = document.getElementById('mapSearchInput').value.toLowerCase();
+            
+            if (!searchTerm) {
+                allMarkers.forEach(marker => {
+                    marker.setOpacity(1);
+                });
+                return;
+            }
+            
+            // Filter markers based on search term
+            let firstMatch = null;
+            allMarkers.forEach(marker => {
+                const mosque = marker.mosqueData;
+                const matchName = mosque.name.toLowerCase().startsWith(searchTerm);
+                const matchCity = mosque.city.toLowerCase().startsWith(searchTerm);
+                
+                if (matchName || matchCity) {
+                    marker.setOpacity(1);
+                    if (!firstMatch) {
+                        firstMatch = marker;
+                    }
+                } else {
+                    marker.setOpacity(0.3);
+                }
+            });
+            
+            // If search term is not empty, focus map on first matching mosque
+            if (firstMatch) {
+                const mosque = firstMatch.mosqueData;
+                map.setView([mosque.lat, mosque.lng], 12);
+                showNotification(`Found ${mosque.name} in ${mosque.city}`, 'success');
+            } else {
+                showNotification("No mosques found matching your search", 'error');
+            }
+        });
+        
+        // Search on Enter key for map search
+        document.getElementById('mapSearchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('searchButton').click();
+            }
+        });
+        
+        // Search functionality for the mosque list
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const selectedCity = document.getElementById('citySelect').value;
+            
+            let filteredMosques = mosques.filter(mosque => 
+                mosque.name.toLowerCase().includes(searchTerm) || 
+                mosque.city.toLowerCase().includes(searchTerm)
+            );
+            
+            if (selectedCity) {
+                filteredMosques = filteredMosques.filter(mosque => mosque.city === selectedCity);
+            }
+            
+            populateMosquesList(filteredMosques);
+        });
+        
+        // City filter functionality
+        document.getElementById('citySelect').addEventListener('change', function(e) {
+            const selectedCity = e.target.value;
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            let filteredMosques = mosques;
+            
+            if (selectedCity) {
+                filteredMosques = filteredMosques.filter(mosque => mosque.city === selectedCity);
+            }
+            
+            if (searchTerm) {
+                filteredMosques = filteredMosques.filter(mosque => 
+                    mosque.name.toLowerCase().includes(searchTerm) || 
+                    mosque.city.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            populateMosquesList(filteredMosques);
+        });
+        
+        // Info window controls
+        document.getElementById('infoClose').addEventListener('click', function() {
+            document.getElementById('infoWindow').style.display = 'none';
+        });
+        
+        document.getElementById('directionsBtn').addEventListener('click', function() {
+            document.getElementById('infoWindow').style.display = 'none';
+            document.getElementById('directionsPanel').classList.add('active');
+            
+            // Update destination input
+            if (selectedMosque) {
+                document.getElementById('toInput').value = selectedMosque.name;
+            }
+            
+            // Simulate route calculation
+            simulateRouteCalculation();
+        });
+        
+        document.getElementById('saveBtn').addEventListener('click', function() {
+            showNotification("Mosque saved to your favorites", 'success');
+        });
+        
+        // Directions panel controls
+        document.getElementById('directionsBack').addEventListener('click', function() {
+            document.getElementById('directionsPanel').classList.remove('active');
+        });
+        
+        // Travel mode selection
+        document.querySelectorAll('.travel-mode').forEach(mode => {
+            mode.addEventListener('click', function() {
+                document.querySelectorAll('.travel-mode').forEach(m => {
+                    m.classList.remove('active');
+                });
+                this.classList.add('active');
+                selectedTravelMode = this.dataset.mode;
+                
+                // Recalculate route with new mode
+                simulateRouteCalculation();
+            });
+        });
+        
+        // Start navigation
+        document.getElementById('startBtn').addEventListener('click', function() {
+            if (!userLocation) {
+                showNotification("Please enable your location first", 'error');
+                return;
+            }
+            
+            if (!selectedMosque) {
+                showNotification("Please select a destination", 'error');
+                return;
+            }
+            
+            // Open Google Maps with directions
+            const origin = `${userLocation.lat},${userLocation.lng}`;
+            const destination = `${selectedMosque.lat},${selectedMosque.lng}`;
+            const url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=${selectedTravelMode}`;
+            
+            window.open(url, '_blank');
+            showNotification("Opening directions in Google Maps...", 'success');
+        });
+        
+        // Function to show mosque details in the info window
+        function showMosqueDetails(name, city, lat, lng) {
+            const infoWindow = document.getElementById('infoWindow');
+            const infoName = document.getElementById('infoName');
+            const infoCity = document.getElementById('infoCity');
+            const infoCoords = document.getElementById('infoCoords');
+            
+            infoName.textContent = name;
+            infoCity.textContent = `${city}, Pakistan`;
+            infoCoords.textContent = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+            
+            infoWindow.style.display = 'block';
+            
+            // Store selected mosque
+            selectedMosque = { name, city, lat, lng };
+            
+            // Center map on the selected mosque
+            map.setView([lat, lng], 15);
+        }
+        
+        // Function to simulate route calculation
+        function simulateRouteCalculation() {
+            if (!userLocation || !selectedMosque) {
+                return;
+            }
+            
+            // Calculate distance between user location and mosque
+            const distance = calculateDistance(
+                userLocation.lat, userLocation.lng,
+                selectedMosque.lat, selectedMosque.lng
+            );
+            
+            // Calculate time based on travel mode
+            let time, speed, details;
+            
+            switch (selectedTravelMode) {
+                case 'driving':
+                    speed = 40; // km/h
+                    time = Math.round(distance / speed * 60);
+                    details = `${distance.toFixed(1)} km via fastest route`;
+                    break;
+                case 'bicycling':
+                    speed = 15; // km/h
+                    time = Math.round(distance / speed * 60);
+                    details = `${distance.toFixed(1)} km via bike-friendly route`;
+                    break;
+                case 'walking':
+                    speed = 5; // km/h
+                    time = Math.round(distance / speed * 60);
+                    details = `${distance.toFixed(1)} km via pedestrian route`;
+                    break;
+                case 'transit':
+                    speed = 25; // km/h
+                    time = Math.round(distance / speed * 60);
+                    details = `${distance.toFixed(1)} km via public transport`;
+                    break;
+            }
+            
+            // Update route details
+            document.getElementById('routeTime').textContent = `${time} min`;
+            document.getElementById('routeDetails').textContent = details;
+            
+            // Draw route line on map
+            if (routeLine) {
+                map.removeLayer(routeLine);
+            }
+            
+            routeLine = L.polyline([
+                [userLocation.lat, userLocation.lng],
+                [selectedMosque.lat, selectedMosque.lng]
+            ], {
+                color: '#4285F4',
+                weight: 5,
+                opacity: 0.7
+            }).addTo(map);
+        }
+        
+        // Function to calculate distance between two points
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Radius of the earth in km
+            const dLat = deg2rad(lat2 - lat1);
+            const dLon = deg2rad(lon2 - lon1);
+            const a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2)
+            ; 
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+            const distance = R * c; // Distance in km
+            return distance;
+        }
+        
+        function deg2rad(deg) {
+            return deg * (Math.PI/180);
+        }
+        
+        // Try to get user location on page load
+        window.addEventListener('load', function() {
+            // Uncomment the line below if you want to get location automatically on page load
+            // getUserLocation();
+        });
+    </script>
+</body>
+</html>

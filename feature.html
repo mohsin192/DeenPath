@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DeenPath — Premier Islamic Education Platform</title>
+  <!-- Premium Fonts: Playfair Display (elegant) + Inter (modern) -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    /* ---------- Premium Variables ---------- */
+    :root{
+      --primary: #014d2c;          /* Updated to rgb(1, 74, 42) */
+      --primary-dark: #012d1a;     /* Darker shade */
+      --primary-light: #025f37;    /* Lighter shade */
+      --secondary: #d4af37;        /* Premium gold */
+      --accent: #f0e6d2;          /* Cream accent */
+      --light: #f8f5f0;           /* Off-white */
+      --dark: #111111;             /* Deep black */
+      --muted: #a8c5b8;           /* Muted green */
+      --text: #333333;            /* Dark text */
+      --text-light: #666666;      /* Lighter text */
+      --radius: 16px;             /* Larger radius */
+      --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.1);
+      --shadow-md: 0 12px 36px rgba(0, 0, 0, 0.15);
+      --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.2);
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    /* ---------- Base Styles ---------- */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: "Inter", sans-serif;
+      background-color: var(--light);
+      color: var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.6;
+      overflow-x: hidden;
+    }
+    
+    /* ---------- Animation Classes ---------- */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .slide-in-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    
+    .slide-in-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    .slide-in-right {
+      opacity: 0;
+      transform: translateX(50px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    
+    .slide-in-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    .scale-in {
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .scale-in.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+    
+    .float-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    .pulse-animation {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .shimmer {
+      background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 50%, var(--primary) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 3s infinite;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    
+    .text-glow {
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.7);
+    }
+    
+    /* ---------- Typography ---------- */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: "Playfair Display", serif;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      color: var(--primary-dark);
+    }
+    
+    h1 { font-size: 3rem; }
+    h2 { font-size: 2.5rem; }
+    h3 { font-size: 1.75rem; }
+    h4 { font-size: 1.5rem; }
+    
+    .section-header h2 {
+      color: var(--primary);
+      position: relative;
+      display: inline-block;
+      margin-bottom: 24px;
+    }
+    
+    .section-header h2:after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 25%;
+      width: 50%;
+      height: 3px;
+      background: var(--secondary);
+    }
+    
+    .container{max-width:1200px;margin:0 auto;padding:0 24px}
+    
+    /* ---------- Responsive Navbar ---------- */
+    .navbar {
+      background: linear-gradient(to right, var(--primary-dark), var(--primary));
+      border-bottom: 2px solid var(--secondary);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      padding: 10px 20px;
+      animation: slideDown 0.8s ease-out;
+    }
+    
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-brand img {
+      height: 50px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+      margin-right: 10px;
+      transition: transform 0.3s ease;
+    }
+    
+    .navbar-brand:hover img {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .navbar-brand span {
+      color: gold;
+      font-family: "Playfair Display", serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+
+    .navbar-nav .nav-link {
+      color: gold !important;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      font-size: 18px;
+      margin: 0 5px;
+      position: relative;
+    }
+
+    .navbar-nav .nav-link:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      background-color: white;
+      transition: all 0.3s ease;
+    }
+
+    .navbar-nav .nav-link:hover:after {
+      width: 100%;
+      left: 0;
+    }
+
+    .navbar-nav .nav-link:hover {
+      color: white !important;
+      transform: translateY(-2px);
+    }
+
+    .navbar-nav .nav-link.active {
+      color: gold !important;
+      font-weight: 600;
+    }
+
+    .navbar-toggler {
+      border: none;
+      padding: 4px 6px;
+      outline: none;
+    }
+
+    .navbar-toggler:focus {
+      box-shadow: none;
+    }
+
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28212, 175, 55, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+
+    /* Digital Clock Styling */
+    #clock {
+      display: flex;
+      flex-direction: column;
+      text-align: right;
+      color: var(--text-dark);
+      font-weight: bold;
+      margin-left: 20px;
+      line-height: 1.2;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+/* Digital Clock Styling */
+#clock {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  color: black;
+  font-weight: bold;
+  margin-left: 20px;
+  line-height: 1.2;
+}
+
+#day-date {
+  font-size: 16px;
+  color: rgb(0, 0, 0);
+  text-shadow: 0 0 5px rgba(247, 212, 17, 0.7);
+}
+
+#time {
+  font-size: 16px;
+  color: white;
+  text-shadow: 0 0 8px rgba(235, 225, 225, 0.8);
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 1px;
+}
+
+    /* Mobile adjustments for navbar */
+    @media (max-width: 992px) {
+      .navbar-collapse {
+        background: linear-gradient(to right, var(--primary-dark), var(--primary));
+        padding: 15px;
+        border-radius: 10px;
+        margin-top: 10px;
+        animation: slideDown 0.5s ease-out;
+      }
+      
+      .navbar-nav {
+        text-align: center;
+      }
+      
+      .navbar-nav .nav-link {
+        margin: 8px 0;
+      }
+      
+      #clock {
+        margin: 15px auto 0;
+        text-align: center;
+      }
+    }
+    
+    /* ---------- Hero Section ---------- */
+    .hero{
+      min-height:85vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 60px;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    }
+    
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://images.unsplash.com/photo-1542340917-1a9a5b1197a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+      opacity: 0.15;
+      z-index: 0;
+      animation: zoomBackground 20s infinite alternate;
+    }
+    
+    @keyframes zoomBackground {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); }
+    }
+    
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns:1fr 1fr;
+      gap:48px;
+      align-items: center;
+      width:100%;
+      max-width:1200px;
+      margin:0 auto;
+      padding:0 24px;
+    }
+    
+    .hero-content {
+      color: white;
+      animation: slideInLeft 1s ease-out;
+    }
+    
+    @keyframes slideInLeft {
+      from {
+        transform: translateX(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    .hero h1 {
+      font-size: 3.5rem;
+      color: white;
+      margin-bottom: 24px;
+      line-height: 1.1;
+    }
+    
+    .hero h1 span {
+      color: var(--secondary);
+    }
+    
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 32px;
+      max-width: 90%;
+      color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .btn:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+      z-index: -1;
+    }
+    
+    .btn:hover:before {
+      transform: translateX(0);
+    }
+    
+    .btn-primary {
+      background: var(--secondary);
+      color: var(--primary-dark);
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+    
+    .btn-primary:hover {
+      background: #c19d2c;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+    
+    .btn-outline:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-3px);
+    }
+    
+    .hero-features {
+      display: flex;
+      gap: 24px;
+      margin-top: 40px;
+    }
+    
+    .hero-feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: fadeInUp 1.2s ease-out;
+      animation-fill-mode: both;
+    }
+    
+    .hero-feature:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    
+    .hero-feature:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .hero-feature i {
+      font-size: 1.5rem;
+      color: var(--secondary);
+    }
+    
+    .hero-visual {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      height: 500px;
+      animation: slideInRight 1s ease-out;
+    }
+    
+    @keyframes slideInRight {
+      from {
+        transform: translateX(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    .hero-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 10s ease;
+    }
+    
+    .hero-visual:hover img {
+      transform: scale(1.1);
+    }
+    
+    .hero-visual-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 28px;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+      color:gold ;
+    }
+    
+    .hero-visual-overlay h4 {
+      color: gold;
+      margin-bottom: 8px;
+    }
+    
+    @media (max-width:980px){
+      .hero-inner{grid-template-columns:1fr}
+      .hero h1 { font-size: 2.5rem; }
+      .hero p { font-size: 1.1rem; }
+      .hero-visual { height: 350px; }
+    }
+    
+    /* ---------- Sections ---------- */
+    section{padding:80px 0}
+    
+    .section-header{
+      text-align:center;
+      margin-bottom:48px;
+    }
+    
+    .section-header p {
+      max-width: 800px;
+      margin: 0 auto;
+      color: var(--text-light);
+      font-size: 1.1rem;
+    }
+    
+    /* ---------- About Section ---------- */
+    .about {
+      background: white;
+      position: relative;
+    }
+    
+    .about::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+    
+    .about-grid {
+      display: grid;
+      grid-template-columns:1fr 1fr;
+      gap:48px;
+      align-items: center;
+    }
+    
+    .about-image {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+    
+    .about-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+    
+    .about-image:hover img {
+      transform: scale(1.03);
+    }
+    
+    .about-content h3 {
+      font-size: 2rem;
+      margin-bottom: 24px;
+      color: var(--primary-dark);
+    }
+    
+    .features {
+      display: grid;
+      gap: 24px;
+      margin-top: 32px;
+    }
+    
+    .feature {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    
+    .feature i {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(10, 61, 44, 0.1);
+      display: grid;
+      place-items: center;
+      color: var(--primary);
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+    
+    .feature:hover i {
+      background: var(--primary);
+      color: white;
+      transform: rotate(15deg);
+    }
+    
+    .feature-content h4 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    
+    .feature-content p {
+      color: var(--text-light);
+    }
+    
+    @media (max-width:992px){
+      .about-grid{grid-template-columns:1fr}
+    }
+    
+    /* ---------- Courses Section ---------- */
+    .courses {
+      background: linear-gradient(to bottom, #f8f5f0, #f0e6d2);
+      position: relative;
+    }
+    
+    .courses::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+    }
+    
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(320px,1fr));
+      gap:32px;
+    }
+    
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 0;
+      background: var(--secondary);
+      transition: height 0.5s ease;
+    }
+    
+    .card:hover::before {
+      height: 100%;
+    }
+    
+    .card .thumb {
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .card .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+    
+    .card:hover .thumb img {
+      transform: scale(1.08);
+    }
+    
+    .card .body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      color: var(--primary-dark);
+    }
+    
+    .card p {
+      color: var(--text-light);
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+    
+    .meta span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .meta i {
+      color: var(--primary);
+    }
+    
+    .card .btn {
+      align-self: flex-start;
+      background: var(--primary);
+      color: white;
+      font-size: 0.9rem;
+      padding: 10px 20px;
+    }
+    
+    .card .btn:hover {
+      background: var(--primary-dark);
+    }
+    
+    /* ---------- Teachers Section ---------- */
+    .teachers {
+      background: white;
+      position: relative;
+    }
+    
+    .teachers::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+    
+    .teachers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
+      gap:32px;
+    }
+    
+    .teacher {
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+      text-align: center;
+      padding: 24px;
+      position: relative;
+    }
+    
+    .teacher:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .teacher::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--secondary);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    
+    .teacher:hover::after {
+      transform: scaleX(1);
+    }
+    
+    .avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 20px;
+      border: 4px solid var(--accent);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      transition: var(--transition);
+    }
+    
+    .teacher:hover .avatar {
+      transform: scale(1.05);
+      border-color: var(--secondary);
+    }
+    
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .teacher h4 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+      color: var(--primary-dark);
+    }
+    
+    .teacher p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+    
+    /* ---------- Testimonials Section ---------- */
+    .testimonials {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      position: relative;
+    }
+    
+    .testimonials::before {
+      content: "";
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      font-size: 120px;
+      font-family: "Playfair Display", serif;
+      color: rgba(255, 255, 255, 0.1);
+      line-height: 0;
+    }
+    
+    .testimonials .section-header h2 {
+      color: white;
+    }
+    
+    .testimonials .section-header p {
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+      gap:32px;
+    }
+    
+    .testimonial {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 32px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition);
+    }
+    
+    .testimonial:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    .testimonial p {
+      font-style: italic;
+      margin-bottom: 20px;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+    
+    .testimonial strong {
+      display: block;
+      font-size: 1.1rem;
+      margin-bottom: 8px;
+      color: var(--secondary);
+    }
+    
+    .testimonial span {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
+    /* ---------- Contact Section ---------- */
+    .contact {
+      background: white;
+      position: relative;
+    }
+    
+    .contact::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+    }
+    
+    .contact-grid {
+      display: grid;
+      grid-template-columns:1fr 1fr;
+      gap:48px;
+    }
+    
+    .contact-card {
+      background: white;
+      padding: 32px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      height: 100%;
+      transition: var(--transition);
+    }
+    
+    .contact-card:hover {
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .contact-card h3 {
+      font-size: 1.75rem;
+      margin-bottom: 24px;
+      color: var(--primary-dark);
+    }
+    
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: var(--transition);
+    }
+    
+    .contact-item:hover {
+      transform: translateX(5px);
+    }
+    
+    .contact-item i {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(10, 61, 44, 0.1);
+      display: grid;
+      place-items: center;
+      color: var(--primary);
+      font-size: 1rem;
+      flex-shrink: 0;
+      transition: var(--transition);
+    }
+    
+    .contact-item:hover i {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .contact-item p {
+      margin: 0;
+      color: var(--text);
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--primary-dark);
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      background: #f9f9f9;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(10, 61, 44, 0.1);
+    }
+    
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+    
+    .form-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    
+    @media (max-width:980px){
+      .contact-grid{grid-template-columns:1fr}
+    }
+    
+   /* ==== FOOTER STYLE ==== */
+    footer {
+      background: linear-gradient(to right, var(--primary-dark), var(--primary));
+      color: #ccc;
+      padding: 3rem 1.5rem 1rem;
+      position: relative;
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Logo and About */
+    .footer-logo h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo img {
+      height: 50px;
+      width: 50px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+      transition: var(--transition);
+    }
+    
+    .footer-logo:hover img {
+      transform: rotate(10deg) scale(1.1);
+    }
+
+    .footer-logo b {
+      font-family: "Playfair Display", serif;
+      font-size: 25px;
+      color: var(--secondary);
+      letter-spacing: 2px;
+    }
+
+    .footer-logo p {
+      color: #bbb;
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Social Icons */
+    .social {
+      display: flex;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+
+    .social a {
+      width: 40px;
+      height: 40px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--secondary);
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .social a:hover {
+      background: var(--secondary);
+      color: var(--primary);
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    /* Footer Links */
+    footer h3 {
+      color: var(--secondary);
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    footer ul {
+      list-style: none;
+    }
+
+    footer ul li {
+      margin: 0.5rem 0;
+    }
+
+    footer ul li a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-size: 1rem;
+      position: relative;
+    }
+    
+    footer ul li a:before {
+      content: "→";
+      position: absolute;
+      left: -15px;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    
+    footer ul li a:hover {
+      color: var(--secondary);
+      padding-left: 15px;
+    }
+    
+    footer ul li a:hover:before {
+      opacity: 1;
+      left: 0;
+    }
+
+    /* Footer Bottom */
+    .footer-bottom {
+      text-align: center;
+      border-top: 1px solid rgba(255, 215, 0, 0.3);
+      padding-top: 1rem;
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .footer-logo h3 {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-logo p {
+        text-align: center;
+      }
+
+      .social {
+        justify-content: center;
+      }
+
+      footer h3 {
+        text-align: center;
+      }
+
+      footer ul {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container-fluid">
+    <!-- Logo -->
+    <a class="navbar-brand" href="index.html">
+      <img src="pics/logo.jpg" alt="DeenPath">
+      <span>DeenPath</span>
+    </a>
+
+    <!-- Mobile Menu Button -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Menu Items + Namaz Times -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link active" href="index.html" >Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+        <li class="nav-item"><a class="nav-link" href="feature.html">Feature</a></li>
+      </ul>
+
+      <!-- Digital Clock -->
+      <div id="clock" class="ms-3 me-4 text-end">
+        <div id="day-date"></div>
+        <div id="time"></div>
+        <div id="namaz-now"></div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Live Clock Script -->
+<script>
+  function updateClockAndNamaz() {
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const totalMinutes = hours * 60 + minutes;
+
+  // Day & Time
+  const dayOptions = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
+  const dayDate = now.toLocaleDateString('en-US', dayOptions);
+  const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  document.getElementById('day-date').textContent = dayDate;
+  document.getElementById('time').textContent = time;
+
+  // Namaz schedule (in minutes)
+  const namazSchedule = [
+    { name: "Fajr", start: 5*60, end: 12*60 },      // 05:00 - 12:00
+    { name: "Dhuhr", start: 12*60, end: 16*60 },   // 12:00 - 16:00
+    { name: "Asr", start: 16*60, end: 18*60 },     // 16:00 - 18:00
+    { name: "Maghrib", start: 18*60, end: 20*60 }, // 18:00 - 20:00
+    { name: "Isha", start: 20*60, end: 5*60 + 24*60 } // 20:00 - 05:00 next day
+  ];
+
+  let currentNamaz = "";
+  for (let i = 0; i < namazSchedule.length; i++) {
+    let namaz = namazSchedule[i];
+    if (namaz.start < namaz.end) {
+      if (totalMinutes >= namaz.start && totalMinutes < namaz.end) {
+        currentNamaz = namaz.name;
+      }
+    } else {
+      // For Isha crossing midnight
+      if (totalMinutes >= namaz.start || totalMinutes < namaz.end) {
+        currentNamaz = namaz.name;
+      }
+    }
+  }
+
+  // Show current Namaz with example static time (replace with real time if you want)
+  const namazTimes = {
+    "Fajr": "05:00 AM",
+    "Dhuhr": "12:30 PM",
+    "Asr": "04:00 PM",
+    "Maghrib": "06:30 PM",
+    "Isha": "08:00 PM"
+  };
+  document.getElementById('namaz-now').textContent = `${currentNamaz} - ${namazTimes[currentNamaz]}`;
+}
+
+// Run immediately & then every second
+updateClockAndNamaz();
+setInterval(updateClockAndNamaz, 1000);
+
+</script>
+ 
+  <!-- HERO -->
+  <section id="home" class="hero">
+    <div class="hero-inner container">
+      <div class="hero-content">
+        <h1 class="animate__animated animate__fadeInLeft">Begin Your <span class="shimmer">Sacred Journey</span> in Islamic Knowledge</h1>
+        <p class="animate__animated animate__fadeInLeft animate__delay-1s">Premiere courses in Quran, Hadith and Islamic sciences taught by world-renowned scholars. Traditional wisdom for the modern seeker.</p>
+        <div class="hero-actions animate__animated animate__fadeInUp animate__delay-1s">
+          <a href="#courses" class="btn btn-primary animate__animated animate__pulse animate__infinite">Explore Courses</a>
+          <a href="#contact" class="btn btn-outline">Get Counselling</a>
+        </div>
+        <div class="hero-features">
+          <div class="hero-feature">
+            <i class="fas fa-award"></i>
+            <span>Certified Programs</span>
+          </div>
+          <div class="hero-feature">
+            <i class="fas fa-globe-americas"></i>
+            <span>Global Access</span>
+          </div>
+          <div class="hero-feature">
+            <i class="fas fa-clock"></i>
+            <span>Flexible Timings</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="pics/headp.jpg" alt="Islamic learning">
+        <div class="hero-visual-overlay" >
+          <h4>Featured Program: Ramadan Tajweed Intensive</h4>
+          <p style="color: gold;"> Four-week course with live recitation feedback from senior teachers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="about">
+    <div class="container">
+      <div class="section-header fade-in">
+        <h2>Our Noble Mission</h2>
+        <p>To transmit authentic knowledge rooted in the Quran and Sunnah, taught by certified scholars, and presented for today's discerning learners.</p>
+      </div>
+      <div class="about-grid">
+        <div class="about-image slide-in-left">
+          <img src="pics/learning.png" alt="Islamic learning">
+        </div>
+        <div class="about-content slide-in-right">
+          <h3>Excellence in Islamic Education</h3>
+          <p>For over a decade, DeenPath has been at the forefront of Islamic education, combining traditional scholarship with modern pedagogy to create an unparalleled learning experience.</p>
+          <div class="features">
+            <div class="feature fade-in">
+              <i class="fas fa-user-graduate"></i>
+              <div class="feature-content">
+                <h4>Qualified Scholars</h4>
+                <p>Our instructors hold authentic ijazah and have decades of teaching experience at prestigious institutions.</p>
+              </div>
+            </div>
+            <div class="feature fade-in">
+              <i class="fas fa-laptop-house"></i>
+              <div class="feature-content">
+                <h4>Global Access</h4>
+                <p>Attend live interactive sessions or study at your own pace from anywhere in the world.</p>
+              </div>
+            </div>
+            <div class="feature fade-in">
+              <i class="fas fa-certificate"></i>
+              <div class="feature-content">
+                <h4>Recognized Certification</h4>
+                <p>Earn certificates acknowledged by leading Islamic institutions worldwide.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSES -->
+  <section id="courses" class="courses">
+    <div class="container">
+      <div class="section-header fade-in">
+        <h2>Premium Course Offerings</h2>
+        <p>Structured courses for every level — Tajweed, Tafsir, Aqeedah, Hadith, Arabic and Islamic Finance.</p>
+      </div>
+      <div class="courses-grid">
+        <!-- Course Card (repeatable) -->
+        <article class="card scale-in">
+          <div class="thumb">
+            <img src="pics/Islamic book.jfif" alt="Quranic Studies">
+          </div>
+          <div class="body">
+            <h3>Quranic Studies</h3>
+            <p>Master Tajweed, memorization techniques and guided tafsir for proper understanding and recitation of the Holy Quran.</p>
+            <div class="meta">
+              <span><i class="fas fa-clock"></i>12 Weeks</span>
+              <span><i class="fas fa-signal"></i>Beginner</span>
+            </div>
+            <a href="#contact" class="btn">Enroll Now</a>
+          </div>
+        </article>
+        <article class="card scale-in">
+          <div class="thumb">
+            <img src="pics/Islamic Theology.jfif" alt="Aqeedah">
+          </div>
+          <div class="body">
+            <h3>Islamic Theology (Aqeedah)</h3>
+            <p>Strengthen your beliefs with authentic sources and classical texts under the guidance of expert scholars.</p>
+            <div class="meta">
+              <span><i class="fas fa-clock"></i>8 Weeks</span>
+              <span><i class="fas fa-signal"></i>Intermediate</span>
+            </div>
+            <a href="#contact" class="btn">Enroll Now</a>
+          </div>
+        </article>
+        <article class="card scale-in">
+          <div class="thumb">
+            <img src="pics/Hadith Studies.jfif" alt="Hadith">
+          </div>
+          <div class="body">
+            <h3>Hadith Studies</h3>
+            <p>Learn the methodology and application of Prophetic traditions with a focus on authenticity and context.</p>
+            <div class="meta">
+              <span><i class="fas fa-clock"></i>10 Weeks</span>
+              <span><i class="fas fa-signal"></i>Advanced</span>
+            </div>
+            <a href="#contact" class="btn">Enroll Now</a>
+          </div>
+        </article>
+        <article class="card scale-in">
+          <div class="thumb">
+            <img src="pics/islamic history.jfif" alt="History">
+          </div>
+          <div class="body">
+            <h3>Islamic History</h3>
+            <p>From the Seerah to modern Islamic movements — gain contextual knowledge for today's world.</p>
+            <div class="meta">
+              <span><i class="fas fa-clock"></i>16 Weeks</span>
+              <span><i class="fas fa-signal"></i>All Levels</span>
+            </div>
+            <a href="#contact" class="btn">Enroll Now</a>
+          </div>
+        </article>
+        <article class="card scale-in">
+          <div class="thumb">
+            <img src="pics/arabicpic.avif" alt="Arabic">
+          </div>
+          <div class="body">
+            <h3>Arabic Language</h3>
+            <p>Understand the Quran in its original language — comprehensive grammar & comprehension tracks.</p>
+            <div class="meta">
+              <span><i class="fas fa-clock"></i>20 Weeks</span>
+              <span><i class="fas fa-signal"></i>Beginner</span>
+            </div>
+            <a href="#contact" class="btn">Enroll Now</a>
+          </div>
+        </article>
+        <article class="card scale-in">
+          <div class="thumb">
+            <img src="pics/Islamic Finance.avif" alt="Finance">
+          </div>
+          <div class="body">
+            <h3>Islamic Finance</h3>
+            <p>Master the principles of Sharia-compliant finance and their practical applications in modern economies.</p>
+            <div class="meta">
+              <span><i class="fas fa-clock"></i>6 Weeks</span>
+              <span><i class="fas fa-signal"></i>Intermediate</span>
+            </div>
+            <a href="#contact" class="btn">Enroll Now</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEACHERS -->
+  <section id="teachers" class="teachers">
+    <div class="container">
+      <div class="section-header fade-in">
+        <h2>Our Distinguished Scholars</h2>
+        <p>Learn from internationally recognized teachers holding authentic ijazah and decades of experience.</p>
+      </div>
+      <div class="teachers-grid">
+        <div class="teacher scale-in">
+          <div class="avatar">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Sheikh Ahmed">
+          </div>
+          <h4>Sheikh Ahmed Hassan</h4>
+          <p>Quranic Studies & Tajweed Specialist</p>
+        </div>
+        <div class="teacher scale-in">
+          <div class="avatar">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Dr Ibrahim">
+          </div>
+          <h4>Dr. Ibrahim Khalid</h4>
+          <p>Islamic Theology & Aqeedah Expert</p>
+        </div>
+        <div class="teacher scale-in">
+          <div class="avatar">
+            <img src="https://media.licdn.com/dms/image/v2/D5603AQGYP25PJZ1dGg/profile-displayphoto-shrink_200_200/B56ZbLiTivH4AY-/0/1747171491581?e=2147483647&v=beta&t=vLcYuGjyj4izeQB4risOwC4fM-MV_kazYrqz9bADDc0" alt="Dr Amina">
+          </div>
+          <h4>Dr. Amina Yusuf</h4>
+          <p>Hadith Studies & Seerah Scholar</p>
+        </div>
+        <div class="teacher scale-in">
+          <div class="avatar">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Sheikh Omar">
+          </div>
+          <h4>Sheikh Omar Farooq</h4>
+          <p>Arabic Language & Literature Authority</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" class="testimonials">
+    <div class="container">
+      <div class="section-header fade-in">
+        <h2>Student Experiences</h2>
+        <p>Hear from our learners about their transformative journeys with DeenPath</p>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial fade-in">
+          <p>"DeenPath transformed my relationship with the Quran. The scholars' depth of knowledge and teaching methodology is unparalleled. I've gained confidence in my recitation and understanding."</p>
+          <strong>Fatima Ahmed</strong>
+          <span>Quranic Studies Student</span>
+        </div>
+        <div class="testimonial fade-in">
+          <p>"The flexible scheduling allowed me to balance my studies with family and work responsibilities. The quality of education rivals traditional madrasahs while offering modern convenience."</p>
+          <strong>Yusuf Khan</strong>
+          <span>Aqeedah Student</span>
+        </div>
+        <div class="testimonial fade-in">
+          <p>"After completing the Arabic program, I can now read classical texts with understanding. The structured approach and patient instructors made what seemed impossible achievable."</p>
+          <strong>Sarah Johnson</strong>
+          <span>Arabic Student</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="container">
+      <div class="section-header fade-in">
+        <h2>Contact Our Team</h2>
+        <p>Questions about enrollment, courses, or counseling? Our dedicated team is here to assist you.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card slide-in-left">
+          <h3>Get in Touch</h3>
+          <div class="contact-info">
+            <div class="contact-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <p>123 Islamic Education Center, Knowledge District, Dubai, UAE</p>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-phone"></i>
+              <p>+971 4 123 4567</p>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-envelope"></i>
+              <p>info@deenpath.com</p>
+            </div>
+            <div class="contact-item">
+              <i class="fas fa-clock"></i>
+              <p>Sunday - Thursday: 9:00 AM - 6:00 PM (GST)</p>
+            </div>
+          </div>
+        </div>
+        <div class="contact-card slide-in-right">
+          <h3>Send a Message</h3>
+          <form id="contactForm">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input id="name" name="name" type="text" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Your Email</label>
+              <input id="email" name="email" type="email" required>
+            </div>
+            <div class="form-group">
+              <label for="course">Course Interested In</label>
+              <input id="course" name="course" type="text">
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" required></textarea>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit">Send Message</button>
+              <button type="button" class="btn btn-outline" onclick="document.getElementById('contactForm').reset()">Reset</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+ <!-- Footer Placeholder -->
+  <div id="footer"></div>
+
+  <script>
+    // JS: Dynamically insert footer
+    document.addEventListener("DOMContentLoaded", function () {
+      const footerHTML = `
+        <footer>
+          <div class="footer-container">
+            <!-- Logo Section -->
+            <div class="footer-logo">
+              <h3>
+                <img src="pics/logo.jpg" alt="DeenPath Logo">
+                <b>DeenPath</b>
+              </h3>
+              <p>DeenPath is your trusted companion for authentic Islamic knowledge and spiritual growth.</p>
+              <div class="social">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+              <h3>Quick Links</h3>
+              <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="FAQs.html">FAQs</a></li>
+              </ul>
+            </div>
+
+            <!-- Islamic Resources -->
+            <div>
+              <h3>Islamic Resources</h3>
+              <ul>
+                <li><a href="quran.html">Quran</a></li>
+                <li><a href="surah.html">Surah</a></li>
+                <li><a href="nt.html">Namaz Time</a></li>
+                <li><a href="calender.html">Calendar</a></li>
+                <li><a href="counter.html">Tasbeeh Counter</a></li>
+              </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div>
+              <h3>Contact</h3>
+              <ul>
+                <li><a href="mailto:mohsingohar759@gmail.com">mohsingohar759@gmail.com</a></li>
+                <li><a href="#">+92 300 1234567</a></li>
+                <li><a href="#">Karachi, Pakistan</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Footer Bottom -->
+          <div class="footer-bottom">
+            © <span id="year"></span> DeenPath. All Rights Reserved.
+          </div>
+        </footer>
+      `;
+
+      // Inject footer into the placeholder
+      document.getElementById("footer").innerHTML = footerHTML;
+
+      // Dynamic Year Update
+      document.getElementById("year").textContent = new Date().getFullYear();
+    });
+  </script>
+  
+  <!-- Animation Scripts -->
+  <script>
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all elements with animation classes
+    document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in').forEach(el => {
+      observer.observe(el);
+    });
+    
+    // Smooth scrolling
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', function(e) {
+        const target = this.getAttribute('href');
+        if(!target || target === '#') return;
+        e.preventDefault();
+        const el = document.querySelector(target);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+    
+    // Contact form handler
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      // Create success message element
+      const successMessage = document.createElement('div');
+      successMessage.style.padding = '16px';
+      successMessage.style.marginTop = '16px';
+      successMessage.style.borderRadius = '8px';
+      successMessage.style.backgroundColor = 'rgba(10, 61, 44, 0.1)';
+      successMessage.style.color = 'var(--primary)';
+      successMessage.style.fontWeight = '500';
+      successMessage.textContent = 'Thank you for your message. Our team will contact you within 24 hours.';
+      
+      // Add success message to form
+      this.appendChild(successMessage);
+      
+      // Reset form
+      this.reset();
+      
+      // Remove message after 5 seconds
+      setTimeout(() => {
+        successMessage.remove();
+      }, 5000);
+    });
+  </script>
+</body>
+</html>

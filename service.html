@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services - Deenpath</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: rgb(1, 62, 37);
+            --primary-light: rgba(1, 62, 37, 0.8);
+            --primary-dark: rgb(0, 42, 25);
+            --secondary: #97bc62;
+            --accent: #4e9f3d;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #fff;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--secondary);
+            color: var(--primary);
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn:hover {
+            background-color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        /* Services Section */
+        .services {
+            padding: 100px 0;
+            background-color: var(--light);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--secondary);
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .service-card p {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+        
+        /* Service Details Section */
+        .service-details {
+            display: none;
+            padding: 60px 0;
+            background-color: white;
+        }
+        
+        .service-details.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .details-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .details-content h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .details-content p {
+            color: var(--gray);
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .details-list {
+            margin: 30px 0;
+        }
+        
+        .details-list h4 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .details-list ul {
+            list-style-type: none;
+        }
+        
+        .details-list ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            color: var(--gray);
+        }
+        
+        .details-list ul li:before {
+            content: '\f058';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: var(--secondary);
+            margin-right: 10px;
+        }
+        
+        .details-image {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .details-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .back-btn {
+            background-color: var(--primary);
+            color: white;
+            margin-top: 30px;
+        }
+        
+        .back-btn:hover {
+            background-color: var(--primary-dark);
+            color: white;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .feature-icon {
+            background-color: var(--secondary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .feature-text h4 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .feature-text p {
+            color: var(--gray);
+        }
+        
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .btn-light {
+            background-color: white;
+            color: var(--primary);
+        }
+        
+        .btn-light:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 70px 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-col h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--secondary);
+        }
+        
+        .footer-col p {
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-col ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-col ul li a:hover {
+            color: var(--secondary);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--secondary);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            
+            .details-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .details-image {
+                order: -1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+            }
+            
+            nav ul li {
+                margin: 0 10px;
+            }
+            
+            .hero {
+                padding: 70px 0;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .services, .features, .cta {
+                padding: 70px 0;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .cta h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-mosque"></i>
+                <span>Deenpath</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Courses</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Our Services</h1>
+            <p>Comprehensive Islamic education and guidance for all ages. Explore our range of services designed to deepen your understanding of Islam.</p>
+            <a href="#services" class="btn">Explore Services</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>What We Offer</h2>
+                <p>Our services are designed to provide authentic Islamic knowledge and guidance to Muslims worldwide.</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card" data-service="quranic">
+                    <div class="service-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3>Quranic Studies</h3>
+                    <p>Comprehensive Quran learning programs including Tajweed, Tafsir, and memorization courses for all age groups.</p>
+                    <button class="btn learn-more-btn">Learn More</button>
+                </div>
+                
+                <div class="service-card" data-service="islamic">
+                    <div class="service-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Islamic Education</h3>
+                    <p>Structured courses on Islamic theology, Fiqh, Seerah, and Islamic history taught by qualified scholars.</p>
+                    <button class="btn learn-more-btn">Learn More</button>
+                </div>
+                
+                <div class="service-card" data-service="arabic">
+                    <div class="service-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3>Arabic Language</h3>
+                    <p>Arabic language courses from beginner to advanced levels to help you understand the Quran in its original language.</p>
+                    <button class="btn learn-more-btn">Learn More</button>
+                </div>
+                
+                <div class="service-card" data-service="counseling">
+                    <div class="service-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3>Islamic Counseling</h3>
+                    <p>Personal and family counseling based on Islamic principles to help you navigate life's challenges.</p>
+                    <button class="btn learn-more-btn">Learn More</button>
+                </div>
+                
+                <div class="service-card" data-service="community">
+                    <div class="service-icon">
+                        <i class="fas fa-mosque"></i>
+                    </div>
+                    <h3>Community Programs</h3>
+                    <p>Regular workshops, seminars, and community events to strengthen Islamic knowledge and brotherhood.</p>
+                    <button class="btn learn-more-btn">Learn More</button>
+                </div>
+                
+                <div class="service-card" data-service="youth">
+                    <div class="service-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <h3>Youth Programs</h3>
+                    <p>Specialized programs for children and teenagers to build strong Islamic foundations and moral character.</p>
+                    <button class="btn learn-more-btn">Learn More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Details Sections -->
+    <!-- Quranic Studies Details -->
+    <section class="service-details" id="quranic-details">
+        <div class="container">
+            <div class="details-container">
+                <div class="details-content">
+                    <h2>Quranic Studies</h2>
+                    <p>Our Quranic Studies service is designed for all age groups, with the goal of teaching the Quran correctly, understanding it, and implementing its teachings in daily life.</p>
+                    <p>Our experienced teachers will help you learn the Quran, whether you're starting from the beginning or looking to improve your existing knowledge.</p>
+                    
+                    <div class="details-list">
+                        <h4>Our Offerings:</h4>
+                        <ul>
+                            <li>Basic Quran reading education</li>
+                            <li>Complete Tajweed instruction</li>
+                            <li>Quranic understanding courses</li>
+                            <li>Quran memorization programs</li>
+                            <li>Tafsir (Quranic exegesis) classes</li>
+                            <li>Both online and on-site options</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="details-list">
+                        <h4>Course Structure:</h4>
+                        <ul>
+                            <li>Beginner level: Basic Arabic alphabets and Quran reading</li>
+                            <li>Intermediate level: Tajweed rules and proper pronunciation</li>
+                            <li>Advanced level: Memorization and Tafsir</li>
+                            <li>Flexible scheduling to accommodate your availability</li>
+                            <li>One-on-one and group sessions available</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="btn back-btn">Back to Services</button>
+                </div>
+                <div class="details-image">
+                    <img src="https://images.unsplash.com/photo-1604695573706-5f2d24c2b4d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Quranic Studies">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Islamic Education Details -->
+    <section class="service-details" id="islamic-details">
+        <div class="container">
+            <div class="details-container">
+                <div class="details-content">
+                    <h2>Islamic Education</h2>
+                    <p>Our Islamic Education service enlightens you about the fundamental principles and teachings of Islam. Our courses help you understand various aspects of Islam in detail.</p>
+                    <p>Our scholars and teachers provide you with a deep understanding of Islamic beliefs, Fiqh, Seerah, and Islamic history.</p>
+                    
+                    <div class="details-list">
+                        <h4>Our Offerings:</h4>
+                        <ul>
+                            <li>Islamic creed (Aqidah) education</li>
+                            <li>Basic and advanced Fiqh classes</li>
+                            <li>Seerah of Prophet Muhammad (PBUH)</li>
+                            <li>Islamic history studies</li>
+                            <li>Principles of Hadith education</li>
+                            <li>Islamic culture and civilization</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="details-list">
+                        <h4>Learning Approach:</h4>
+                        <ul>
+                            <li>Structured curriculum designed by scholars</li>
+                            <li>Interactive learning with practical examples</li>
+                            <li>Focus on application in daily life</li>
+                            <li>Regular assessments to track progress</li>
+                            <li>Discussion forums for deeper understanding</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="btn back-btn">Back to Services</button>
+                </div>
+                <div class="details-image">
+                    <img src="https://images.unsplash.com/photo-1588269146295-1b403d673b6a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Islamic Education">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Arabic Language Details -->
+    <section class="service-details" id="arabic-details">
+        <div class="container">
+            <div class="details-container">
+                <div class="details-content">
+                    <h2>Arabic Language</h2>
+                    <p>Learning Arabic is an essential way to understand the Quran and Hadith. Our Arabic Language service helps you master this sacred language.</p>
+                    <p>Our experienced teachers will familiarize you with various aspects of the Arabic language, enabling you to read and understand the Quran and Hadith in their original language.</p>
+                    
+                    <div class="details-list">
+                        <h4>Our Offerings:</h4>
+                        <ul>
+                            <li>Beginner Arabic classes</li>
+                            <li>Arabic grammar and morphology</li>
+                            <li>Arabic speaking and writing skills</li>
+                            <li>Understanding Quranic Arabic</li>
+                            <li>Arabic literature studies</li>
+                            <li>Advanced level Arabic courses</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="details-list">
+                        <h4>Course Features:</h4>
+                        <ul>
+                            <li>Progressive learning from basic to advanced</li>
+                            <li>Focus on both classical and modern Arabic</li>
+                            <li>Interactive sessions with native speakers</li>
+                            <li>Specialized vocabulary for Islamic studies</li>
+                            <li>Reading and comprehension practice</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="btn back-btn">Back to Services</button>
+                </div>
+                <div class="details-image">
+                    <img src="https://images.unsplash.com/photo-1624555130296-aa0ad0b8c2e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Arabic Language">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Islamic Counseling Details -->
+    <section class="service-details" id="counseling-details">
+        <div class="container">
+            <div class="details-container">
+                <div class="details-content">
+                    <h2>Islamic Counseling</h2>
+                    <p>Counseling service based on Islamic principles to deal with various life challenges and problems. Our counselors guide you according to Islamic teachings.</p>
+                    <p>Whether it's personal issues, family matters, or spiritual guidance, our counseling service is here for you.</p>
+                    
+                    <div class="details-list">
+                        <h4>Our Offerings:</h4>
+                        <ul>
+                            <li>Personal problem counseling</li>
+                            <li>Family matters guidance</li>
+                            <li>Marriage counseling</li>
+                            <li>Spiritual motivation and growth</li>
+                            <li>Youth guidance</li>
+                            <li>Private and group counseling options</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="details-list">
+                        <h4>Counseling Approach:</h4>
+                        <ul>
+                            <li>Confidential and non-judgmental environment</li>
+                            <li>Solutions based on Quran and Sunnah</li>
+                            <li>Experienced counselors with Islamic knowledge</li>
+                            <li>Both in-person and online sessions</li>
+                            <li>Follow-up sessions for continued support</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="btn back-btn">Back to Services</button>
+                </div>
+                <div class="details-image">
+                    <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Islamic Counseling">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Programs Details -->
+    <section class="service-details" id="community-details">
+        <div class="container">
+            <div class="details-container">
+                <div class="details-content">
+                    <h2>Community Programs</h2>
+                    <p>Our Community Programs are designed to promote brotherhood and Islamic knowledge among Muslims. We organize regular events, workshops, and seminars where you can meet other Muslims and enhance your Islamic knowledge.</p>
+                    
+                    <div class="details-list">
+                        <h4>Our Offerings:</h4>
+                        <ul>
+                            <li>Weekly Islamic lectures</li>
+                            <li>Monthly seminars</li>
+                            <li>Special events and festivals</li>
+                            <li>Charity work and social services</li>
+                            <li>Family community programs</li>
+                            <li>Special events for youth</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="details-list">
+                        <h4>Program Benefits:</h4>
+                        <ul>
+                            <li>Strengthen community bonds</li>
+                            <li>Learn from renowned scholars</li>
+                            <li>Opportunities for community service</li>
+                            <li>Islamic environment for socializing</li>
+                            <li>Events for all family members</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="btn back-btn">Back to Services</button>
+                </div>
+                <div class="details-image">
+                    <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Community Programs">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Youth Programs Details -->
+    <section class="service-details" id="youth-details">
+        <div class="container">
+            <div class="details-container">
+                <div class="details-content">
+                    <h2>Youth Programs</h2>
+                    <p>Our Youth Programs are specially designed for children and teenagers to build strong Islamic foundations and moral character.</p>
+                    <p>Our experienced teachers teach Islamic teachings to youth in an interesting and easy way.</p>
+                    
+                    <div class="details-list">
+                        <h4>Our Offerings:</h4>
+                        <ul>
+                            <li>Islamic education for children</li>
+                            <li>Quran classes for youth</li>
+                            <li>Islamic history stories</li>
+                            <li>Workshops for teenagers</li>
+                            <li>Islamic etiquette and morals education</li>
+                            <li>Annual youth camps</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="details-list">
+                        <h4>Program Features:</h4>
+                        <ul>
+                            <li>Age-appropriate curriculum</li>
+                            <li>Interactive and engaging teaching methods</li>
+                            <li>Activities that build Islamic character</li>
+                            <li>Positive peer environment</li>
+                            <li>Opportunities for leadership development</li>
+                        </ul>
+                    </div>
+                    
+                    <button class="btn back-btn">Back to Services</button>
+                </div>
+                <div class="details-image">
+                    <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Youth Programs">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose Deenpath</h2>
+                <p>We're committed to providing authentic Islamic education with excellence and integrity.</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h4>Qualified Scholars</h4>
+                        <p>Learn from certified Islamic scholars with extensive knowledge and teaching experience.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h4>Flexible Learning</h4>
+                        <p>Online and in-person classes with flexible schedules to accommodate your lifestyle.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h4>Affordable Fees</h4>
+                        <p>Quality Islamic education at reasonable prices with scholarships available for those in need.</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h4>Community Support</h4>
+                        <p>Join a supportive community of learners dedicated to personal and spiritual growth.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Begin Your Journey?</h2>
+            <p>Join thousands of students who have transformed their understanding of Islam through our programs.</p>
+            <a href="#" class="btn btn-light">Enroll Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Deenpath</h3>
+                    <p>Your trusted source for authentic Islamic education and guidance.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Courses</a></li>
+                        <li><a href="#">Events</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#">Quranic Studies</a></li>
+                        <li><a href="#">Islamic Education</a></li>
+                        <li><a href="#">Arabic Language</a></li>
+                        <li><a href="#">Islamic Counseling</a></li>
+                        <li><a href="#">Youth Programs</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Islamic Center, City, Country</li>
+                        <li><i class="fas fa-phone"></i> +1 (123) 456-7890</li>
+                        <li><i class="fas fa-envelope"></i> info@deenpath.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Deenpath. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Service details functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const learnMoreBtns = document.querySelectorAll('.learn-more-btn');
+            const backBtns = document.querySelectorAll('.back-btn');
+            const serviceDetailsSections = document.querySelectorAll('.service-details');
+            const servicesSection = document.querySelector('.services');
+            
+            // Show service details when Learn More is clicked
+            learnMoreBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const serviceType = this.closest('.service-card').getAttribute('data-service');
+                    const detailsSection = document.getElementById(`${serviceType}-details`);
+                    
+                    // Hide all service details sections
+                    serviceDetailsSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Hide services section
+                    servicesSection.style.display = 'none';
+                    
+                    // Show selected service details
+                    detailsSection.classList.add('active');
+                    
+                    // Scroll to top of service details
+                    window.scrollTo({
+                        top: detailsSection.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Go back to services when back button is clicked
+            backBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Hide all service details sections
+                    serviceDetailsSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // Show services section
+                    servicesSection.style.display = 'block';
+                    
+                    // Scroll to services section
+                    window.scrollTo({
+                        top: servicesSection.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Add animation to service cards on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.service-card').forEach(card => {
+                card.style.opacity = 0;
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

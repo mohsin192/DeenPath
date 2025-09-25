@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>About — DeenPath</title>
+<link rel="icon" type="image/png" href="pics/logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<style>
+  /* Global CSS Variables */
+  :root {
+    --dp-bg: #002b18;
+    --dp-card: rgba(0, 0, 0, .55);
+    --dp-ink: #ffffff;
+    --dp-gold: #ffd700;
+    --dp-green: #013220;
+    --dp-green-2: #014d2c;
+  }
+
+  /* Universal box-sizing and font smoothing */
+  * {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Body and General Layout */
+  body {
+    font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: var(--dp-bg);
+    color: var(--dp-ink);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  /* Loading Animation */
+  .loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--dp-green);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s, visibility 0.5s;
+  }
+
+  .loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .loader-content {
+    text-align: center;
+  }
+
+  .loader-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 215, 0, 0.3);
+    border-top-color: var(--dp-gold);
+    animation: spin 1s linear infinite;
+    margin: 0 auto 15px;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .loader-text {
+    color: var(--dp-gold);
+    font-family: "Scheherazade", serif;
+    font-size: 1.5rem;
+  }
+
+  /* Utility classes */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Headings & Typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Scheherazade", serif;
+    color: var(--dp-gold);
+    letter-spacing: 0.3px;
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .lead.muted {
+    color: var(--dp-gold);
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  /* UI Components */
+  .headbar {
+    background: var(--dp-green);
+    border-bottom: 3px solid var(--dp-gold);
+  }
+
+  .brand {
+    font-family: "Scheherazade", serif;
+    font-size: 1.4rem;
+    color: var(--dp-gold);
+    letter-spacing: 0.5px;
+  }
+
+  .btn-gold {
+    background: var(--dp-gold);
+    color: #000;
+    font-weight: 700;
+    border: 0;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .btn-gold:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: left 0.5s;
+    z-index: -1;
+  }
+
+  .btn-gold:hover {
+    background: #d4af37;
+    color: #000;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-gold:hover:before {
+    left: 100%;
+  }
+
+  .muted {
+    color: #cfcfcf;
+  }
+
+  .card-soft {
+    background: var(--dp-card);
+    border: 1px solid rgba(255, 215, 0, .3);
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .25);
+    backdrop-filter: blur(4px);
+    padding: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card-soft:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .35);
+  }
+
+  .divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--dp-gold), transparent);
+    opacity: .6;
+    margin: 1.5rem 0;
+  }
+
+  .icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 215, 0, .12);
+    border: 1px solid rgba(255, 215, 0, .35);
+    color: var(--dp-gold);
+    transition: all 0.3s ease;
+  }
+
+  .icon-wrap:hover {
+    transform: scale(1.1) rotate(5deg);
+    background: rgba(255, 215, 0, .2);
+  }
+
+  /* Navbar */
+  .navbar {
+    background: linear-gradient(to right, #013220, #014d2c);
+    border-bottom: 2px solid gold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    padding: 10px 20px;
+    animation: slideDown 0.8s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .navbar-nav .nav-link {
+    color: gold !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    font-size: 18px;
+    position: relative;
+  }
+
+  .navbar-nav .nav-link:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: gold;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: rgb(10, 7, 7) !important;
+    transform: translateY(-2px);
+    font-weight: bold;
+  }
+
+  .navbar-nav .nav-link:hover:after {
+    width: 80%;
+  }
+
+  #current-date {
+    color: gold;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 15px;
+    font-weight: bold;
+  }
+
+  /* Digital Clock Styling */
+  #clock {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    color: black;
+    font-weight: bold;
+    margin-left: 20px;
+    line-height: 1.2;
+  }
+
+  #day-date {
+    font-size: 16px;
+    color: black;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+  }
+
+  #time {
+    font-size: 18px;
+    color: black;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    font-family: 'Courier New', Courier, monospace;
+    letter-spacing: 1px;
+  }
+
+  /* Hero Section */
+  .hero-section-content {
+    background-color: #00000052;
+    border-radius: 20px;
+    padding: 1.5rem;
+    height: auto;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: fadeInUp 1s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Card and List Styles */
+  .card-soft .list-unstyled li {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .footer-link {
+    color: var(--dp-gold);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    position: relative;
+  }
+
+  .footer-link:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--dp-gold);
+    transition: width 0.3s ease;
+  }
+
+  .footer-link:hover {
+    color: #d4af37;
+  }
+
+  .footer-link:hover:after {
+    width: 100%;
+  }
+
+  /* Contact Section */
+  .contact-form .form-control {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    color: var(--dp-ink);
+    transition: all 0.3s ease;
+  }
+
+  .contact-form .form-control:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: var(--dp-gold);
+    box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.25);
+    transform: translateY(-2px);
+  }
+
+  .contact-form .form-control::placeholder {
+    color: #cfcfcf;
+  }
+
+  /* Footer */
+  footer {
+    background: linear-gradient(to right, #012d1b, #024b2b);
+    color: #ccc;
+    padding: 3rem 1.5rem 1rem;
+    position: relative;
+    margin-top: auto;
+  }
+
+  .footer-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-logo h3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+  }
+
+  .footer-logo b {
+    font-family: 'Scheherazade', serif;
+    font-size: 2rem;
+    color: gold;
+    letter-spacing: 2px;
+  }
+
+  .footer-logo p {
+    text-align: center;
+    color: #bbb;
+    font-size: 0.95rem;
+    margin-top: 0.5rem;
+  }
+
+  .social {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 1rem;
+  }
+
+  .social a {
+    width: 40px;
+    height: 40px;
+    background: #014d2c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: gold;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  .social a:hover {
+    background: gold;
+    color: #014d2c;
+    transform: scale(1.1) rotate(5deg);
+  }
+
+  footer h3 {
+    text-align: center;
+    color: gold;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  footer ul {
+    list-style: none;
+    text-align: center;
+  }
+
+  footer ul li {
+    margin: 0.5rem 0;
+  }
+
+  footer ul li a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 1rem;
+    position: relative;
+  }
+
+  footer ul li a:after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: gold;
+    transition: width 0.3s ease;
+  }
+
+  footer ul li a:hover {
+    color: gold;
+  }
+
+  footer ul li a:hover:after {
+    width: 100%;
+  }
+
+  .footer-bottom {
+    text-align: center;
+    border-top: 1px solid rgba(255, 215, 0, 0.3);
+    padding-top: 1rem;
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    color: #aaa;
+  }
+
+  /* Scroll animations */
+  .scroll-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .scroll-animate.animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Floating animation for icons */
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* Pulse animation for important elements */
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+    }
+  }
+
+  .pulse-animation {
+    animation: pulse 2s infinite;
+  }
+
+  /* Media Queries for responsiveness */
+  @media (min-width: 576px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    .hero-section-content {
+      padding: 2rem;
+    }
+
+    .card-soft {
+      padding: 2.5rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .navbar-brand img {
+      height: 60px;
+    }
+    
+    .navbar-nav .nav-link {
+        font-size: 18px;
+    }
+    
+    #clock {
+      display: block; /* Show clock on tablet and desktop */
+    }
+    
+    .footer-logo h3 {
+      flex-direction: row;
+      text-align: left;
+      justify-content: flex-start;
+    }
+
+    .footer-logo p {
+      text-align: left;
+    }
+
+    .social {
+      justify-content: flex-start;
+    }
+
+    footer h3, footer ul {
+      text-align: left;
+    }
+    
+    .footer-container {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .hero-section-content {
+      height: 320px;
+    }
+  }
+</style>
+</head>
+<body style="background-color:#014d2c;">
+  <!-- Loading Animation -->
+  <div class="loader" id="pageLoader">
+    <div class="loader-content">
+      <div class="loader-logo"></div>
+      <div class="loader-text">DeenPath</div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <!-- Logo -->
+      <a class="navbar-brand" href="index.html">
+        <img src="pics/logo.jpg" alt="DeenPath" style="height: 50px; border-radius: 10px; box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);">
+      </a>
+
+      <!-- Mobile Menu Button -->
+      <button class="navbar-toggler text-gold" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Menu Items + Namaz Times -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="feature.html">Feature</a></li>
+        </ul>
+
+        <!-- Digital Clock -->
+        <div id="clock" class="ms-3 me-4 text-end">
+          <div id="day-date"></div>
+          <div id="time"></div>
+          <div id="day-date" class="text-white ms-4">
+            <strong></strong> <span id="namaz-now"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Live Clock Script -->
+  <script>
+    function updateClock() {
+      const now = new Date();
+
+      // Day & Date
+      const dayOptions = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
+      const dayDate = now.toLocaleDateString('en-US', dayOptions);
+
+      // Time (HH:MM:SS AM/PM)
+      const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+      // Update Elements
+      document.getElementById('day-date').textContent = dayDate;
+      document.getElementById('time').textContent = time;
+    }
+
+    function updateClockAndNamaz() {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const totalMinutes = hours * 60 + minutes;
+
+      // Day & Time
+      const dayOptions = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
+      const dayDate = now.toLocaleDateString('en-US', dayOptions);
+      const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      document.getElementById('day-date').textContent = dayDate;
+      document.getElementById('time').textContent = time;
+
+      // Namaz schedule (in minutes)
+      const namazSchedule = [
+        { name: "Fajr", start: 5*60, end: 12*60 },      // 05:00 - 12:00
+        { name: "Dhuhr", start: 12*60, end: 16*60 },   // 12:00 - 16:00
+        { name: "Asr", start: 16*60, end: 18*60 },     // 16:00 - 18:00
+        { name: "Maghrib", start: 18*60, end: 20*60 }, // 18:00 - 20:00
+        { name: "Isha", start: 20*60, end: 5*60 + 24*60 } // 20:00 - 05:00 next day
+      ];
+
+      let currentNamaz = "";
+      for (let i = 0; i < namazSchedule.length; i++) {
+        let namaz = namazSchedule[i];
+        if (namaz.start < namaz.end) {
+          if (totalMinutes >= namaz.start && totalMinutes < namaz.end) {
+            currentNamaz = namaz.name;
+          }
+        } else {
+          // For Isha crossing midnight
+          if (totalMinutes >= namaz.start || totalMinutes < namaz.end) {
+            currentNamaz = namaz.name;
+          }
+        }
+      }
+
+      // Show current Namaz with example static time (replace with real time if you want)
+      const namazTimes = {
+        "Fajr": "05:00 AM",
+        "Dhuhr": "12:30 PM",
+        "Asr": "04:00 PM",
+        "Maghrib": "06:30 PM",
+        "Isha": "08:00 PM"
+      };
+      document.getElementById('namaz-now').textContent = `${currentNamaz} - ${namazTimes[currentNamaz]}`;
+    }
+
+    // Run immediately & then every second
+    updateClockAndNamaz();
+    setInterval(updateClockAndNamaz, 1000);
+  </script>
+
+  <section class="py-5">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-7 hero-section-content scroll-animate" style="height: auto;">
+          <span class="kicker" style="color: gold; margin-top: 10px;">Our Purpose</span>
+          <h1 class="section-title display-5 mt-1" style="color: gold;">Your Guide to the Straight Path</h1>
+          <p class="lead muted mt-3" style="color: gold;">
+            DeenPath ka maqsad hai aap ko <strong>authentic Islamic knowledge</strong> aur
+            <strong>rozmarrah ibadat tools</strong> aik hi jagah par dena — jaise
+            <em>namaz timings, Hijri calendar, Qur'an recitation, tasbeeh counter</em> aur zyada.
+          </p>
+          <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+            <span class="badge-soft" style="color: gold;"><i class="fa-regular fa-clock me-1 float-animation"></i> Accurate Times</span>
+            <span class="badge-soft" style="color: gold;"><i class="fa-solid fa-mosque me-1 float-animation" style="animation-delay: 0.2s;"></i> Authentic Sources</span>
+            <span class="badge-soft" style="color: gold;"><i class="fa-solid fa-bolt me-1 float-animation" style="animation-delay: 0.4s;"></i> Fast & Offline-ready</span>
+          </div>
+          <div class="mt-4 d-flex gap-2">
+            <a href="nt.html" class="btn btn-gold pulse-animation"><i class="fa-solid fa-bell me-2"></i>Prayer Times</a>
+            <a href="calender.html" class="btn btn-gold"><i class="fa-regular fa-calendar-days me-2"></i>Hijri Calendar</a>
+          </div>
+        </div>
+        <div class="col-lg-5 scroll-animate">
+          <div class="card-soft">
+            <div class="d-flex align-items-center gap-3">
+              <div class="icon-wrap"><i class="fa-solid fa-compass"></i></div>
+              <div>
+                <h5 class="mb-1 text-white">Why DeenPath?</h5>
+                <p class="mb-0 muted">Simple, beautiful, and trustworthy Islamic utilities—built for everyday use.</p>
+              </div>
+            </div>
+            <div class="divider my-3"></div>
+            <ul class="values list-unstyled mb-0">
+              <li><i class="fa-solid fa-check text-warning me-2"></i> Local + global prayer methods (Karachi, MWL, Umm al-Qura)</li>
+              <li><i class="fa-solid fa-check text-warning me-2"></i> Offline-capable prayer calculations</li>
+              <li><i class="fa-solid fa-check text-warning me-2"></i> Neat UI with Arabic-friendly fonts</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-4">
+    <div class="container">
+      <h2 class="section-title h1 mb-3 scroll-animate">What We Offer</h2>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4 scroll-animate">
+          <div class="card-soft h-100">
+            <div class="icon-wrap mb-3"><i class="fa-solid fa-mosque"></i></div>
+            <h5>Prayer Timings & Adhan</h5>
+            <p class="muted">Shehar choose karen, methods set karein, aur Adhan alarm lagayen. Offline calculation supported.</p>
+            <a class="footer-link" href="nt.html">Open Timings <i class="fa-solid fa-arrow-right ms-1"></i></a>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 scroll-animate">
+          <div class="card-soft h-100">
+            <div class="icon-wrap mb-3"><i class="fa-regular fa-calendar-days"></i></div>
+            <h5>Hijri Calendar</h5>
+            <p class="muted">2025–2050 tak dynamic Islamic calendar, months & events highlights ke sath.</p>
+            <a class="footer-link" href="calender.html">See Calendar <i class="fa-solid fa-arrow-right ms-1"></i></a>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4 scroll-animate">
+          <div class="card-soft h-100">
+            <div class="icon-wrap mb-3"><i class="fa-solid fa-quran"></i></div>
+            <h5> Qur'an & Dhikr</h5>
+            <p class="muted">Clean reading mode, audio recitations (optional), aur built-in tasbeeh counter.</p>
+            <a class="footer-link" href="counter.html">Open Tasbeeh <i class="fa-solid fa-arrow-right ms-1"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6 scroll-animate">
+          <h2 class="section-title h1 mb-3">Our Story</h2>
+          <p class="muted">
+            DeenPath aik chhota sa passion project ke taur par start hua—goal tha ke ibadat ki asaan reminders
+            aur sahi maloomat aik makhsoos, distraction-free jagah par milay. Aaj hum performance, accuracy
+            aur accessibility par focus karte hue features barhā rahe hain.
+          </p>
+          <ul class="values list-unstyled">
+            <li><i class="fa-solid fa-heart text-warning me-2"></i> Sincerity (Ikhlaas)</li>
+            <li><i class="fa-solid fa-shield-halved text-warning me-2"></i> Reliability & Authenticity</li>
+            <li><i class="fa-solid fa-leaf text-warning me-2"></i> Simplicity & Beauty</li>
+          </ul>
+        </div>
+        <div class="col-lg-6 scroll-animate">
+          <div class="card-soft p-4">
+            <span class="kicker" style="color: gold;">Contact</span>
+            <h5 class="mt-1 mb-3">We'd love to hear from you</h5>
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <div class="d-flex gap-3 align-items-start">
+                  <div class="icon-wrap"><i class="fa-solid fa-envelope"></i></div>
+                  <div>
+                    <div class="fw-bold">Email</div>
+                    <a class="footer-link" href="mailto:support@deenpath.app" style="color: gold;">mohsingohar759<br>@gmail.com</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="d-flex gap-3 align-items-start">
+                  <div class="icon-wrap"><i class="fa-solid fa-phone"></i></div>
+                  <div>
+                    <div class="fw-bold">Phone</div>
+                    <a class="footer-link" href="tel:+923001234567" style="color: gold;">+92 3412126649</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="divider my-3"></div>
+            <form class="row g-2">
+              <div class="col-md-6"><input class="form-control" placeholder="Your name"></div>
+              <div class="col-md-6"><input class="form-control" type="email" placeholder="Your email"></div>
+              <div class="col-12"><textarea class="form-control" rows="3" placeholder="Message"></textarea></div>
+              <div class="col-12"><button type="button" class="btn btn-gold">Send Message</button></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-5">
+    <div class="container">
+      <div class="card-soft p-4 p-md-5 scroll-animate">
+        <div class="row align-items-center g-3">
+          <div class="col-lg-7">
+            <h3 class="section-title h2 mb-2">Stay in the loop</h3>
+            <p class="muted mb-0">New features, Ramadan tools, aur knowledge updates seedha inbox mein.</p>
+          </div>
+          <div class="col-lg-5">
+            <form class="d-flex gap-2">
+              <input type="email" required class="form-control" placeholder="you@example.com">
+              <button class="btn btn-gold">Subscribe</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-container">
+      <div class="footer-logo">
+        <h3>
+          <img src="pics/logo.jpg" alt="DeenPath Logo" style="width: 50px;height: 50px;border-radius: 12px;">
+          <b>DeenPath</b>
+        </h3>
+        <p>DeenPath is your trusted companion for authentic Islamic knowledge and spiritual growth.</p>
+        <div class="social">
+          <a href="#">F</a>
+          <a href="#">T</a>
+          <a href="#">Y</a>
+          <a href="#">I</a>
+        </div>
+      </div>
+
+      <div>
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="FAQs.html">FAQs</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Islamic Resources</h3>
+        <ul>
+          <li><a href="quran.html">Quran</a></li>
+          <li><a href="surah.html">Surah</a></li>
+          <li><a href="nt.html">Namaz Time</a></li>
+          <li><a href="calender.html">Calendar</a></li>
+          <li><a href="counter.html">Tasbeeh Counter</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Contact</h3>
+        <ul>
+          <li><a href="mailto:mohsingohar759@gmail.com">mohsingohar759@gmail.com</a></li>
+          <li><a href="#">+92 300 1234567</a></li>
+          <li><a href="#">Karachi, Pakistan</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © <span id="year"></span> DeenPath. All Rights Reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Dynamic Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Loading Animation
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        document.getElementById('pageLoader').classList.add('hidden');
+      }, 1000);
+    });
+
+    // Scroll Animation
+    function animateOnScroll() {
+      const elements = document.querySelectorAll('.scroll-animate');
+      
+      elements.forEach(element => {
+        const elementPosition = element.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.2;
+        
+        if (elementPosition < screenPosition) {
+          element.classList.add('animated');
+        }
+      });
+    }
+
+    // Initial check on page load
+    window.addEventListener('load', animateOnScroll);
+    
+    // Check on scroll
+    window.addEventListener('scroll', animateOnScroll);
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

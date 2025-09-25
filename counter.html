@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deep Path | Premium Tasbeeh Counter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Scheherazade:wght@400;700&family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-green: rgb(1, 62, 37);
+      --light-green: rgb(2, 94, 56);
+      --accent-gold: #d4af37;
+      --light-gold: #f9f295;
+      --dark-gray: #1a1a1a;
+      --mid-gray: #333;
+      --light-gray: #f8f9fa;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+      color: var(--light-gray);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://images.unsplash.com/photo-1523381210434-e15d8f0a7b4a?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+      opacity: 0.12;
+      z-index: -1;
+    }
+
+    /* Animated background particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      background-color: rgba(212, 175, 55, 0.3);
+      border-radius: 50%;
+      animation: float-up 15s infinite ease-in;
+    }
+
+    @keyframes float-up {
+      0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.4;
+      }
+      90% {
+        opacity: 0.4;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1);
+        opacity: 0;
+      }
+    }
+
+    .header {
+      padding: 20px 0;
+      text-align: center;
+      background: rgba(1, 62, 37, 0.8) url('https://images.unsplash.com/photo-1523381210434-e15d8f0a7b4a?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      position: relative;
+      animation: slideDown 0.8s ease;
+    }
+
+    @keyframes slideDown {
+      0% { transform: translateY(-100%); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(1, 62, 37, 0.7);
+      z-index: -1;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo-icon {
+      font-size: 2.5rem;
+      color: var(--accent-gold);
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 2.5rem;
+      color: var(--accent-gold);
+      letter-spacing: 1px;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    .tagline {
+      font-family: 'Scheherazade', serif;
+      font-size: 1.2rem;
+      color: var(--light-gold);
+      margin-top: 5px;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .main-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 15px;
+      animation: fadeInUp 1s ease;
+    }
+
+    @keyframes fadeInUp {
+      0% { transform: translateY(30px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .counter-container {
+      background: rgba(1, 62, 37, 0.85);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 30px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      position: relative;
+      overflow: hidden;
+      animation: scaleIn 0.8s ease;
+    }
+
+    @keyframes scaleIn {
+      0% { transform: scale(0.9); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .counter-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--accent-gold), var(--light-gold));
+      animation: shimmer 3s infinite linear;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .arabic-text {
+      font-family: 'Scheherazade', serif;
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: 15px;
+      color: var(--accent-gold);
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1.2s ease;
+    }
+
+    .counter-display {
+      margin: 20px 0;
+      position: relative;
+    }
+
+    .counter-value {
+      font-size: 7rem;
+      font-weight: 700;
+      text-align: center;
+      color: var(--accent-gold);
+      text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s ease, text-shadow 0.3s ease;
+    }
+
+    .counter-value.animate {
+      animation: countPulse 0.3s ease;
+    }
+
+    @keyframes countPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); text-shadow: 0 0 30px rgba(212, 175, 55, 0.6); }
+      100% { transform: scale(1); }
+    }
+
+    .counter-value::after {
+      content: '';
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 15px;
+      background: rgba(212, 175, 55, 0.2);
+      border-radius: 50%;
+      filter: blur(10px);
+      z-index: -1;
+    }
+
+    .counter-label {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--light-gold);
+      margin-top: 10px;
+      font-weight: 300;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px 0 15px;
+    }
+
+    .counter-btn {
+      padding: 12px 25px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      min-width: 140px;
+      animation: fadeInUp 1.2s ease;
+    }
+
+    .counter-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .counter-btn:hover::before {
+      transform: translateY(0);
+    }
+
+    .counter-btn:active {
+      transform: scale(0.95);
+    }
+
+    .btn-increment {
+      background: linear-gradient(135deg, var(--accent-gold), #b8941f);
+      color: var(--primary-green);
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn-increment:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(212, 175, 55, 0.4);
+    }
+
+    .btn-reset {
+      background: linear-gradient(135deg, #c0392b, #8e2c21);
+      color: white;
+      box-shadow: 0 8px 20px rgba(192, 57, 43, 0.3);
+    }
+
+    .btn-reset:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(192, 57, 43, 0.4);
+    }
+
+    .footer {
+      background: rgba(1, 62, 37, 0.8);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 20px 0;
+      text-align: center;
+      animation: slideUp 0.8s ease;
+    }
+
+    @keyframes slideUp {
+      0% { transform: translateY(100%); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .footer-text {
+      font-family: 'Scheherazade', serif;
+      font-size: 1.8rem;
+      color: var(--accent-gold);
+      margin-bottom: 10px;
+      animation: pulse 3s infinite;
+    }
+
+    .footer-note {
+      font-size: 0.9rem;
+      color: var(--light-gold);
+      font-style: italic;
+    }
+
+    .settings-panel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(1, 62, 37, 0.9);
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      z-index: 100;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      animation: slideInRight 0.8s ease;
+    }
+
+    @keyframes slideInRight {
+      0% { transform: translateX(100%); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+
+    .settings-btn {
+      background: none;
+      border: none;
+      color: var(--accent-gold);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .settings-btn:hover {
+      transform: rotate(90deg);
+    }
+
+    .settings-content {
+      display: none;
+      margin-top: 15px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .settings-content.active {
+      display: block;
+    }
+
+    .setting-item {
+      margin-bottom: 15px;
+    }
+
+    .setting-label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+      color: var(--light-gold);
+    }
+
+    .setting-select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      background: rgba(1, 62, 37, 0.7);
+      color: var(--light-gray);
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      margin: 15px 0;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-gold), var(--light-gold));
+      border-radius: 10px;
+      width: 0%;
+      transition: width 0.5s ease, background 0.5s ease;
+      position: relative;
+    }
+
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      animation: progressShine 2s infinite;
+    }
+
+    @keyframes progressShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .progress-text {
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--light-gold);
+      margin-top: 5px;
+      transition: color 0.5s ease;
+    }
+
+    .celebration {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1000;
+      display: none;
+    }
+
+    .celebration.active {
+      display: block;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: var(--accent-gold);
+      opacity: 0;
+    }
+
+    @keyframes confetti-fall {
+      0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    @media (max-width: 768px) {
+      .counter-value {
+        font-size: 5rem;
+      }
+      
+      .button-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .counter-btn {
+        width: 100%;
+        max-width: 200px;
+      }
+      
+      .settings-panel {
+        top: 10px;
+        right: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated background particles -->
+  <div class="particles" id="particles"></div>
+
+  <!-- Celebration effect -->
+  <div class="celebration" id="celebration"></div>
+
+  <header class="header">
+    <div class="logo">
+      <img src="pics/logo.jpg" alt="" style="height: 50px; width: 50px;">
+      <div>
+        <div class="logo-text">Deep Path</div>
+        <div class="tagline">Premium Tasbeeh Counter</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="main-container">
+    <div class="counter-container">
+      <div class="arabic-text">بِسْمِ ٱللّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+      
+      <div class="counter-display">
+        <div class="counter-value" id="count">0</div>
+        <div class="counter-label">Tasbeeh Count</div>
+      </div>
+      
+      <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <div class="progress-text" id="progress-text">0% of daily goal (100)</div>
+      
+      <div class="button-container">
+        <button class="counter-btn btn-increment" onclick="increment()">
+          <i class="fas fa-plus-circle"></i> Add Tasbeeh
+        </button>
+        <button class="counter-btn btn-reset" onclick="reset()">
+          <i class="fas fa-redo-alt"></i> Reset
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-text">صَلَّى ٱللّٰهُ عَلَيْهِ وَآلِهِ وَسَلَّمَ</div>
+    <div class="footer-note">We respect your privacy and ensure your data security</div>
+  </footer>
+
+  <div class="settings-panel">
+    <button class="settings-btn" onclick="toggleSettings()">
+      <i class="fas fa-cog"></i>
+    </button>
+    <div class="settings-content" id="settings-content">
+      <div class="setting-item">
+        <label class="setting-label" for="daily-goal">Daily Goal</label>
+        <select class="setting-select" id="daily-goal" onchange="updateGoal()">
+          <option value="100">100 (After each prayer)</option>
+          <option value="500">500 (Standard)</option>
+          <option value="1000">1000 (Advanced)</option>
+          <option value="1500">1500 (Advanced)</option>
+          <option value="2000">2000 (Advanced)</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Create background particles
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 30;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        // Random size between 3px and 8px
+        const size = Math.random() * 5 + 3;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        // Random position along the x-axis
+        const posX = Math.random() * 100;
+        particle.style.left = `${posX}%`;
+        
+        // Random animation delay between 0s and 15s
+        const delay = Math.random() * 15;
+        particle.style.animationDelay = `${delay}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Create celebration confetti
+    function createConfetti() {
+      const celebration = document.getElementById('celebration');
+      celebration.innerHTML = '';
+      celebration.classList.add('active');
+      
+      const colors = ['#d4af37', '#f9f295', '#2ecc71', '#3498db', '#e74c3c'];
+      const confettiCount = 100;
+      
+      for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        
+        // Random properties
+        const size = Math.random() * 10 + 5;
+        const posX = Math.random() * 100;
+        const delay = Math.random() * 3;
+        const duration = Math.random() * 3 + 2;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        
+        confetti.style.width = `${size}px`;
+        confetti.style.height = `${size}px`;
+        confetti.style.left = `${posX}%`;
+        confetti.style.backgroundColor = color;
+        confetti.style.animationDelay = `${delay}s`;
+        confetti.style.animationDuration = `${duration}s`;
+        confetti.style.animation = `confetti-fall ${duration}s ease-in forwards`;
+        
+        celebration.appendChild(confetti);
+      }
+      
+      // Hide celebration after animation completes
+      setTimeout(() => {
+        celebration.classList.remove('active');
+      }, 5000);
+    }
+
+    // Tasbeeh Counter Functions
+    let count = 0;
+    let dailyGoal = 100;
+    let previousPercentage = 0;
+    
+    function increment() {
+      count++;
+      document.getElementById('count').innerText = count;
+      
+      // Add animation to the counter
+      const counterElement = document.getElementById('count');
+      counterElement.classList.add('animate');
+      setTimeout(() => {
+        counterElement.classList.remove('animate');
+      }, 300);
+      
+      // Vibrate on mobile devices if supported
+      if ('vibrate' in navigator) {
+        navigator.vibrate(50);
+      }
+      
+      updateProgress();
+    }
+    
+    function reset() {
+      count = 0;
+      document.getElementById('count').innerText = count;
+      updateProgress();
+    }
+    
+    function updateProgress() {
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      const percentage = Math.min(100, Math.round((count / dailyGoal) * 100));
+      
+      progressBar.style.width = percentage + '%';
+      progressText.textContent = `${percentage}% of daily goal (${dailyGoal})`;
+      
+      // Check if goal is reached
+      if (percentage >= 100 && previousPercentage < 100) {
+        progressBar.style.background = 'linear-gradient(90deg, #2ecc71, #27ae60)';
+        progressText.textContent = 'Daily goal achieved! 🎉';
+        progressText.style.color = '#2ecc71';
+        
+        // Trigger celebration
+        createConfetti();
+      } else if (percentage < 100) {
+        progressBar.style.background = 'linear-gradient(90deg, var(--accent-gold), var(--light-gold))';
+        progressText.style.color = 'var(--light-gold)';
+      }
+      
+      previousPercentage = percentage;
+    }
+    
+    function toggleSettings() {
+      const settingsContent = document.getElementById('settings-content');
+      settingsContent.classList.toggle('active');
+    }
+    
+    function updateGoal() {
+      const goalSelect = document.getElementById('daily-goal');
+      dailyGoal = parseInt(goalSelect.value);
+      previousPercentage = 0; // Reset to allow celebration again
+      updateProgress();
+    }
+    
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', () => {
+      // Create background particles
+      createParticles();
+      
+      // Initialize progress bar
+      updateProgress();
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

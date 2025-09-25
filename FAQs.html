@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DeenPath – FAQs</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+<!-- AOS Animation Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<style>
+  :root { 
+    --primary: rgb(0, 43, 24);
+    --primary-light: rgb(10, 80, 40);
+    --secondary: #d4af37;
+    --accent: #b8860b;
+    --light: #f8f9fa;
+    --dark: #212529;
+    --muted: #555;
+    --border: #e5e7eb;
+    --gold-gradient: linear-gradient(135deg, #d4af37, #f9f295);
+    --green-gradient: linear-gradient(135deg, rgb(0, 43, 24), rgb(10, 80, 40));
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    --transition: all 0.4s ease;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: linear-gradient(135deg, rgb(0, 43, 24) 0%, rgb(10, 80, 40) 100%);
+    color: var(--dark);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://picsum.photos/seed/islamic-pattern/1600/900.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.05;
+    z-index: -1;
+  }
+
+  .wrap {
+    max-width: 1000px;
+    margin: 50px auto;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  .wrap::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--gold-gradient);
+  }
+
+  h1 {
+    margin: 0 0 30px;
+    color: var(--primary);
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  h1::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: var(--gold-gradient);
+  }
+
+  .logo {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--secondary);
+    box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+    transition: transform 0.5s ease;
+  }
+
+  .logo:hover {
+    transform: rotate(10deg) scale(1.1);
+  }
+
+  .section {
+    margin-top: 40px;
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+    padding-top: 30px;
+    position: relative;
+  }
+
+  .section h2 {
+    font-size: 1.8rem;
+    margin: 0 0 20px;
+    color: var(--primary);
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 8px;
+  }
+
+  .section h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 2px;
+    background: var(--secondary);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease;
+  }
+
+  .section:hover h2::after {
+    transform: scaleX(1);
+  }
+
+  .tag {
+    display: inline-block;
+    background: rgba(212, 175, 55, 0.15);
+    color: var(--primary);
+    font-size: 14px;
+    padding: 5px 12px;
+    border-radius: 30px;
+    margin-left: 12px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    font-weight: 600;
+    font-family: 'Amiri', serif;
+    transition: var(--transition);
+  }
+
+  .tag:hover {
+    background: rgba(212, 175, 55, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(212, 175, 55, 0.2);
+  }
+
+  details {
+    border: 1px solid rgba(0, 43, 24, 0.1);
+    border-radius: 12px;
+    margin: 15px 0;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    transition: var(--transition);
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  details.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  details:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+  }
+
+  summary {
+    cursor: pointer;
+    list-style: none;
+    padding: 18px 22px;
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 1.1rem;
+    position: relative;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::after {
+    content: "\f107";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: var(--secondary);
+    transition: var(--transition);
+  }
+
+  details[open] summary {
+    background: rgba(0, 43, 24, 0.03);
+    border-bottom: 1px solid rgba(0, 43, 24, 0.1);
+  }
+
+  details[open] summary::after {
+    transform: rotate(180deg);
+  }
+
+  .a {
+    padding: 20px 22px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.7);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, padding 0.5s ease;
+  }
+
+  details[open] .a {
+    max-height: 500px;
+    padding: 20px 22px;
+  }
+
+  /* Footer */
+  .footer {
+    background: var(--primary);
+    color: white;
+    padding: 60px 20px 30px;
+    position: relative;
+    margin-top: auto;
+  }
+
+  .footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--gold-gradient);
+  }
+
+  .footer .container {
+    max-width: 1200px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  @media(min-width: 768px) {
+    .footer .container { 
+      grid-template-columns: 2fr 1fr 1fr 1fr; 
+    }
+  }
+
+  .footer h3 {
+    margin-bottom: 15px;
+    color: var(--secondary);
+    font-size: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    position: relative;
+    padding-bottom: 10px;
+    display: inline-block;
+  }
+
+  .footer h3::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--secondary);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease;
+  }
+
+  .footer h3:hover::after {
+    transform: scaleX(1);
+  }
+
+  .footer p {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0 0 15px;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer li {
+    margin: 12px 0;
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: slideIn 0.5s forwards;
+  }
+
+  .footer li:nth-child(1) { animation-delay: 0.1s; }
+  .footer li:nth-child(2) { animation-delay: 0.2s; }
+  .footer li:nth-child(3) { animation-delay: 0.3s; }
+  .footer li:nth-child(4) { animation-delay: 0.4s; }
+
+  @keyframes slideIn {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .footer a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: var(--transition);
+    display: inline-block;
+    position: relative;
+  }
+
+  .footer a:hover {
+    color: var(--secondary);
+    transform: translateX(5px);
+  }
+
+  .footer a::before {
+    content: "•";
+    position: absolute;
+    left: -12px;
+    color: var(--secondary);
+    opacity: 0;
+    transition: var(--transition);
+  }
+
+  .footer a:hover::before {
+    opacity: 1;
+  }
+
+  .social {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .social a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: var(--transition);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s forwards;
+  }
+
+  .social a:nth-child(1) { animation-delay: 0.1s; }
+  .social a:nth-child(2) { animation-delay: 0.2s; }
+  .social a:nth-child(3) { animation-delay: 0.3s; }
+  .social a:nth-child(4) { animation-delay: 0.4s; }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .social a:hover {
+    background: var(--secondary);
+    color: var(--primary);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+  }
+
+  .footer-logo {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--secondary);
+    vertical-align: middle;
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+  }
+
+  .footer-logo:hover {
+    transform: rotate(10deg) scale(1.1);
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 40px;
+    padding-top: 25px;
+    text-align: center;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 900px) {
+    .wrap {
+      margin: 30px 20px;
+      padding: 30px 25px;
+    }
+    
+    h1 {
+      font-size: 2.3rem;
+    }
+    
+    .logo {
+      height: 50px;
+      width: 50px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .wrap {
+      padding: 20px;
+    }
+    
+    h1 {
+      font-size: 1.9rem;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .section h2 {
+      font-size: 1.5rem;
+    }
+    
+    .tag {
+      display: block;
+      margin-left: 0;
+      margin-top: 8px;
+      width: fit-content;
+    }
+    
+    summary {
+      padding: 15px 18px;
+      font-size: 1rem;
+    }
+    
+    .a {
+      padding: 15px 18px;
+      font-size: 0.95rem;
+    }
+  }
+
+  /* Animation for FAQ opening */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  details[open] .a {
+    animation: fadeIn 0.4s ease;
+  }
+</style>
+</head>
+<body>
+    
+  <div class="wrap" data-aos="fade-up">
+    <h1>
+      <img src="pics/logo.jpg" alt="DeenPath" class="logo">
+      DeenPath – Frequently Asked Questions
+    </h1>
+
+    <!-- Quick Links -->
+    <div class="section" id="quick-links" data-aos="fade-up" data-aos-delay="100">
+      <h2>Quick Links</h2>
+      <span class="tag">Home, About Us, Privacy Policy</span>
+
+      <details>
+        <summary>What can I find on the Home Page?</summary>
+        <div class="a">The Home Page shows featured courses, announcements, and quick access to Islamic resources.</div>
+      </details>
+
+      <details>
+        <summary>Do I need to log in to browse the Home Page?</summary>
+        <div class="a">No. The Home Page is accessible to everyone. Login is only required to access courses and personal features.</div>
+      </details>
+
+      <details>
+        <summary>What is DeenPath's mission? (About Us)</summary>
+        <div class="a">To provide authentic Islamic education and resources online in an easy and accessible way.</div>
+      </details>
+
+      <details>
+        <summary>Who runs DeenPath? (About Us)</summary>
+        <div class="a">DeenPath is managed by scholars, teachers, and developers working together to spread authentic Islamic knowledge.</div>
+      </details>
+
+      <details>
+        <summary>How does DeenPath handle my personal information? (Privacy Policy)</summary>
+        <div class="a">Your data is kept secure and never shared with third parties without consent. Please read our Privacy Policy page for details.</div>
+      </details>
+
+      <details>
+        <summary>Do you use cookies? (Privacy Policy)</summary>
+        <div class="a">Yes, cookies are used to improve user experience such as saving preferences and login sessions.</div>
+      </details>
+    </div>
+
+    <!-- Islamic Resources -->
+    <div class="section" id="islamic-resources" data-aos="fade-up" data-aos-delay="200">
+      <h2>Islamic Resources</h2>
+      <span class="tag">Resources Page</span>
+
+      <details>
+        <summary>What kind of resources are available?</summary>
+        <div class="a">Verified articles, PDFs, audio lectures, and external links on Qur'an, Hadith, Fiqh, Seerah, and Duas.</div>
+      </details>
+
+      <details>
+        <summary>Are resources downloadable?</summary>
+        <div class="a">Yes. Most files are downloadable for personal use. Please check each item's note for usage permissions.</div>
+      </details>
+
+      <details>
+        <summary>How often are resources updated?</summary>
+        <div class="a">Weekly. We add new items and review existing ones to maintain authenticity.</div>
+      </details>
+    </div>
+
+    <!-- Quran -->
+    <div class="section" id="quran" data-aos="fade-up" data-aos-delay="300">
+      <h2>Quran</h2>
+      <span class="tag">Qur'an Page</span>
+
+      <details>
+        <summary>Which text and translations are used?</summary>
+        <div class="a">Uthmani script with multiple trusted translations (English/Urdu). You can switch translation in the reader.</div>
+      </details>
+
+      <details>
+        <summary>Is audio recitation available?</summary>
+        <div class="a">Yes. Play/pause per ayah, repeat, and choose from available reciters.</div>
+      </details>
+
+      <details>
+        <summary>Can I bookmark ayahs and add notes?</summary>
+        <div class="a">Yes. Sign in to save bookmarks, notes, and your last read position across devices.</div>
+      </details>
+    </div>
+
+    <!-- Namaz Time -->
+    <div class="section" id="namaz-time" data-aos="fade-up" data-aos-delay="400">
+      <h2>Namaz Time</h2>
+      <span class="tag">Prayer Times Page</span>
+
+      <details>
+        <summary>How are prayer times calculated?</summary>
+        <div class="a">By your location plus your chosen method (MWL, ISNA, Umm al-Qura, etc.) and juristic school for Asr.</div>
+      </details>
+
+      <details>
+        <summary>Can I adjust angles or method?</summary>
+        <div class="a">Yes. You can customize method, twilight angles, and minute offsets per prayer.</div>
+      </details>
+
+      <details>
+        <summary>Do you provide adhan notifications?</summary>
+        <div class="a">Yes, via web push/email where supported. Enable notifications after signing in.</div>
+      </details>
+    </div>
+
+    <!-- Calendar -->
+    <div class="section" id="calendar" data-aos="fade-up" data-aos-delay="500">
+      <h2>Calendar</h2>
+      <span class="tag">Hijri & Gregorian</span>
+
+      <details>
+        <summary>Do you show both Hijri and Gregorian dates?</summary>
+        <div class="a">Yes. You can toggle views and apply local moon-sighting or Umm al-Qura adjustments.</div>
+      </details>
+
+      <details>
+        <summary>Can I export events to my calendar app?</summary>
+        <div class="a">Yes. Download .ics files and import to Google, Apple, or Outlook calendars.</div>
+      </details>
+
+      <details>
+        <summary>Are key Islamic dates highlighted?</summary>
+        <div class="a">Yes—Ramadan, Eid al-Fitr, Eid al-Adha, Ashura, and other notable days are clearly marked.</div>
+      </details>
+    </div>
+
+    <!-- Counter -->
+    <div class="section" id="counter" data-aos="fade-up" data-aos-delay="600">
+      <h2>Counter (Tasbeeh)</h2>
+      <span class="tag">Dhikr Tool</span>
+
+      <details>
+        <summary>How does the digital counter work?</summary>
+        <div class="a">Tap/click to increase the count. Set targets (e.g., 33/33/34) and reset when needed.</div>
+      </details>
+
+      <details>
+        <summary>Will my counts be saved?</summary>
+        <div class="a">Yes, when logged in, your counts and presets sync to your account and devices.</div>
+      </details>
+
+      <details>
+        <summary>Is there vibration or sound feedback?</summary>
+        <div class="a">Optional haptic/sound feedback is available on supported devices (can be turned on/off).</div>
+      </details>
+    </div>
+    <!-- Features -->
+<div class="section" id="features" data-aos="fade-up" data-aos-delay="100">
+  <h2>Features</h2>
+  <span class="tag">Feature Page</span>
+
+  <details>
+    <summary>What features does DeenPath offer?</summary>
+    <div class="a">DeenPath provides Islamic courses, Quran reader, prayer times, digital tasbeeh counter, Qibla direction, and Islamic resources.</div>
+  </details>
+
+  <details>
+    <summary>Are the features free to use?</summary>
+    <div class="a">Most features like Quran, prayer times, and Qibla are free. Some premium courses or resources may require a subscription.</div>
+  </details>
+
+  <details>
+    <summary>Do I need to log in to use these features?</summary>
+    <div class="a">Basic features are accessible without login. Sign in is needed to save progress, bookmarks, and settings.</div>
+  </details>
+</div>
+
+<!-- Courses -->
+<div class="section" id="courses" data-aos="fade-up" data-aos-delay="200">
+  <h2>Courses</h2>
+  <span class="tag">Courses Page</span>
+
+  <details>
+    <summary>What types of courses are available?</summary>
+    <div class="a">Courses on Qur'an, Hadith, Fiqh, Seerah, Arabic language, and Islamic lifestyle are offered.</div>
+  </details>
+
+  <details>
+    <summary>Are the courses free or paid?</summary>
+    <div class="a">Some courses are free, while others may require a one-time payment or subscription plan.</div>
+  </details>
+
+  <details>
+    <summary>How can I track my course progress?</summary>
+    <div class="a">When you log in, your progress is automatically saved, including completed lessons and quizzes.</div>
+  </details>
+
+  <details>
+    <summary>Do courses include certificates?</summary>
+    <div class="a">Yes. Certain paid courses provide a digital certificate upon completion.</div>
+  </details>
+</div>
+
+<!-- Find Mosque -->
+<div class="section" id="find-mosque" data-aos="fade-up" data-aos-delay="300">
+  <h2>Find Mosque</h2>
+  <span class="tag">Find Mosque Page</span>
+
+  <details>
+    <summary>How does the Find Mosque feature work?</summary>
+    <div class="a">It uses your location to display nearby mosques with maps and directions.</div>
+  </details>
+
+  <details>
+    <summary>Do I need to enable location services?</summary>
+    <div class="a">Yes. Location access must be enabled for accurate results.</div>
+  </details>
+
+  <details>
+    <summary>Can I search for mosques in another city?</summary>
+    <div class="a">Yes. You can manually enter a city or address to find mosques in that area.</div>
+  </details>
+
+  <details>
+    <summary>Are mosque details verified?</summary>
+    <div class="a">We rely on community submissions and public databases. Users can report errors to help improve accuracy.</div>
+  </details>
+</div>
+
+<!-- Qibla -->
+<div class="section" id="qibla" data-aos="fade-up" data-aos-delay="400">
+  <h2>Qibla Direction</h2>
+  <span class="tag">Qibla Page</span>
+
+  <details>
+    <summary>How does the Qibla finder work?</summary>
+    <div class="a">It uses your device’s compass and location to show the exact direction of the Kaaba.</div>
+  </details>
+
+  <details>
+    <summary>Is it accurate indoors?</summary>
+    <div class="a">Accuracy may vary indoors. For best results, use it outdoors or near a window and calibrate your device's compass.</div>
+  </details>
+
+  <details>
+    <summary>Can I use it offline?</summary>
+    <div class="a">Yes, once loaded, the Qibla direction works offline using your device's compass.</div>
+  </details>
+</div>
+
+<!-- Privacy Policy -->
+<div class="section" id="privacy-policy" data-aos="fade-up" data-aos-delay="500">
+  <h2>Privacy Policy</h2>
+  <span class="tag">Privacy Policy Page</span>
+
+  <details>
+    <summary>How does DeenPath protect my privacy?</summary>
+    <div class="a">We implement secure encryption and never share your data with third parties without consent.</div>
+  </details>
+
+  <details>
+    <summary>What data do you collect?</summary>
+    <div class="a">We only collect necessary information such as email, name, and preferences to improve user experience.</div>
+  </details>
+
+  <details>
+    <summary>Can I request my data to be deleted?</summary>
+    <div class="a">Yes. You can contact support to request deletion of your account and all related data.</div>
+  </details>
+
+  <details>
+    <summary>Do you share data with advertisers?</summary>
+    <div class="a">No. We do not sell or share personal information with advertisers.</div>
+  </details>
+</div>
+
+  </div>
+
+  
+  <!-- Footer -->
+  <footer class="footer" data-aos="fade-up">
+    <div class="container">
+      <!-- About Section -->
+      <div>
+        <h3>
+          <img src="pics/logo.jpg" alt="" class="footer-logo">
+          <b>DeenPath</b>
+        </h3>
+        <p>DeenPath is your guide to authentic Islamic knowledge and resources for a better spiritual journey.</p>
+        <div class="social">
+          <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="p.p.html">Privacy Policy</a></li>
+          <li><a href="FAQs.html">FAQs</a></li>
+        </ul>
+      </div>
+
+      <!-- Islamic Resources -->
+      <div>
+        <h3>Islamic Resources</h3>
+        <ul>
+          <li><a href="paray.html">Quran</a></li>
+          <li><a href="nt.html">Namaz Time</a></li>
+          <li><a href="calender.html">Calendar</a></li>
+          <li><a href="counter.html">Counter</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h3>Contact</h3>
+        <ul>
+          <li><a href="mailto:mohsingohar759@gmail.com">mohsingohar759@gmail.com</a></li>
+          <li><a href="#">+92 300 1234567</a></li>
+          <li><a href="#">Lahore, Pakistan</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      © <span id="year"></span> DeenPath. All Rights Reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 800,
+      easing: 'ease-in-out',
+      once: true,
+      mirror: false
+    });
+    
+    // Set current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+    
+    // Add smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          window.scrollTo({
+            top: target.offsetTop - 20,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+
+    // Animate FAQ items on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const detailsElements = document.querySelectorAll('details');
+      
+      detailsElements.forEach((detail, index) => {
+        // Stagger the animation of each FAQ item
+        setTimeout(() => {
+          detail.classList.add('show');
+        }, index * 100);
+      });
+
+      // Add click animation to FAQ items
+      detailsElements.forEach(detail => {
+        detail.addEventListener('click', function() {
+          // Add a subtle pulse animation when clicked
+          this.style.transform = 'scale(0.98)';
+          setTimeout(() => {
+            this.style.transform = '';
+          }, 200);
+        });
+      });
+    });
+
+    // Add hover effect to logo
+    const logo = document.querySelector('.logo');
+    logo.addEventListener('mouseenter', function() {
+      this.style.transform = 'rotate(10deg) scale(1.1)';
+    });
+    logo.addEventListener('mouseleave', function() {
+      this.style.transform = '';
+    });
+
+    // Add hover effect to footer logo
+    const footerLogo = document.querySelector('.footer-logo');
+    footerLogo.addEventListener('mouseenter', function() {
+      this.style.transform = 'rotate(10deg) scale(1.1)';
+    });
+    footerLogo.addEventListener('mouseleave', function() {
+      this.style.transform = '';
+    });
+  </script>
+</body>
+</html>

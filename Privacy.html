@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy – Deen Path Quran</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+      --bg: #0a1a12;
+      --card: #10241a;
+      --muted: #b6c2aa;
+      --text: #f5f5dc;
+      --primary: #00c896;
+      --primary-600: #00a67a;
+      --ring: rgba(0,200,150,.35);
+      --border: #1f3a2d;
+      --accent: gold;
+      --accent-light: #ffd700;
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --card-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      --hover-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      --gradient: linear-gradient(135deg, #10241a, #0a1a12);
+      --accent-gradient: linear-gradient(135deg, #ffd700, #e6c200);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: radial-gradient(ellipse at top right, rgba(0,200,150,0.15), transparent 50%), 
+                  radial-gradient(ellipse at bottom left, rgba(255,215,0,0.1), transparent 50%),
+                  var(--bg);
+      color: var(--text);
+      letter-spacing: 0.02em;
+      line-height: 1.7;
+      padding: 0;
+      margin: 0;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    
+    /* Scroll Progress Bar */
+    .progress-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: rgba(255,255,255,0.1);
+      z-index: 1000;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--accent-gradient);
+      transition: width 0.3s ease;
+    }
+    
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    a:hover {
+      color: var(--accent-light);
+      text-decoration: underline;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header Styles */
+    .header {
+      position: relative;
+      padding: 80px 0 50px;
+      background: var(--gradient);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(0,200,150,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: translate(50%, -50%);
+    }
+    
+    .header::after {
+      content: "";
+      position: absolute;
+      bottom: -100px;
+      left: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 20s infinite ease-in-out;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(30px, -30px) rotate(10deg); }
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: var(--accent-light);
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      position: relative;
+      display: inline-block;
+    }
+    
+    .title::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100px;
+      height: 3px;
+      background: var(--accent-gradient);
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--muted);
+      font-weight: 400;
+      max-width: 700px;
+      margin-bottom: 30px;
+    }
+    
+    .last-updated {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: rgba(0,200,150,0.1);
+      border-radius: 30px;
+      font-size: 0.9rem;
+      color: var(--primary);
+      font-weight: 500;
+      border: 1px solid rgba(0,200,150,0.2);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    
+    .last-updated i {
+      margin-right: 8px;
+    }
+    
+    /* Navigation */
+    .nav-container {
+      position: sticky;
+      top: 0;
+      background: rgba(10, 26, 18, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+    }
+    
+    .nav {
+      display: flex;
+      align-items: center;
+      padding: 18px 0;
+    }
+    
+    .back-button {
+      display: flex;
+      align-items: center;
+      padding: 12px 24px;
+      background: var(--accent-gradient);
+      color: #000;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(255,215,0,0.2);
+    }
+    
+    .back-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(255,215,0,0.3);
+      text-decoration: none;
+    }
+    
+    .back-button i {
+      margin-right: 10px;
+    }
+    
+    /* Card Styles */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 50px;
+      margin: 50px 0;
+      border: 1px solid var(--border);
+      box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--hover-shadow);
+    }
+    
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--accent-gradient);
+    }
+    
+    .card::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 150px;
+      height: 150px;
+      background: radial-gradient(circle, rgba(255,215,0,0.05) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: translate(30%, 30%);
+    }
+    
+    .card-icon {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      font-size: 2rem;
+      color: var(--primary);
+      opacity: 0.8;
+      background: rgba(0,200,150,0.1);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--accent-light);
+      margin-bottom: 25px;
+      padding-right: 60px;
+      position: relative;
+    }
+    
+    .card-title::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--primary);
+    }
+    
+    .card-subtitle {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin: 30px 0 20px;
+      position: relative;
+      padding-left: 20px;
+    }
+    
+    .card-subtitle::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      background: var(--accent-light);
+      border-radius: 50%;
+    }
+    
+    .card-content {
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+    
+    .card-content p {
+      margin-bottom: 20px;
+      line-height: 1.8;
+    }
+    
+    .card-content ul, .card-content ol {
+      padding-left: 25px;
+      margin-bottom: 25px;
+    }
+    
+    .card-content li {
+      margin-bottom: 12px;
+      position: relative;
+      padding-left: 10px;
+      line-height: 1.7;
+    }
+    
+    .card-content li::before {
+      content: "•";
+      color: var(--primary);
+      font-weight: bold;
+      position: absolute;
+      left: -15px;
+    }
+    
+    /* Table Styles */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 30px 0;
+      background: rgba(0,0,0,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .data-table th, .data-table td {
+      padding: 18px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .data-table th {
+      background: rgba(0,200,150,0.15);
+      color: var(--accent-light);
+      font-weight: 600;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .data-table tr:hover {
+      background: rgba(0,0,0,0.2);
+    }
+    
+    /* Highlight Box */
+    .highlight-box {
+      background: rgba(255,215,0,0.1);
+      border-left: 4px solid var(--accent-light);
+      padding: 25px;
+      margin: 30px 0;
+      border-radius: 0 10px 10px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .highlight-box::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: 10px;
+      font-size: 100px;
+      color: rgba(255,215,0,0.1);
+      font-family: 'Playfair Display', serif;
+    }
+    
+    .highlight-box p {
+      margin: 0;
+      font-style: italic;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Footer */
+    .footer {
+      background: var(--gradient);
+      padding: 70px 0;
+      margin-top: 100px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .footer::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--accent-gradient);
+    }
+    
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--accent-light);
+      margin-bottom: 20px;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .footer-logo::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--accent-gradient);
+    }
+    
+    .footer-text {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 600px;
+      margin-bottom: 30px;
+      line-height: 1.8;
+    }
+    
+    .footer-links {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .footer-links a {
+      color: var(--muted);
+      transition: all 0.3s ease;
+      position: relative;
+      padding-bottom: 5px;
+    }
+    
+    .footer-links a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-light);
+      transition: width 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+      color: var(--accent-light);
+    }
+    
+    .footer-links a:hover::after {
+      width: 100%;
+    }
+    
+    .copyright {
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding-top: 25px;
+      border-top: 1px solid var(--border);
+      width: 100%;
+      max-width: 600px;
+    }
+    
+    /* Floating particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+      pointer-events: none;
+    }
+    
+    .particle {
+      position: absolute;
+      background-color: rgba(255, 215, 0, 0.3);
+      border-radius: 50%;
+      animation: float 15s infinite linear;
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    /* Scroll to top button */
+    .scroll-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--accent-gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-size: 1.2rem;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+    
+    .scroll-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .scroll-top:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .title {
+        font-size: 2.5rem;
+      }
+      
+      .card {
+        padding: 30px;
+        margin: 40px 0;
+      }
+      
+      .card-title {
+        font-size: 1.8rem;
+      }
+      
+      .card-subtitle {
+        font-size: 1.2rem;
+      }
+      
+      .card-icon {
+        top: 20px;
+        right: 20px;
+        font-size: 1.5rem;
+        width: 50px;
+        height: 50px;
+      }
+      
+      .footer-links {
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Scroll Progress Bar -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  
+  <!-- Floating particles -->
+  <div class="particles" id="particles"></div>
+  
+  <div class="header">
+    <div class="container">
+      <div class="header-content">
+        <h1 class="title animate__animated animate__fadeInDown">Privacy Policy</h1>
+        <p class="subtitle animate__animated animate__fadeIn animate__delay-1s">At Deen Path Quran, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy outlines how we collect, use, and safeguard your data.</p>
+        <div class="last-updated animate__animated animate__fadeIn animate__delay-2s">
+          <i class="far fa-clock"></i> Last Updated: <span id="update-date"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="nav-container">
+    <div class="container">
+      <div class="nav">
+        <a href="index.html" class="back-button">
+          <i class="fas fa-arrow-left"></i> Back to Home
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container">
+    <div class="card">
+      <i class="fas fa-shield-alt card-icon"></i>
+      <h2 class="card-title">Introduction</h2>
+      <div class="card-content">
+        <p>Welcome to Deen Path Quran. This Privacy Policy explains how we collect, use, disclose, and safeguard your personal information when you use our mobile application (the "App"). Please read this Privacy Policy carefully. If you do not agree with the terms of this Privacy Policy, please do not use our App.</p>
+        
+        <p>Deen Path Quran is committed to ensuring that your privacy is protected. We believe in transparency and want you to understand how we collect and use your information.</p>
+        
+        <div class="highlight-box">
+          <p>By using our App, you consent to the collection and use of information in accordance with this policy.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-user-shield card-icon"></i>
+      <h2 class="card-title">Information We Collect</h2>
+      <div class="card-content">
+        <h3 class="card-subtitle">Personal Information</h3>
+        <p>When you use our App, we may collect certain personally identifiable information from you, such as:</p>
+        <ul>
+          <li>Name (if you choose to provide it)</li>
+          <li>Email address (if you choose to provide it)</li>
+          <li>Profile picture (if you choose to upload one)</li>
+          <li>Location information (if you enable location services)</li>
+          <li>Device information (such as device model, operating system, and unique device identifiers)</li>
+        </ul>
+        
+        <h3 class="card-subtitle">Automatically Collected Information</h3>
+        <p>When you access and use our App, we may automatically collect certain information, including:</p>
+        <ul>
+          <li>Log information (such as IP address, browser type, and pages visited)</li>
+          <li>Usage information (such as features used, time spent, and actions taken within the App)</li>
+          <li>Performance data and crash reports</li>
+          <li>Information about your interaction with the App and other users</li>
+        </ul>
+        
+        <h3 class="card-subtitle">Cookies and Similar Technologies</h3>
+        <p>We may use cookies, web beacons, and similar tracking technologies to collect information about your interaction with our App. Cookies are small text files that are placed on your device to collect standard internet log information and behavior information.</p>
+        
+        <div class="highlight-box">
+          <p>You can control the use of cookies at the individual browser level. If you disable cookies, however, some parts of our App may not function properly.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-cogs card-icon"></i>
+      <h2 class="card-title">How We Use Your Information</h2>
+      <div class="card-content">
+        <p>We may use the information we collect for various purposes, including to:</p>
+        <ul>
+          <li>Provide, maintain, and improve our App</li>
+          <li>Process transactions and send related information</li>
+          <li>Send you technical notices and support messages</li>
+          <li>Respond to your comments and questions</li>
+          <li>Monitor and analyze usage and trends to improve our App</li>
+          <li>Personalize your experience with the App</li>
+          <li>Develop new products, services, features, and functionality</li>
+          <li>Communicate with you about products, services, offers, and events</li>
+          <li>Link or combine with other information we get from third parties</li>
+          <li>Carry out any other purpose for which the information was collected</li>
+        </ul>
+        
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Information Type</th>
+              <th>Purpose of Use</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Personal Information</td>
+              <td>Account management, personalization</td>
+            </tr>
+            <tr>
+              <td>Usage Information</td>
+              <td>App improvement, feature optimization</td>
+            </tr>
+            <tr>
+              <td>Device Information</td>
+              <td>Technical support, compatibility</td>
+            </tr>
+            <tr>
+              <td>Location Information</td>
+              <td>Location-based features (if enabled)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-share-alt card-icon"></i>
+      <h2 class="card-title">How We Share Your Information</h2>
+      <div class="card-content">
+        <p>We may share your information with third parties in the following circumstances:</p>
+        <ul>
+          <li>With service providers who perform services on our behalf</li>
+          <li>For legal purposes, such as complying with legal obligations, protecting our rights, or investigating illegal activities</li>
+          <li>In connection with a business transfer, merger, or sale of company assets</li>
+          <li>With your consent or at your direction</li>
+        </ul>
+        
+        <h3 class="card-subtitle">Third-Party Services</h3>
+        <p>Our App may contain links to third-party websites, products, or services. We are not responsible for the privacy practices of these third parties. We encourage you to review the privacy policies of these third parties before providing them with any personal information.</p>
+        
+        <div class="highlight-box">
+          <p>We do not sell, trade, or otherwise transfer your personal information to third parties without your consent, except as described in this Privacy Policy.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-lock card-icon"></i>
+      <h2 class="card-title">Data Security</h2>
+      <div class="card-content">
+        <p>We take reasonable measures to help protect your personal information from loss, theft, misuse, and unauthorized access, disclosure, alteration, and destruction. However, no security system is impenetrable, and we cannot guarantee the security of your information.</p>
+        
+        <p>We implement security measures designed to protect your information, including:</p>
+        <ul>
+          <li>Secure socket layer (SSL) technology</li>
+          <li>Encryption of sensitive information</li>
+          <li>Regular security reviews</li>
+          <li>Access controls for authorized personnel only</li>
+        </ul>
+        
+        <div class="highlight-box">
+          <p>We recommend that you use strong passwords and keep your account information secure. We are not responsible for any unauthorized access to your account that results from your failure to maintain adequate security practices.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-user-check card-icon"></i>
+      <h2 class="card-title">Your Rights</h2>
+      <div class="card-content">
+        <p>Depending on your jurisdiction, you may have the following rights regarding your personal information:</p>
+        <ul>
+          <li>The right to access your personal information</li>
+          <li>The right to correct inaccuracies in your personal information</li>
+          <li>The right to delete your personal information</li>
+          <li>The right to restrict the processing of your personal information</li>
+          <li>The right to object to the processing of your personal information</li>
+          <li>The right to data portability</li>
+        </ul>
+        
+        <p>To exercise these rights, please contact us using the contact information provided below.</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-child card-icon"></i>
+      <h2 class="card-title">Children's Privacy</h2>
+      <div class="card-content">
+        <p>Our App is not intended for use by children under the age of 13. We do not knowingly collect personally identifiable information from children under 13. If we become aware that we have collected personal information from a child without parental consent, we will take steps to remove that information.</p>
+        
+        <p>If you are a parent or guardian and believe that your child has provided us with personal information, please contact us so that we can take appropriate actions.</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-globe card-icon"></i>
+      <h2 class="card-title">International Data Transfers</h2>
+      <div class="card-content">
+        <p>Your information may be transferred to and maintained on servers located outside of your country, province, or other governmental jurisdiction where the data protection laws may differ from those of your jurisdiction.</p>
+        
+        <p>If you are located outside the country where our servers are located, your information may be transferred to, stored, and processed in a country other than your own. By using our App, you consent to this transfer.</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-sync-alt card-icon"></i>
+      <h2 class="card-title">Changes to This Privacy Policy</h2>
+      <div class="card-content">
+        <p>We may update this Privacy Policy from time to time. The updated version will be indicated by a revised "Last Updated" date at the top of this Privacy Policy.</p>
+        
+        <p>When we make changes to this Privacy Policy, we will notify you by email or through the App. Your continued use of the App after any changes to this Privacy Policy will constitute your acceptance of such changes.</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-envelope card-icon"></i>
+      <h2 class="card-title">Contact Us</h2>
+      <div class="card-content">
+        <p>If you have any questions about this Privacy Policy, please contact us at:</p>
+        
+        <p><strong>Email:</strong> privacy@deenpathquran.com</p>
+        <p><strong>Website:</strong> www.deenpathquran.com</p>
+        
+        <p>When contacting us, please include your name and contact information so that we can respond to your inquiry.</p>
+      </div>
+    </div>
+    
+    <div class="card">
+      <i class="fas fa-check-circle card-icon"></i>
+      <h2 class="card-title">Consent</h2>
+      <div class="card-content">
+        <p>By using our App, you acknowledge that you have read, understood, and agree to this Privacy Policy.</p>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">Deen Path Quran</div>
+        <p class="footer-text">Your journey through the Holy Quran, designed with care and respect for Islamic traditions.</p>
+        <div class="footer-links">
+          <a href="#">Terms of Service</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Contact Us</a>
+          <a href="#">About Us</a>
+        </div>
+        <div class="copyright">© 2023 Deen Path Quran. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Scroll to top button -->
+  <div class="scroll-top" id="scrollTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+  
+  <script>
+    // Set the current date for the "Last Updated" field
+    document.getElementById('update-date').textContent = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    
+    // Create floating particles
+    document.addEventListener('DOMContentLoaded', function() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 30;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+
+        // Random size between 3px and 8px
+        const size = Math.random() * 5 + 3;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+
+        // Random position
+        particle.style.left = `${Math.random() * 100}%`;
+
+        // Random animation duration between 10s and 20s
+        const duration = Math.random() * 10 + 10;
+        particle.style.animationDuration = `${duration}s`;
+
+        // Random delay
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+
+        particlesContainer.appendChild(particle);
+      }
+    });
+    
+    // Scroll animations
+    const cards = document.querySelectorAll('.card');
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+    
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+    
+    cards.forEach(card => {
+      observer.observe(card);
+    });
+    
+    // Scroll progress bar
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.body.offsetHeight - window.innerHeight;
+      const scrollPercent = (scrollTop / docHeight) * 100;
+      document.getElementById('progressBar').style.width = scrollPercent + '%';
+      
+      // Show/hide scroll to top button
+      const scrollButton = document.getElementById('scrollTop');
+      if (scrollTop > 300) {
+        scrollButton.classList.add('visible');
+      } else {
+        scrollButton.classList.remove('visible');
+      }
+    });
+    
+    // Scroll to top functionality
+    document.getElementById('scrollTop').addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    // Add smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+</body>
+</html>

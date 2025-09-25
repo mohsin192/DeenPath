@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>All Duas – Islamic App</title>
+<style>
+  :root{
+    --bg:#0e1a14;
+    --panel:#112219;
+    --card:#13281d;
+    --muted:#a7b5ad;
+    --text:#eaf3ee;
+    --primary:#00c896;
+    --primary-600:#00a87e;
+    --ring:rgba(0,200,150,.35);
+    --border:#1f3a2c;
+    --accent:#ffd166;
+    --radius:16px;
+    --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    background:
+      radial-gradient(1000px 600px at 90% -10%, rgba(0,200,150,.08), transparent 60%),
+      radial-gradient(1200px 800px at -10% 110%, rgba(255,209,102,.05), transparent 60%),
+      var(--bg);
+    color:var(--text);
+    letter-spacing:.15px;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1100px;margin:0 auto;padding:18px}
+  .topbar{
+    position:sticky; top:0; z-index:10;
+    backdrop-filter: blur(10px);
+    background: rgba(17,34,25,.7);
+    border-bottom:1px solid var(--border);
+  }
+  .brand{
+    display:flex;align-items:center;gap:10px;
+  }
+  .brand .logo{
+    width:34px;height:34px;border-radius:10px;
+    background:linear-gradient(135deg, var(--primary), #34e2b8);
+    box-shadow:0 6px 16px rgba(0,200,150,.35);
+  }
+  .brand h1{font-size:1.05rem;margin:0;font-weight:800;letter-spacing:.3px}
+  .top-grid{
+    display:grid;grid-template-columns: 1fr; gap:10px; align-items:center;
+  }
+  @media(min-width:720px){
+    .top-grid{ grid-template-columns: auto 1fr auto; }
+  }
+  .search{
+    display:flex;align-items:center; gap:10px;
+    background:var(--panel); border:1px solid var(--border);
+    padding:10px 12px;border-radius:12px;
+  }
+  .search input{
+    flex:1; background:transparent; border:0; outline:0; color:var(--text);
+    font-size:.95rem;
+  }
+  .pill{
+    border:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+    padding:8px 12px; border-radius:999px; font-weight:700; color:var(--muted);
+    display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+  }
+  .pill.active{ color:var(--primary); border-color:var(--primary); box-shadow:0 0 0 4px var(--ring); }
+  .chip-row{ display:flex; gap:8px; flex-wrap:wrap; }
+  .layout{ display:grid; grid-template-columns: 1fr; gap:16px; }
+  @media(min-width:980px){
+    .layout{ grid-template-columns: 260px 1fr; align-items:start; }
+  }
+  .side{
+    position:sticky; top:78px;
+    padding:14px; border:1px solid var(--border); border-radius:14px; background:var(--panel);
+  }
+  .side h3{ margin:4px 0 12px; font-size:.95rem; color:var(--muted); }
+  .side .group{ display:grid; gap:8px; }
+  .grid{ display:grid; grid-template-columns: 1fr; gap:12px; }
+  @media(min-width:640px){ .grid{ grid-template-columns: repeat(2,1fr); } }
+  @media(min-width:1080px){ .grid{ grid-template-columns: repeat(3,1fr); } }
+  .card{
+    padding:14px; border-radius:14px; background:var(--card);
+    border:1px solid var(--border);
+    transition:.2s ease; display:flex; flex-direction:column; gap:10px;
+  }
+  .card:hover{ border-color:var(--primary); box-shadow:0 0 0 4px var(--ring); transform: translateY(-1px);}
+  .meta{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .badge{ font-weight:800; font-size:.75rem; color:var(--primary); background:rgba(0,200,150,.12); padding:6px 8px; border-radius:8px; border:1px solid var(--border); }
+  .title{ font-weight:800; font-size:1rem; line-height:1.2; }
+  .arabic{ font-family: "Scheherazade New", "Amiri", serif; font-size:1.1rem; line-height:1.6; direction: rtl; text-align:right; }
+  .small{ color:var(--muted); font-size:.9rem; line-height:1.5; }
+  .actions{ display:flex; gap:8px; margin-top:auto; }
+  .btn{
+    width:100%; text-align:center; padding:8px 10px; border-radius:10px; font-weight:800;
+    border:1px solid var(--border); background:rgba(255,255,255,.02); color:var(--text); cursor:pointer;
+  }
+  .btn:hover{ border-color:var(--primary); color:var(--primary); }
+  .btn.primary{ background:linear-gradient(180deg, rgba(0,200,150,.18), rgba(0,200,150,.0)); color:var(--primary); border-color:var(--primary); }
+  .fav{ color:var(--accent); }
+  .empty{
+    text-align:center; color:var(--muted); padding:30px; border:1px dashed var(--border); border-radius:14px;
+  }
+  .note{ text-align:center; color:var(--muted); font-size:.85rem; margin:20px 0; }
+  .block{ display:none; }
+  .block.show{ display:block; }
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap top-grid">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <h1>All Duas</h1>
+    </div>
+
+    <label class="search" aria-label="Search duas">
+      🔎
+      <input id="searchInput" type="search" placeholder="Search duas by title, Arabic, or meaning…">
+      <button id="clearSearch" class="pill" type="button" title="Clear">✖</button>
+    </label>
+
+    <div class="chip-row" id="quickFilters" aria-label="Quick filters">
+      <button class="pill active" data-filter="all">All</button>
+      <button class="pill" data-filter="morning">Morning</button>
+      <button class="pill" data-filter="evening">Evening</button>
+      <button class="pill" data-filter="prayer">Prayer</button>
+      <button class="pill" data-filter="daily">Daily</button>
+      <button class="pill" data-filter="travel">Travel</button>
+      <button class="pill" data-filter="forgiveness">Forgiveness</button>
+      <button class="pill" data-filter="sleep">Sleep</button>
+      <button class="pill" data-filter="fav">★ Favorites</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap layout">
+  <aside class="side" aria-label="Categories">
+    <h3>Categories</h3>
+    <div class="group" id="sideCats"></div>
+
+    <h3 style="margin-top:16px;">Display</h3>
+    <div class="group">
+      <label class="pill"><input type="checkbox" id="toggleTranslit"> Show Transliteration</label>
+      <label class="pill"><input type="checkbox" id="toggleTranslate" checked> Show Translation</label>
+    </div>
+  </aside>
+
+  <main>
+    <div id="cards" class="grid" aria-live="polite"></div>
+    <div id="emptyState" class="empty" style="display:none">No duas found. Try different filters or search.</div>
+    <p class="note">Tip: Click “♡ Save” to add a dua to Favorites. Your selection is saved on this device.</p>
+  </main>
+</div>
+
+<script>
+const DUAS = [
+  // --- Already provided 10 duas ---
+  {id:'sayyidul-istighfar',title:'Sayyidul Istighfar',cat:['forgiveness','daily','morning','evening'],arabic:'اللَّهُمَّ أَنْتَ رَبِّي...',transliteration:'Allahumma anta rabbi...',translation:'O Allah, You are my Lord...'},
+  {id:'before-eating',title:'Before Eating',cat:['daily'],arabic:'بِسْمِ اللَّهِ',transliteration:'Bismillah.',translation:'In the name of Allah.'},
+  {id:'after-eating',title:'After Eating',cat:['daily'],arabic:'الْحَمْدُ لِلَّهِ...',transliteration:'Alhamdu lillah...',translation:'All praise is for Allah...'},
+  {id:'enter-masjid',title:'Entering the Masjid',cat:['prayer','daily'],arabic:'اللَّهُمَّ افْتَحْ لِي...',transliteration:'Allahumma iftah li...',translation:'O Allah, open for me...'},
+  {id:'leave-masjid',title:'Leaving the Masjid',cat:['prayer','daily'],arabic:'اللَّهُمَّ إِنِّي أَسْأَلُكَ...',transliteration:'Allahumma inni as’aluka...',translation:'O Allah, I ask You...'},
+  {id:'dua-qunoot',title:'Dua Qunoot',cat:['prayer'],arabic:'اللَّهُمَّ اهْدِنِي...',transliteration:'Allahumma ihdini...',translation:'O Allah, guide me...'},
+  {id:'morning-adhkar',title:'Morning Adhkar',cat:['morning'],arabic:'أَصْبَحْنَا...',transliteration:'Asbahna...',translation:'We have entered the morning...'},
+  {id:'evening-adhkar',title:'Evening Adhkar',cat:['evening'],arabic:'أَمْسَيْنَا...',transliteration:'Amsayna...',translation:'We have entered the evening...'},
+  {id:'travel-dua',title:'Dua for Travel',cat:['travel','daily'],arabic:'سُبْحَانَ الَّذِي...',transliteration:'Subhana allathee...',translation:'Glory be to Him...'},
+  {id:'sleeping',title:'Before Sleeping',cat:['sleep','daily'],arabic:'بِاسْمِكَ رَبِّي...',transliteration:'Bismika rabbi...',translation:'In Your name my Lord...'},
+
+  // --- Extra 40 duas ---
+  {id:'dua1',title:'Dua for Parents',cat:['daily','forgiveness'],arabic:'رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا',transliteration:'Rabbi irhamhuma kama rabbayani saghira',translation:'My Lord, have mercy on them as they brought me up when I was small.'},
+  {id:'dua2',title:'Dua for Knowledge',cat:['daily','prayer'],arabic:'رَبِّ زِدْنِي عِلْمًا',transliteration:'Rabbi zidni ilma',translation:'My Lord, increase me in knowledge.'},
+  {id:'dua3',title:'Dua for Health',cat:['daily'],arabic:'اللَّهُمَّ اشْفِنِي',transliteration:'Allahumma ishfini',translation:'O Allah, grant me healing.'},
+  {id:'dua4',title:'Dua for Guidance',cat:['daily','prayer'],arabic:'اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ',transliteration:'Ihdinas siratal mustaqim',translation:'Guide us to the straight path.'},
+  {id:'dua5',title:'Dua for Forgiveness',cat:['forgiveness','daily'],arabic:'رَبِّ اغْفِرْ لِي',transliteration:'Rabbi ighfir li',translation:'My Lord, forgive me.'},
+  {id:'dua6',title:'Dua for Parents’ Forgiveness',cat:['forgiveness','daily'],arabic:'رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ',transliteration:'Rabbi ighfir li wa liwalidayya',translation:'My Lord, forgive me and my parents.'},
+  {id:'dua7',title:'Dua Before Sleep',cat:['sleep'],arabic:'اللَّهُمَّ بِاسْمِكَ أَمُوتُ وَأَحْيَا',transliteration:'Allahumma bismika amutu wa ahya',translation:'O Allah, in Your name I die and live.'},
+  {id:'dua8',title:'Dua Upon Waking',cat:['morning'],arabic:'الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا',transliteration:'Alhamdu lillahil-ladhi ahyana',translation:'All praise is for Allah who gave us life after death.'},
+  {id:'dua9',title:'Dua for Entering Home',cat:['daily'],arabic:'بِسْمِ اللَّهِ وَلَجْنَا',transliteration:'Bismillah walajna',translation:'In the name of Allah we enter.'},
+  {id:'dua10',title:'Dua for Leaving Home',cat:['daily'],arabic:'بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ',transliteration:'Bismillah tawakkaltu ala Allah',translation:'In the name of Allah, I place my trust in Allah.'},
+  {id:'dua11',title:'Dua for Travel Safety',cat:['travel'],arabic:'سُبْحَانَ الَّذِي سَخَّرَ لَنَا',transliteration:'Subhana allathee sakhkhara lana',translation:'Glory be to Him who has subjected this for us.'},
+  {id:'dua12',title:'Dua for Rain',cat:['daily'],arabic:'اللَّهُمَّ اسْقِنَا غَيْثًا مُغِيثًا',transliteration:'Allahumma asqina ghaythan mughithan',translation:'O Allah, give us beneficial rain.'},
+  {id:'dua13',title:'Dua for Protection',cat:['daily','prayer'],arabic:'أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ',transliteration:'A’udhu billahi min ash-shaytan',translation:'I seek refuge in Allah from the Devil.'},
+  {id:'dua14',title:'Dua for Parents at Night',cat:['sleep'],arabic:'اللَّهُمَّ احْفَظْ وَالِدَيَّ',transliteration:'Allahumma ahfaz walidayya',translation:'O Allah, protect my parents.'},
+  {id:'dua15',title:'Dua for Strength',cat:['daily'],arabic:'رَبِّ أَعِنِّي',transliteration:'Rabbi a’inni',translation:'My Lord, help me.'},
+  {id:'dua16',title:'Dua for Anxiety',cat:['daily'],arabic:'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ',transliteration:'Allahumma inni a’udhu bika',translation:'O Allah, I seek refuge in You.'},
+  {id:'dua17',title:'Dua for Patience',cat:['daily'],arabic:'رَبِّ أَعِنِّي عَلَى الصَّبْرِ',transliteration:'Rabbi a’inni ala as-sabr',translation:'My Lord, help me to be patient.'},
+  {id:'dua18',title:'Dua for Gratitude',cat:['daily'],arabic:'اللَّهُمَّ أَكْرِمْنِي',transliteration:'Allahumma akrimni',translation:'O Allah, honor me.'},
+  {id:'dua19',title:'Dua for Family',cat:['daily'],arabic:'رَبِّ اجْمَعْنَا عَلَى الْخَيْرِ',transliteration:'Rabbi ajma’na ala al-khayr',translation:'My Lord, unite us in goodness.'},
+  {id:'dua20',title:'Dua for Neighbors',cat:['daily'],arabic:'اللَّهُمَّ اجعل جيراني راضين',transliteration:'Allahumma aj’al jiranī radhin',translation:'O Allah, make my neighbors content.'},
+  {id:'dua21',title:'Dua for Food Blessing',cat:['daily'],arabic:'اللَّهُمَّ بَارِكْ لَنَا فِيهِ',transliteration:'Allahumma barik lana fihi',translation:'O Allah, bless it for us.'},
+  {id:'dua22',title:'Dua for Forgiving Others',cat:['forgiveness'],arabic:'رَبِّ اغْفِرْ لِلنَّاسِ',transliteration:'Rabbi ighfir lin-nas',translation:'My Lord, forgive the people.'},
+  {id:'dua23',title:'Dua for Health of Others',cat:['daily'],arabic:'اللَّهُمَّ اشْفِهِمْ',transliteration:'Allahumma ishfihim',translation:'O Allah, grant them healing.'},
+  {id:'dua24',title:'Dua for Traveling Children',cat:['travel'],arabic:'اللَّهُمَّ احْفَظْ أَوْلَادِي',transliteration:'Allahumma ahfaz awladi',translation:'O Allah, protect my children.'},
+  {id:'dua25',title:'Dua for Seeking Help',cat:['daily','prayer'],arabic:'اللَّهُمَّ أَعِنِّي',transliteration:'Allahumma a’inni',translation:'O Allah, help me.'},
+  {id:'dua26',title:'Dua for Guidance in Tests',cat:['daily'],arabic:'رَبِّ أَعِنِّي عَلَى الْفَهْمِ',transliteration:'Rabbi a’inni ala al-fahm',translation:'My Lord, help me understand.'},
+  {id:'dua27',title:'Dua for Repentance',cat:['forgiveness'],arabic:'رَبِّ تَوَبْتُ إِلَيْكَ',transliteration:'Rabbi tawabtu ilayk',translation:'My Lord, I repent to You.'},
+  {id:'dua28',title:'Dua Before Exam',cat:['daily'],arabic:'رَبِّ اشْرَحْ لِي صَدْرِي',transliteration:'Rabbi ishrah li sadri',translation:'My Lord, expand my chest for understanding.'},
+  {id:'dua29',title:'Dua for Ease',cat:['daily'],arabic:'اللَّهُمَّ يَسِّرْ لِي',transliteration:'Allahumma yassir li',translation:'O Allah, make it easy for me.'},
+  {id:'dua30',title:'Dua for Parents’ Health',cat:['daily'],arabic:'اللَّهُمَّ احْفَظْ وَالِدَيَّ',transliteration:'Allahumma ahfaz walidayya',translation:'O Allah, protect my parents.'},
+  {id:'dua31',title:'Dua for Forgiveness at Night',cat:['sleep','forgiveness'],arabic:'اللَّهُمَّ اغْفِرْ لِي ذُنُوبِي',transliteration:'Allahumma ighfir li dhunoobi',translation:'O Allah, forgive my sins.'},
+  {id:'dua32',title:'Dua for Morning Gratitude',cat:['morning'],arabic:'اللَّهُمَّ أَحْمَدُكَ',transliteration:'Allahumma ahmaduka',translation:'O Allah, I praise You.'},
+  {id:'dua33',title:'Dua Before Leaving Home',cat:['daily'],arabic:'بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ',transliteration:'Bismillah tawakkaltu ala Allah',translation:'In the name of Allah, I place my trust in Allah.'},
+  {id:'dua34',title:'Dua for Peace',cat:['daily'],arabic:'اللَّهُمَّ أَعْطِنَا السَّلَامَ',transliteration:'Allahumma a’tina as-salam',translation:'O Allah, grant us peace.'},
+  {id:'dua35',title:'Dua for Love',cat:['daily'],arabic:'اللَّهُمَّ اجعلنا مُحِبِّين',transliteration:'Allahumma aj’alna muhabbīn',translation:'O Allah, make us loving.'},
+  {id:'dua36',title:'Dua for Forgiving Parents',cat:['forgiveness'],arabic:'رَبِّ اغْفِرْ لِوَالِدَيَّ',transliteration:'Rabbi ighfir liwalidayya',translation:'My Lord, forgive my parents.'},
+  {id:'dua37',title:'Dua for Entering Market',cat:['daily'],arabic:'اللَّهُمَّ افْتَحْ لِي أَبْوَابَ الرِّزْقِ',transliteration:'Allahumma iftah li abwaba ar-rizq',translation:'O Allah, open for me the doors of sustenance.'},
+  {id:'dua38',title:'Dua for Leaving Market',cat:['daily'],arabic:'اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ',transliteration:'Allahumma inni as’aluka min fadlik',translation:'O Allah, I ask You from Your bounty.'},
+  {id:'dua39',title:'Dua for Children',cat:['daily','prayer'],arabic:'اللَّهُمَّ احْفَظْ أَوْلَادِي',transliteration:'Allahumma ahfaz awladi',translation:'O Allah, protect my children.'},
+  {id:'dua40',title:'Dua for Sleep',cat:['sleep'],arabic:'اللَّهُمَّ بِاسْمِكَ أَمُوتُ وَأَحْيَا',transliteration:'Allahumma bismika amutu wa ahya',translation:'O Allah, in Your name I die and live.'},
+  {id:'dua41',title:'Dua Before Eating Bread',cat:['daily'],arabic:'بِسْمِ اللَّهِ وَعَلَى بَرَكَتِهِ',transliteration:'Bismillah wa ala barakatihi',translation:'In the name of Allah and with His blessings.'},
+  {id:'dua42',title:'Dua for Forgiving Sins',cat:['forgiveness'],arabic:'اللَّهُمَّ اغْفِرْ ذُنُوبِي',transliteration:'Allahumma ighfir dhunoobi',translation:'O Allah, forgive my sins.'},
+  {id:'dua43',title:'Dua for Parents’ Guidance',cat:['daily'],arabic:'اللَّهُمَّ اهْدِ وَالِدَيَّ',transliteration:'Allahumma ihdi walidayya',translation:'O Allah, guide my parents.'},
+  {id:'dua44',title:'Dua for Morning Start',cat:['morning'],arabic:'اللَّهُمَّ أَعِنِّي عَلَى صَبَاحِي',transliteration:'Allahumma a’inni ala sabahi',translation:'O Allah, help me this morning.'},
+  {id:'dua45',title:'Dua for Evening Safety',cat:['evening'],arabic:'اللَّهُمَّ احْمِنِي لَيْلَتِي',transliteration:'Allahumma ahmini laylati',translation:'O Allah, protect me this night.'},
+  {id:'dua46',title:'Dua for Forgiving Others',cat:['forgiveness'],arabic:'رَبِّ اغْفِرْ لِلنَّاسِ',transliteration:'Rabbi ighfir lin-nas',translation:'My Lord, forgive the people.'},
+  {id:'dua47',title:'Dua for Traveling Safely',cat:['travel'],arabic:'اللَّهُمَّ احْمِنِي فِي سَفَرِي',transliteration:'Allahumma ahmini fi safri',translation:'O Allah, protect me in my travel.'},
+  {id:'dua48',title:'Dua for Success',cat:['daily','prayer'],arabic:'رَبِّ أَنْجِحْنِي',transliteration:'Rabbi anjihni',translation:'My Lord, make me successful.'},
+  {id:'dua49',title:'Dua for Guidance in Life',cat:['daily'],arabic:'اللَّهُمَّ اهْدِنِي',transliteration:'Allahumma ihdini',translation:'O Allah, guide me.'},
+  { id:'dua50', title:'Dua for Happiness', cat:['daily'], arabic:'اللَّهُمَّ أَدْخِلْ السُّرُورَ', transliteration:'Allahumma adkhil as-surur', translation:'O Allah, grant happiness.' },
+{ id:'dua51', title:'Dua for Family Unity', cat:['daily'], arabic:'رَبِّ اجْمَعْ بَيْنَنَا عَلَى الْخَيْرِ', transliteration:'Rabbi ajma’ baynana ala al-khayr', translation:'My Lord, unite us in goodness.' },
+  {id:'dua52',title:'Dua for Parents’ Protection',cat:['daily','prayer'],arabic:'اللَّهُمَّ احْفَظْ وَالِدَيَّ',transliteration:'Allahumma ahfaz walidayya',translation:'O Allah, protect my parents.'},
+  {id:'dua53',title:'Dua for Forgiving Family',cat:['forgiveness'],arabic:'رَبِّ اغْفِرْ لِعَائِلَتِي',transliteration:'Rabbi ighfir li a’ilati',translation:'My Lord, forgive my family.'},
+  {id:'dua54',title:'Dua for Children’s Health',cat:['daily'],arabic:'اللَّهُمَّ احْفَظْ أَوْلَادِي وَبَارِكْ فِيهِمْ',transliteration:'Allahumma ahfaz awladi wa barik fihim',translation:'O Allah, protect my children and bless them.'},
+  {id:'dua55',title:'Dua for Safe Travel',cat:['travel'],arabic:'اللَّهُمَّ سَهِّلْ سَفَرِي',transliteration:'Allahumma sahl safri',translation:'O Allah, make my travel easy.'},
+  {id:'dua56',title:'Dua for Mercy',cat:['daily','forgiveness'],arabic:'رَبِّ ارْحَمْنِي',transliteration:'Rabbi irhamni',translation:'My Lord, have mercy on me.'},
+  {id:'dua57',title:'Dua for Righteousness',cat:['daily','prayer'],arabic:'اللَّهُمَّ اجْعَلْنِي صَالِحًا',transliteration:'Allahumma aj’alni salihan',translation:'O Allah, make me righteous.'},
+  {id:'dua58',title:'Dua for Forgiveness Before Sleep',cat:['sleep','forgiveness'],arabic:'اللَّهُمَّ اغْفِرْ لِي وَارْحَمْنِي',transliteration:'Allahumma ighfir li warhamni',translation:'O Allah, forgive me and have mercy on me.'},
+  {id:'dua59',title:'Dua for Morning Guidance',cat:['morning'],arabic:'اللَّهُمَّ اهْدِنِي فِي صَبَاحِي',transliteration:'Allahumma ihdini fi sabahi',translation:'O Allah, guide me this morning.'},
+  {id:'dua60',title:'Dua for Evening Protection',cat:['evening'],arabic:'اللَّهُمَّ احْمِنِي فِي مَسَائِي',transliteration:'Allahumma ahmini fi masaii',translation:'O Allah, protect me this evening.'},
+  {id:'dua61',title:'Dua for Forgiving Friends',cat:['forgiveness'],arabic:'رَبِّ اغْفِرْ لِأَصْدِقَائِي',transliteration:'Rabbi ighfir li asdiqaii',translation:'My Lord, forgive my friends.'},
+  {id:'dua62',title:'Dua for Seeking Knowledge',cat:['daily','prayer'],arabic:'رَبِّ زِدْنِي عِلْمًا نَافِعًا',transliteration:'Rabbi zidni ilma nafi’a',translation:'My Lord, increase me in beneficial knowledge.'},
+  {id:'dua63',title:'Dua for Heart Purity',cat:['daily'],arabic:'اللَّهُمَّ طَهِّرْ قَلْبِي',transliteration:'Allahumma tahhir qalbi',translation:'O Allah, purify my heart.'},
+  {id:'dua64',title:'Dua for Courage',cat:['daily'],arabic:'اللَّهُمَّ أَعْطِنِي الشَّجَاعَةَ',transliteration:'Allahumma a’tini ash-shaja’a',translation:'O Allah, give me courage.'},
+  {id:'dua65',title:'Dua for Success in Work',cat:['daily','prayer'],arabic:'رَبِّ أَوْفِقْنِي فِي عَمَلِي',transliteration:'Rabbi awfiqni fi ‘amali',translation:'My Lord, grant me success in my work.'},
+  {id:'dua66',title:'Dua for Health of Parents',cat:['daily'],arabic:'اللَّهُمَّ اشْفِ وَالِدَيَّ',transliteration:'Allahumma ishfi walidayya',translation:'O Allah, heal my parents.'},
+  {id:'dua67',title:'Dua for Family Happiness',cat:['daily'],arabic:'اللَّهُمَّ اجْعَلْ أَهْلِي سُعَدَاء',transliteration:'Allahumma aj’al ahli sa’ada',translation:'O Allah, make my family happy.'},
+  {id:'dua68',title:'Dua for Forgiveness of Parents',cat:['forgiveness'],arabic:'رَبِّ اغْفِرْ لِوَالِدَيَّ',transliteration:'Rabbi ighfir liwalidayya',translation:'My Lord, forgive my parents.'},
+  {id:'dua69',title:'Dua for Righteous Children',cat:['daily','prayer'],arabic:'اللَّهُمَّ اجْعَلْ أَوْلَادِي صَالِحِينَ',transliteration:'Allahumma aj’al awladi salihin',translation:'O Allah, make my children righteous.'},
+  {id:'dua70',title:'Dua for Gratitude',cat:['daily'],arabic:'اللَّهُمَّ اجْعَلْنِي شَاكِرًا',transliteration:'Allahumma aj’alni shakiran',translation:'O Allah, make me grateful.'},
+  {id:'dua71',title:'Dua for Morning Peace',cat:['morning'],arabic:'اللَّهُمَّ اجْعَلْ صَبَاحِي سَلِيمًا',transliteration:'Allahumma aj’al sabahi saliman',translation:'O Allah, make my morning peaceful.'},
+  {id:'dua72',title:'Dua for Evening Peace',cat:['evening'],arabic:'اللَّهُمَّ اجْعَلْ مَسَائِي سَلِيمًا',transliteration:'Allahumma aj’al masaii saliman',translation:'O Allah, make my evening peaceful.'},
+  {id:'dua73',title:'Dua for Success in Studies',cat:['daily','prayer'],arabic:'رَبِّ أَوْفِقْنِي فِي دِرَاسَتِي',transliteration:'Rabbi awfiqni fi dirasati',translation:'My Lord, grant me success in my studies.'},
+  {id:'dua74',title:'Dua for Forgiving Mistakes',cat:['forgiveness'],arabic:'اللَّهُمَّ اغْفِرْ خَطَايَايَ',transliteration:'Allahumma ighfir khatayaya',translation:'O Allah, forgive my mistakes.'},
+  {id:'dua75',title:'Dua for Parents’ Comfort',cat:['daily'],arabic:'اللَّهُمَّ اجْعَلْ وَالِدَيَّ رَاضِيَيْن',transliteration:'Allahumma aj’al walidayya radhiyin',translation:'O Allah, make my parents content.'},
+  {id:'dua76',title:'Dua for Health of Loved Ones',cat:['daily'],arabic:'اللَّهُمَّ اشْفِ أَحِبَّائِي',transliteration:'Allahumma ishfi ahibba’i',translation:'O Allah, heal my loved ones.'},
+  {id:'dua77',title:'Dua for Protection from Evil',cat:['daily','prayer'],arabic:'اللَّهُمَّ احْفَظْنِي مِنَ الشَّرِّ',transliteration:'Allahumma ahfazni min ash-shar',translation:'O Allah, protect me from evil.'},
+  {id:'dua78',title:'Dua for Family Success',cat:['daily'],arabic:'اللَّهُمَّ أَوْفِقْ أَهْلِي',transliteration:'Allahumma awfiq ahli',translation:'O Allah, grant my family success.'},
+  {id:'dua79',title:'Dua for Forgiving Children',cat:['forgiveness'],arabic:'رَبِّ اغْفِرْ لِأَوْلَادِي',transliteration:'Rabbi ighfir li awladi',translation:'My Lord, forgive my children.'},
+  {id:'dua80',title:'Dua for Traveling Safely Again',cat:['travel'],arabic:'اللَّهُمَّ احْفَظْنِي فِي رِحْلَتِي',transliteration:'Allahumma ahfazni fi rihlati',translation:'O Allah, protect me in my journey.'},
+  {id:'dua81',title:'Dua for Patience in Life',cat:['daily'],arabic:'رَبِّ أَعِنِّي عَلَى الصَّبْرِ',transliteration:'Rabbi a’inni ala as-sabr',translation:'My Lord, help me to be patient.'},
+  {id:'dua82',title:'Dua for Forgiving Neighbors',cat:['forgiveness'],arabic:'رَبِّ اغْفِرْ لِجِيرَانِي',transliteration:'Rabbi ighfir li jiranī',translation:'My Lord, forgive my neighbors.'},
+  {id:'dua83',title:'Dua for Guidance in Life Again',cat:['daily'],arabic:'اللَّهُمَّ اهْدِنِي إِلَى الصِّرَاطِ الْمُسْتَقِيمِ',transliteration:'Allahumma ihdini ila as-sirat al-mustaqim',translation:'O Allah, guide me to the straight path.'},
+  {id:'dua84',title:'Dua for Morning Blessings',cat:['morning'],arabic:'اللَّهُمَّ بَارِكْ صَبَاحِي',transliteration:'Allahumma barik sabahi',translation:'O Allah, bless my morning.'},
+  {id:'dua85',title:'Dua for Evening Blessings',cat:['evening'],arabic:'اللَّهُمَّ بَارِكْ مَسَائِي',transliteration:'Allahumma barik masaii',translation:'O Allah, bless my evening.'},
+  {id:'dua86',title:'Dua for Forgiving Mistakes Again',cat:['forgiveness'],arabic:'اللَّهُمَّ اغْفِرْ لِي خَطَايَايَ',transliteration:'Allahumma ighfir li khatayaya',translation:'O Allah, forgive my mistakes.'},
+  {id:'dua87',title:'Dua for Children’s Guidance',cat:['daily','prayer'],arabic:'اللَّهُمَّ اهْدِ أَوْلَادِي',transliteration:'Allahumma ihdi awladi',translation:'O Allah, guide my children.'},
+  {id:'dua88',title:'Dua for Health and Strength',cat:['daily'],arabic:'اللَّهُمَّ أَعْطِنِي الْقُوَّةَ وَالصِّحَّةَ',transliteration:'Allahumma a’tini al-quwwa wa as-sihha',translation:'O Allah, give me strength and health.'},
+  {id:'dua89',title:'Dua for Safety from Harm',cat:['daily'],arabic:'اللَّهُمَّ احْفَظْنِي مِنَ الْأَذَى',transliteration:'Allahumma ahfazni min al-adha',translation:'O Allah, protect me from harm.'},
+  {id:'dua90',title:'Dua for Happiness and Peace',cat:['daily'],arabic:'اللَّهُمَّ اجْعَلْنِي سَعِيدًا وَسَلِيمًا',transliteration:'Allahumma aj’alni sa’eedan wa saliman',translation:'O Allah, make me happy and peaceful.'}
+
+
+];
+
+const els = {
+  cards: document.getElementById('cards'),
+  empty: document.getElementById('emptyState'),
+  search: document.getElementById('searchInput'),
+  clear: document.getElementById('clearSearch'),
+  chips: document.getElementById('quickFilters'),
+  sideCats: document.getElementById('sideCats'),
+  toggleTranslit: document.getElementById('toggleTranslit'),
+  toggleTranslate: document.getElementById('toggleTranslate'),
+};
+
+const CATS = [
+  {key:'all', label:'All'},
+  {key:'morning', label:'Morning'},
+  {key:'evening', label:'Evening'},
+  {key:'prayer', label:'Prayer'},
+  {key:'daily', label:'Daily'},
+  {key:'travel', label:'Travel'},
+  {key:'forgiveness', label:'Forgiveness'},
+  {key:'sleep', label:'Sleep'},
+  {key:'fav', label:'★ Favorites'},
+];
+
+const favKey = 'duas:favorites';
+let favorites = new Set(JSON.parse(localStorage.getItem(favKey) || '[]'));
+let currentFilter = 'all';
+
+function buildSide(){
+  els.sideCats.innerHTML = '';
+  CATS.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='pill' + (c.key==='all'?' active':'');
+    b.dataset.filter=c.key;
+    b.textContent=c.label;
+    b.onclick = () => setFilter(c.key);
+    els.sideCats.appendChild(b);
+  });
+}
+buildSide();
+
+function syncActiveChips(){
+  document.querySelectorAll('[data-filter]').forEach(el=>{
+    if(el.dataset.filter===currentFilter) el.classList.add('active');
+    else el.classList.remove('active');
+  });
+}
+
+function setFilter(key){
+  currentFilter = key;
+  syncActiveChips();
+  render();
+}
+
+function matchesSearch(dua, q){
+  if(!q) return true;
+  q=q.toLowerCase();
+  return (
+    dua.title.toLowerCase().includes(q) ||
+    (dua.arabic||'').toLowerCase().includes(q) ||
+    (dua.transliteration||'').toLowerCase().includes(q) ||
+    (dua.translation||'').toLowerCase().includes(q)
+  );
+}
+
+function inCategory(dua){
+  if(currentFilter==='all') return true;
+  if(currentFilter==='fav') return favorites.has(dua.id);
+  return dua.cat.includes(currentFilter);
+}
+
+function toggleFav(id){
+  if(favorites.has(id)) favorites.delete(id);
+  else favorites.add(id);
+  localStorage.setItem(favKey, JSON.stringify([...favorites]));
+  render();
+}
+
+async function copyText(text, btn){
+  try{
+    await navigator.clipboard.writeText(text);
+    flash(btn,'Copied!');
+  }catch(e){ flash(btn,'Copy failed'); }
+}
+
+async function shareDua(dua, btn){
+  const text = `${dua.title}\n\n${dua.arabic}\n\n${dua.translation}`;
+  if(navigator.share){
+    try{
+      await navigator.share({title:dua.title, text});
+    }catch(e){}
+  }else{
+    copyText(text, btn);
+  }
+}
+
+function flash(btn, msg){
+  const old=btn.textContent;
+  btn.textContent=msg;
+  btn.disabled=true;
+  setTimeout(()=>{ btn.textContent=old; btn.disabled=false; }, 900);
+}
+
+function render(){
+  const q = els.search.value.trim();
+  const showTranslit = els.toggleTranslit.checked;
+  const showTrans = els.toggleTranslate.checked;
+  const list = DUAS.filter(d => inCategory(d) && matchesSearch(d, q));
+  els.cards.innerHTML = '';
+  if(list.length===0){ els.empty.style.display='block'; return; }
+  els.empty.style.display='none';
+  list.forEach(d=>{
+    const card = document.createElement('article');
+    card.className='card';
+    card.innerHTML = `
+      <div class="meta">
+        <span class="badge">${d.cat[0] ? (d.cat[0].charAt(0).toUpperCase()+d.cat[0].slice(1)) : 'Dua'}</span>
+        <button class="pill ${favorites.has(d.id)?'active':''}" data-id="${d.id}" title="Save to favorites">♡ Save</button>
+      </div>
+      <div class="title">${d.title}</div>
+      <div class="arabic">${d.arabic}</div>
+      <div class="small block ${showTranslit?'show':''}"><b>Transliteration:</b> ${d.transliteration||''}</div>
+      <div class="small block ${showTrans?'show':''}"><b>Translation:</b> ${d.translation||''}</div>
+      <div class="actions">
+        <button class="btn" data-copy>Copy</button>
+        <button class="btn" data-share>Share</button>
+      </div>
+    `;
+    const saveBtn = card.querySelector('[data-id]');
+    saveBtn.onclick = ()=> toggleFav(d.id);
+    const copyBtn = card.querySelector('[data-copy]');
+    copyBtn.onclick = ()=> copyText(`${d.title}\n\n${d.arabic}\n\n${d.transliteration||''}\n\n${d.translation||''}`, copyBtn);
+    const shareBtn = card.querySelector('[data-share]');
+    shareBtn.onclick = ()=> shareDua(d, shareBtn);
+    els.cards.appendChild(card);
+  });
+}
+
+els.chips.addEventListener('click', e=>{
+  const f = e.target.closest('[data-filter]');
+  if(!f) return;
+  setFilter(f.dataset.filter);
+});
+els.search.addEventListener('input', render);
+els.clear.addEventListener('click', ()=>{ els.search.value=''; render(); });
+els.toggleTranslit.addEventListener('change', render);
+els.toggleTranslate.addEventListener('change', render);
+
+render();
+</script>
+</body>
+</html>

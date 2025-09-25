@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>نماز کا مکمل طریقہ — DeenPath</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <style>
+        :root {
+            --primary-color: rgb(4, 51, 34);
+            --secondary-color: rgb(5, 70, 46);
+            --text-on-dark: #f1f1f1;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-on-light: #222;
+            --gold: #d4a40b;
+            --shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            font-family: "Noto Nastaliq Urdu", "Jameel Noori Nastaleeq", Arial, sans-serif;
+            background: var(--primary-color);
+            color: var(--text-on-dark);
+            line-height: 1.8;
+            scroll-behavior: smooth;
+        }
+
+        a {
+            color: var(--text-on-dark);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--gold);
+        }
+
+        .container {
+            max-width: 1060px;
+            margin: 0 auto;
+            padding: 0 18px;
+        }
+
+        /* Language Switcher */
+        .lang-switcher {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+
+        .lang-switcher .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--text-on-dark);
+            font-weight: bold;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .lang-switcher .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)), 
+            url('pics/explore6.png') center/cover no-repeat;
+            min-height: 65vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero .inner {
+            position: relative;
+            z-index: 2;
+            margin-top: auto;
+            padding: 65px 0;
+            text-align: center;
+            color: var(--gold);
+            text-shadow: 2px 2px 8px rgb(0, 0, 0);
+        }
+
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 54px);
+            margin: 0 0 12px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: clamp(16px, 2.6vw, 20px);
+            opacity: 0.95;
+            margin: 0;
+        }
+
+        /* Main Card */
+        .card {
+            background: var(--card-bg);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            margin-top: -40px;
+            position: relative;
+            z-index: 3;
+            color: var(--text-on-light);
+            overflow: hidden;
+        }
+
+        /* Prayer Boxes */
+        .prayer-boxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 30px;
+            background: #fafafa;
+            border-radius: 14px 14px 0 0;
+        }
+
+        .prayer-box {
+            flex: 1;
+            min-width: 200px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .prayer-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            border-color: var(--primary-color);
+        }
+
+        .prayer-box.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .prayer-box i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .prayer-box.active i {
+            color: white;
+        }
+
+        .prayer-box h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .prayer-box p {
+            font-size: 15px;
+            opacity: 0.8;
+        }
+
+        /* Wudu Section */
+        .wudu-section {
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .wudu-section h2 {
+            color: var(--primary-color);
+            font-size: 28px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .wudu-section h2 i {
+            background: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .wudu-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .wudu-step {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .wudu-step:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .wudu-step h3 {
+            color: var(--primary-color);
+            font-size: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .wudu-step h3 i {
+            background: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .wudu-step p {
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        .wudu-dua {
+            margin-top: 25px;
+            background: #e8f5ea;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .wudu-dua h3 {
+            color: var(--primary-color);
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .wudu-dua .arabic {
+            font-family: "Amiri", serif;
+            font-size: 26px;
+            line-height: 2.2;
+            direction: rtl;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        /* Prayer Content */
+        .prayer-content {
+            padding: 30px;
+            display: none;
+        }
+
+        .prayer-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Steps */
+        .step {
+            padding: 30px 30px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.3s ease;
+        }
+
+        .step:hover {
+            background: #f8f9fa;
+        }
+
+        .step:last-child {
+            border-bottom: none;
+        }
+
+        .step h2 {
+            color: var(--primary-color);
+            margin: 0 0 16px;
+            font-size: 26px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .step h2 i {
+            background: var(--primary-color);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .step p {
+            margin: 16px 0 0;
+            font-size: 19px;
+            line-height: 1.9;
+        }
+
+        .step ul {
+            margin: 16px 0;
+            padding-right: 20px;
+        }
+
+        .step li {
+            margin-bottom: 10px;
+            font-size: 19px;
+            line-height: 1.9;
+        }
+
+        .arabic {
+            font-family: "Amiri", serif;
+            font-size: 26px;
+            line-height: 2.2;
+            direction: rtl;
+            background-color: #f8f8f8;
+            padding: 18px;
+            border-radius: 12px;
+            margin: 20px 0;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
+            text-align: right;
+        }
+
+        .note {
+            background: #fff8e6;
+            border: 1px solid #f1e0b5;
+            border-left: 4px solid var(--gold);
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin: 22px 0;
+            position: relative;
+        }
+
+        .note::before {
+            content: '\f075';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 16px;
+            left: 20px;
+            color: var(--gold);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            background-color: var(--primary-color);
+            color: #fff;
+            font-weight: bold;
+            border-radius: 999px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(4, 51, 34, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(4, 51, 34, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--secondary-color);
+            color: var(--text-on-dark);
+            padding: 50px 20px 20px;
+            margin-top: 60px;
+        }
+
+        .footer .container {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 35px;
+        }
+
+        @media(min-width: 768px) {
+            .footer .container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .footer h3 {
+            margin-bottom: 18px;
+            color: var(--gold);
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .footer p {
+            font-size: 15px;
+            line-height: 1.7;
+            margin: 0 0 18px;
+            color: #a8d5b8;
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer li {
+            margin: 12px 0;
+        }
+
+        .footer a {
+            color: #a8d5b8;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #fff;
+        }
+
+        .social {
+            display: flex;
+            gap: 14px;
+            margin-top: 18px;
+        }
+
+        .social a {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 42px;
+            height: 42px;
+            background: #000;
+            color: var(--gold);
+            border-radius: 50%;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social a:hover {
+            background: #333;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--primary-color);
+            margin-top: 35px;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        /* Responsive adjustments */
+        @media(max-width: 768px) {
+            .hero {
+                min-height: 50vh;
+            }
+            
+            .hero .inner {
+                padding: 40px 0;
+            }
+            
+            .prayer-boxes {
+                padding: 20px;
+            }
+            
+            .wudu-section {
+                padding: 20px;
+            }
+            
+            .wudu-steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .prayer-content {
+                padding: 20px;
+            }
+            
+            .step {
+                padding: 20px;
+            }
+            
+            .arabic {
+                font-size: 22px;
+                padding: 14px;
+            }
+        }
+
+        /* Animation for smooth reveal */
+        .step {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s forwards;
+        }
+
+        .step:nth-child(odd) {
+            animation-delay: 0.1s;
+        }
+
+        .step:nth-child(even) {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Prayer times table */
+        .prayer-times {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+
+        .prayer-times th, .prayer-times td {
+            padding: 12px 15px;
+            text-align: right;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .prayer-times th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        .prayer-times tr:nth-child(even) {
+            background-color: #f8f8f8;
+        }
+
+        .prayer-times tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .prayer-icon {
+            font-size: 20px;
+            color: var(--primary-color);
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+        <div class="container inner" dir="rtl">
+            <h1>نماز کا مکمل طریقہ</h1>
+            <p>وضو سے سلام تک — آسان، مرحلہ وار رہنمائی اور مثال کے ساتھ</p>
+        </div>
+    </section>
+
+    <main class="container card" dir="rtl">
+        <div class="prayer-boxes">
+            <div class="prayer-box active" onclick="showPrayer('namaz')">
+                <i class="fas fa-praying"></i>
+                <h3>نماز</h3>
+                <p>روزانہ کی پانچ وقتہ نمازوں کا طریقہ</p>
+            </div>
+            <div class="prayer-box" onclick="showPrayer('tahajud')">
+                <i class="fas fa-moon"></i>
+                <h3>تہجد</h3>
+                <p>رات کی عبادت کا طریقہ</p>
+            </div>
+            <div class="prayer-box" onclick="showPrayer('jummah')">
+                <i class="fas fa-mosque"></i>
+                <h3>جمعہ</h3>
+                <p>جمعہ کی نماز کا طریقہ</p>
+            </div>
+            <div class="prayer-box" onclick="showPrayer('taraweeh')">
+                <i class="fas fa-star"></i>
+                <h3>تراویح</h3>
+                <p>رمضان میں تراویح کا طریقہ</p>
+            </div>
+        </div>
+
+        <!-- Wudu Section -->
+        <div class="wudu-section">
+            <h2><i class="fas fa-tint"></i> وضو کا مکمل طریقہ</h2>
+            <p>وضو نماز کی پاکیزگی کی بنیاد ہے۔ درج ذیل طریقے سے مکمل وضو کریں:</p>
+            
+            <div class="wudu-steps">
+                <div class="wudu-step">
+                    <h3><i class="fas fa-hands"></i> نیت</h3>
+                    <p>دل میں وضو کرنے کا ارادہ کریں: "میں وضو کر رہا ہوں نماز پڑھنے کے لیے"</p>
+                </div>
+                
+                <div class="wudu-step">
+                    <h3><i class="fas fa-hand-paper"></i> ہاتھ دھونا</h3>
+                    <p>دونوں ہاتھ کلائیوں تک تین بار دھوئیں، انگلیوں کے درمیان بھی پانی پہنچائیں</p>
+                </div>
+                
+                <div class="wudu-step">
+                    <h3><i class="fas fa-tooth"></i> منہ دھونا</h3>
+                    <p>دائیں ہاتھ سے منہ تین بار دھوئیں، ہر بار منہ کے اندر تک پانی پہنچائیں</p>
+                </div>
+                
+                <div class="wudu-step">
+                    <h3><i class="fas fa-wind"></i> ناک صاف کرنا</h3>
+                    <p>دائیں ہاتھ سے پانی لے کر ناک میں ڈالیں اور تین بار نکالیں</p>
+                </div>
+                
+                <div class="wudu-step">
+                    <h3><i class="fas fa-face-smile"></i> چہرہ دھونا</h3>
+                    <p>چہرہ پیشانی سے لے کر تھوڑی تک تین بار دھوئیں، داڑھی والے داڑھی میں انگلیوں سے پانی پہنچائیں</p>
+                </div>
+                
+                <div class="wudu-step">
+                    <h3><i class="fas fa-arms"></i> بازو دھونا</h3>
+                    <p>دائیں بازو کہنی تک تین بار دھوئیں، پھر بائیں بازو کہنی تک تین بار دھوئیں</p>
+                </div>
+                
+                <div class="wudu-step">
+                    <h3><i class="fas fa-head-side-mask"></i> سر مسح کرنا</h3>
+                    <p>تین انگشتوں سے سر کا ایک چوتھائی حصہ مسح کریں، پیشانی سے لے کر گردن تک</p>
+                </div>
+                
+                <div class="wudu-step">
+                    <h3><i class="fas fa-ear-deaf"></i> کانوں کا مسح</h3>
+                    <p>کانوں کے اندر اور باہر مسح کریں، انگھائی سے اندر اور انگوٹھے سے باہر</p>
+                </div>
+                
+                <div class="wudu-step">
+                    <h3><i class="fas fa-shoe-prints"></i> پاؤں دھونا</h3>
+                    <p>دائیں پاؤں ٹخنے تک تین بار دھوئیں، پھر بائیں پاؤں ٹخنے تک تین بار دھوئیں</p>
+                </div>
+            </div>
+            
+            <div class="wudu-dua">
+                <h3>وضو کی دعا</h3>
+                <p>وضو مکمل ہونے کے بعد یہ دعا پڑھیں:</p>
+                <div class="arabic">أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللّٰهُ وَحْدَهُ لَا شَرِيقَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ</div>
+                <p>اللّٰهُمَّ اجْعَلْنِي مِنَ التَّوَّابِينَ وَاجْعَلْنِي مِنَ الْمُتَطَهِّرِينَ</p>
+            </div>
+        </div>
+
+        <!-- Namaz Content -->
+        <div id="namaz" class="prayer-content active">
+            <div class="note">یہ صفحہ اہلسنت والجماعت کے عام طریقے کے مطابق تیار کیا گیا ہے۔ اگر آپ کے علاقے میں معمولی اختلاف ہو، تو اپنے مقامی عالم سے رہنمائی بھی لے لیں۔</div>
+
+            <section id="niyyah" class="step">
+                <h2>1) نیت (Niyyah)</h2>
+                <p>دل میں ارادہ کریں: "میں دو رکعت سنت نماز فجر اللہ تعالیٰ کے لیے قبلہ رخ ہو کر پڑھتا/پڑھتی ہوں۔" زبان سے کہنا بھی جائز ہے۔</p>
+            </section>
+
+            <section id="takbeer" class="step">
+                <h2>2) تکبیرِ تحریمہ</h2>
+                <p>ہاتھ کانوں تک اٹھائیں اور کہیں: <span class="arabic" style="background: transparent; padding: 0;">اللّٰهُ أَكْبَر</span> — پھر ہاتھ ناف کے نیچے باندھ لیں۔ ابتدا میں یہ دعا پڑھیں:</p>
+                <div class="arabic">سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، وَتَبَارَكَ اسْمُكَ، وَتَعَالَى جَدُّكَ، وَلَا إِلٰهُ غَيْرُكَ</div>
+            </section>
+
+            <section id="qiyam" class="step">
+                <h2>3) قیام — سورہ فاتحہ اور کوئی سورہ</h2>
+                <p>سورہ فاتحہ مکمل پڑھیں اور آمین کہیں، پھر کوئی مختصر سورہ مثلاً سورہ اخلاص پڑھیں۔</p>
+                <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ<br>الْـحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ۝١<br>الرَّحْمَـٰنِ الرَّحِيمِ ۝٢<br>مَالِكِ يَوْمِ الدِّينِ ۝٣<br>إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ ۝ل<br>اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ ۝٥<br>صِرَاطُ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ ۝٦</div>
+                <div class="arabic">بِسْمِ اللَّهِ الرَّحْمَـٰنِ الرَّحِيمِ<br>قُلْ هُوَ اللَّهُ أَحَدٌ ۝١<br>اللَّهُ الصَّمَدُ ۝٢<br>لَمْ يَلِدْ وَلَمْ يُولَدْ ۝٣<br>وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ ۝٤</div>
+            </section>
+
+            <section id="ruku" class="step">
+                <h2>4) رکوع</h2>
+                <p>جھک کر دونوں ہاتھ گھٹنوں پر رکھیں اور کم از کم تین بار پڑھیں:</p>
+                <div class="arabic">سُبْحَانَ رَبِّيَ الْعَظِيمِ</div>
+            </section>
+
+            <section id="qawmah" class="step">
+                <h2>5) قومہ</h2>
+                <p>رکوع سے سیدھے کھڑے ہو کر کہیں:</p>
+                <div class="arabic">سَمِعَ اللّٰهُ لِمَنْ حَمِدَهُ</div>
+                <div class="arabic">رَبَّنَا لَكَ الْحَمْدُ</div>
+            </section>
+
+            <section id="sajdah" class="step">
+                <h2>6) سجدہ</h2>
+                <p>سات اعضاء زمین پر رکھیں (ماتھا، ناک، دونوں ہاتھ، دونوں گھٹنے، دونوں پاؤں) اور تین بار پڑھیں:</p>
+                <div class="arabic">سُبْحَانَ رَبِّيَ الأَعْلَى</div>
+            </section>
+
+            <section id="jalsah" class="step">
+                <h2>7) جلسہ</h2>
+                <p>دو سجدوں کے درمیان ٹھہر کر بیٹھیں اور کہیں: <span class="arabic" style="background: transparent; padding: 0;">رَبِّ اغْفِرْ لِيْ وَارْحَمْنِيْ</span> پھر دوسرا سجدہ کریں۔ اس طرح پہلی رکعت مکمل ہوئی۔</p>
+            </section>
+
+            <section id="rakah2" class="step">
+                <h2>8) دوسری رکعت</h2>
+                <p>پھر کھڑے ہو کر دوبارہ سورہ فاتحہ اور کوئی سورہ پڑھیں، رکوع، قومہ اور دو سجدے ویسے ہی ادا کریں۔</p>
+            </section>
+
+            <section id="tashahhud" class="step">
+                <h2>9) تشہد، درود اور دعا</h2>
+                <p>قعدہ میں بیٹھ کر تشہد پڑھیں:</p>
+                <div class="arabic">اَالتَّحِيَّاتُ لِلّٰہِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ، اَالسَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللّٰہِ وَبَرَكَاتُهُ، اَالسَّلَامُ عَلَيْنَا وَعَلَى عِبَادِ اللّٰہِ الصَّالِحِينَ، أَشْهَدُ أَنْ لَا إِلٰهَ إِلَّا اللّٰہُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ</div>
+                <p>پھر درودِ ابراہیمی پڑھیں:</p>
+                <div class="arabic">اَللّٰهُمَّ صَلِّ عَلٰی مُحَمَّدٍ وَّعَلٰی اٰلِ مُحَمَّدٍ كَمَا صَلَّيْتَ عَلٰی اِبْرَاهِيْمَ وَعَلٰی اٰلِ اِبْرَاهِيْمَ اِنَّكَ حَمِيْدٌ مَّجِيْدٌ۔<br>اَللّٰهُمَّ بَارِكْ عَلٰی مُحَمَّدٍ وَّعَلَى اٰلِ مُحَمَّدٍ كَمَا بَارَكْتَ عَلٰی اِبْرَاهِيْمَ وَعَلَى اٰلِ اِبْرَاهِيْمَ اِنَّكَ حَمِيْدٌ مَّجِيْدٌ۔</div>
+                <div class="note">وتر کی نماز میں اسی کے بعد دعا قنوت پڑھی جاتی ہے: <span class="arabic" style="background: transparent; padding: 0;">اَللّٰهُمَّ اِنَّا نَسْتَعِيْنُكَ وَنَسْتَغْفِرُكَ، وَنُؤْمِنُ بِكَ وَنَتَوَكَّلُ عَلَيْكَ، وَنُثْنِيْ عَلَيْكَ الْخَيْرَ، وَنَشْكُرُكَ وَلَا نَكْفُرُكَ، وَنَخْلَعُ وَنَتْرُكُ مَنْ يَّفْجُرُكَ۔<br>اَللّٰهُمَّ اِيَّاكَ نَعْبُدُ، وَلَكَ نُصَلِّيْ وَنَسْجُدُ، وَاِلَيْكَ نَسْعٰى وَنَحْفِدُ، نَرْجُوْا رَحْمَتَكَ وَنَخْشٰى عَذَابَكَ، اِنَّ عَذَابَكَ بِالْكُفَّارِ مُلْحَقٌ۔</span></div>
+            </section>
+
+            <section id="salat-end" class="step">
+                <h2>10) سلام</h2>
+                <p>آخر میں دائیں اور بائیں طرف منہ پھیر کر کہیں: <span class="arabic" style="background: transparent; padding: 0;">السَّلَامُ عَلَيْكُمْ وَرَحْمَةُ اللّٰہِ</span> — اس طرح دو رکعت مکمل ہو گئیں۔</p>
+            </section>
+        </div>
+
+        <!-- Tahajud Content -->
+        <div id="tahajud" class="prayer-content">
+            <div class="note">تہجد رات کی ایک نفل نماز ہے جو عشاء کی نماز کے بعد اور فجر سے پہلے پڑھی جاتی ہے۔ یہ نماز بہت فضیلت والی ہے اور اللہ تعالیٰ کے قریب ہونے کا ذریعہ ہے۔</div>
+
+            <section class="step">
+                <h2><i class="fas fa-moon"></i> تہجد نماز کا طریقہ</h2>
+                <p>تہجد میں کم از کم دو رکعت اور زیادہ سے زیادہ اٹھ یا بارہ رکعت پڑھی جا سکتی ہیں۔ ہر دو رکعت کے بعد سلام پھیر کر دوبارہ شروع کریں۔</p>
+                
+                <h3>تہجد کے اوقات:</h3>
+                <ul>
+                    <li>تہجد کا بہترین وقت رات کا آخری تہائی ہے، جب آسمان پر ستارے نمایاں نظر آتے ہیں۔</li>
+                    <li>عشاء کی نماز کے بعد سونے اور پھر رات میں جاگ کر پڑھنا بہتر ہے۔</li>
+                    <li>فجر کی نماز سے پہلے تک پڑھی جا سکتی ہے۔</li>
+                </ul>
+                
+                <h3>تہجد نماز کی رکعات:</h3>
+                <ul>
+                    <li>کم از کم: دو رکعت</li>
+                    <li>زیادہ سے زیادہ: اٹھ یا بارہ رکعت</li>
+                    <li>ہر دو رکعت کے بعد سلام پھیرا جاتا ہے</li>
+                </ul>
+                
+                <h3>تہجد میں پڑھنے کا طریقہ:</h3>
+                <ul>
+                    <li>تہجد میں طویل قیام اور طویل سجدے کی کوشش کریں۔</li>
+                    <li>تہجد کی نماز میں قرآن پاک کی طویل سورتیں پڑھنے کی سفارش کی جاتی ہے۔</li>
+                    <li>آخر میں دعا اور استغفار کریں۔</li>
+                </ul>
+                
+                <div class="arabic">رَبَّنَا آمَنَّا بِمَا أَنزَلْتَ وَاتَّبَعْنَا الرَّسُولَ فَاكْتُبْنَا مَعَ الشَّاهِدِينَ</div>
+                
+                <div class="note">حضور ﷺ فرماتے ہیں: "جو شخص رات کو اللہ کے لیے جاگ کر نماز پڑھے گا، اللہ اس کے لیے جنت میں نو قصریں بنائے گا۔" (صحیح بخاری)</div>
+            </section>
+        </div>
+
+        <!-- Jummah Content -->
+        <div id="jummah" class="prayer-content">
+            <div class="note">جمعہ کی نماز ہفتے کا اہم دن ہے، جو مسلمانوں کے لیے عید کے دن کی طرح ہے۔ یہ دو رکعت فرض ہے جو جماعت سے پڑھی جاتی ہے۔</div>
+
+            <section class="step">
+                <h2><i class="fas fa-mosque"></i> جمعہ کی نماز کا طریقہ</h2>
+                <p>جمعہ کی نماز میں شرکت کرنا مردوں پر فرض عین ہے، جبکہ عورتوں کے لیے گھر پر پڑھنا بہتر ہے۔</p>
+                
+                <h3>جمعہ کی تیاری:</h3>
+                <ul>
+                    <li>جمعہ کے دن صبح سویرے غسل کرنا، خوشبو لگانا اور صاف ستھرے کپڑے پہننا مستحب ہے۔</li>
+                    <li>سورہ کہف پڑھنا مستحب ہے۔</li>
+                    <li>جمعہ کے دن زیادہ سے زیادہ درود پڑھنا اور اللہ سے دعا مانگنا۔</li>
+                </ul>
+                
+                <h3>جمعہ کی نماز کا طریقہ:</h3>
+                <ul>
+                    <li>مسجد جاکر دو رکعت تحیۃ المسجد پڑھیں۔</li>
+                    <li>خطبہ شروع ہونے سے پہلے کسی بھی نفل نماز پڑھنا منع ہے۔</li>
+                    <li>پہلا خطبہ سنن، پھر امام کے ساتھ دو رکعت فرض پڑھیں۔</li>
+                    <li>فرض نماز کے بعد چار رکعت سنت اور دو رکعت نفل پڑھی جا سکتی ہیں۔</li>
+                </ul>
+                
+                <h3>خطبہ کی اہمیت:</h3>
+                <p>جمعہ کے خطبے میں امام مسلمانوں کو دین کے احکامات، معاشرتی مسائل اور موجودہ حالات سے آگاہ کرتا ہے۔ خطبہ سننا فرض ہے۔</p>
+                
+                <div class="arabic">يَا أَيُّهَا الَّذِينَ آمَنُوا إِذَا نُودِيَ لِلصَّلَاةِ مِن يَوْمِ الْجُمُعَةِ فَاسْعَوْا إِلَىٰ ذِكْرِ اللَّهِ وَذَرُوا الْبَيْعَ</div>
+                
+                <div class="note">حضور ﷺ فرماتے ہیں: "جو شخص جمعہ کے دن غسل کرے گا، پہلے پہل آئے گا، پیدل چلے گا، خاموشی سے خطبہ سنے گا، اسے ہر قدم پر ایک سال کے روزے کا ثواب ملے گا۔" (سنن ابی داؤد)</div>
+            </section>
+        </div>
+
+        <!-- Taraweeh Content -->
+        <div id="taraweeh" class="prayer-content">
+            <div class="note">تراویح رمضان المبارک میں عشاء کی فرض نماز کے بعد پڑھی جاتی ہے۔ یہ رمضان کی خاص نماز ہے جس میں قرآن پاک کی تلاوت کی جاتی ہے۔</div>
+
+            <section class="step">
+                <h2><i class="fas fa-star"></i> تراویح نماز کا طریقہ</h2>
+                <p>تراویح کا لفظ "تراویح" جمع ہے جس کا مفراد "راحت" ہے، کیونکہ ہر چار رکعت کے بعد آرام کیا جاتا ہے۔</p>
+                
+                <h3>تراویح نماز کی رکعات:</h3>
+                <ul>
+                    <li>تراویح میں بیس رکعت پڑھی جاتی ہیں، جو دو دو رکعت کے سیٹ میں ہوتی ہیں۔</li>
+                    <li>ہر دو رکعت کے بعد سلام پھیرا جاتا ہے۔</li>
+                    <li>ہر چار رکعت (دو سلام) کے بعد ایک مختصر آرام لیا جاتا ہے۔</li>
+                    <li>تراویح کے بعد وتر کی تین رکعت بھی پڑھی جاتی ہیں۔</li>
+                </ul>
+                
+                <h3>تراویح میں قرآن پاک:</h3>
+                <ul>
+                    <li>تراویح میں پورے قرآن پاک کی تلاوت کی جاتی ہے، جو رمضان کے مہینے میں مکمل ہوتی ہے۔</li>
+                    <li>عام طور پر ہر رات ایک پارہ مکمل کیا جاتا ہے۔</li>
+                    <li>تراویح میں طویل قیام اور تلاوت کی کوشش کی جاتی ہے۔</li>
+                </ul>
+                
+                <h3>تراویح کے اوقات:</h3>
+                <ul>
+                    <li>عشاء کی فرض نماز کے بعد</li>
+                    <li>رات کے آخری حصے تک</li>
+                    <li>فجر سے پہلے تک</li>
+                </ul>
+                
+                <div class="arabic">شَهْرُ رَمَضَانُ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ وَبَيِّنَاتٍ مِّنَ الْهُدَىٰ وَالْفُرْقَانِ</div>
+                
+                <div class="note">حضور ﷺ فرماتے ہیں: "جو شخص ایمان اور ثواب کی امید کے ساتھ رمضان کی راتوں میں نماز پڑھے گا، اس کے گناہ معاف کر دیے جائیں گے۔" (صحیح بخاری)</div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div>
+                <h3><img src="pics/logo.jpg" alt="DeenPath Logo" style="height: 40px; width: 40px; border-radius: 50%; vertical-align: middle;"> <b style="margin-left: 10px; font-family: 'Times New Roman', Times, serif; font-size: 25px; color: gold;">DeenPath</b></h3>
+                <p>DeenPath is your guide to authentic Islamic knowledge and resources for a better spiritual journey.</p>
+                <div class="social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h3 style="color: gold; font-family: Arial Black;">Quick Links</h3>
+                <ul style="font-family: 'Copperplate Gothic Bold', sans-serif;">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="p.p.html">Privacy Policy</a></li>
+                    <li><a href="faq.html">FAQs</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 style="color: gold; font-family: Arial Black;">Islamic Resources</h3>
+                <ul style="font-family: 'Copperplate Gothic Bold', sans-serif;">
+                    <li><a href="paray.html">Quran</a></li>
+                    <li><a href="surah.html">Surah</a></li>
+                    <li><a href="nt.html">Namaz Time</a></li>
+                    <li><a href="calender.html">Calendar</a></li>
+                    <li><a href="counter.html">Counter</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 style="color: gold; font-family: Arial Black;">Contact</h3>
+                <ul style="font-family: 'Copperplate Gothic Bold', sans-serif;">
+                    <li><a href="mailto:info@deenpath.com">mohsingohar759gmail.com</a></li>
+                    <li><a href="#">+92 300 1234567</a></li>
+                    <li><a href="#">Karachi, Pakistan</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            © <span id="year">2024</span> DeenPath. All Rights Reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Show prayer content based on selected box
+        function showPrayer(prayerType) {
+            // Hide all prayer content
+            const contents = document.querySelectorAll('.prayer-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all prayer boxes
+            const boxes = document.querySelectorAll('.prayer-box');
+            boxes.forEach(box => {
+                box.classList.remove('active');
+            });
+            
+            // Show selected prayer content
+            document.getElementById(prayerType).classList.add('active');
+            
+            // Add active class to clicked box
+            event.currentTarget.classList.add('active');
+            
+            // Scroll to top of content
+            document.getElementById(prayerType).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Update current year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

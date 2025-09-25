@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deen Path - Your Islamic Learning Journey</title>
+    <link rel="icon" type="image/png" href="pics/logo.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <style>
+        :root {
+            --primary: rgb(4, 51, 34);
+            --secondary: #d4af37;
+            --accent: rgb(6, 78, 52);
+            --light: #f7fafc;
+            --dark: #1a202c;
+            --gold: #d4af37;
+            --cream: #fefcf3;
+            --light-green: rgba(4, 51, 34, 0.05);
+            --medium-green: rgba(4, 51, 34, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--cream);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23043322' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Fixed Header Container */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background: transparent;
+            border-bottom: 2px solid gold;
+            box-shadow: none;
+            padding: 10px 20px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: linear-gradient(to right, #013220, #014d2c);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .navbar-nav .nav-link {
+            color: gold !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: white !important;
+            transform: translateY(-2px);
+        }
+
+        #current-date {
+            color: gold;
+            font-size: 14px;
+            font-weight: bold;
+            margin-left: 15px;
+        }
+
+        /* Digital Clock Styling */
+        #clock {
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+            color: black;
+            font-weight: bold;
+            margin-left: 20px;
+            line-height: 1.2;
+        }
+
+        #day-date {
+            font-size: 14px;
+            color: black;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.7);
+        }
+
+        #time {
+            font-size: 16px;
+            color: white;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+            font-family: 'Courier New', Courier, monospace;
+            letter-spacing: 1px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(4, 51, 34, 0.92), rgba(6, 78, 52, 0.95)), url('https://images.unsplash.com/photo-1586308296721-e04e6b9e3c5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover;
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at top right, rgba(212, 175, 55, 0.15) 0%, transparent 50%);
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+            }
+
+        
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            font-weight: 900;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--gold) 0%, #f0c14b 100%);
+            color: var(--primary);
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            letter-spacing: 0.5px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.5);
+        }
+
+        /* Path Section */
+        .path-section {
+            padding: 120px 0;
+            background-color: white;
+            position: relative;
+            margin-top: 0; /* Removed the margin-top that was causing the issue */
+        }
+
+        .path-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--gold), var(--primary));
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .section-title h2 {
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+            font-weight: 900;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--gold));
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-title p {
+            font-size: 1.2rem;
+            color: #555;
+            max-width: 600px;
+            margin: 25px auto 0;
+        }
+
+        .path-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .path-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--gold), var(--primary));
+            z-index: 1;
+        }
+
+        .path-stages {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .path-stage {
+            text-align: center;
+            width: 180px;
+        }
+
+        .stage-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2rem;
+            box-shadow: 0 8px 20px rgba(4, 51, 34, 0.2);
+            border: 3px solid var(--gold);
+        }
+
+        .stage-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .stage-desc {
+            font-size: 0.95rem;
+            color: #555;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 120px 0;
+            background-color: var(--cream);
+            position: relative;
+        }
+
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--gold), var(--primary), var(--gold));
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 50px;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 18px;
+            padding: 45px 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            border: 1px solid rgba(4, 51, 34, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--gold));
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-color: var(--gold);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .feature-card h3 {
+            font-size: 1.7rem;
+            margin-bottom: 18px;
+            font-weight: 800;
+        }
+
+        .feature-card p {
+            font-size: 1.05rem;
+            color: #444;
+            line-height: 1.7;
+        }
+
+        /* Knowledge Sections */
+        .knowledge-sections {
+            padding: 120px 0;
+            background-color: white;
+            position: relative;
+        }
+
+        .knowledge-sections::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--gold), var(--primary));
+        }
+
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .knowledge-card {
+            background: var(--cream);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(4, 51, 34, 0.08);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .knowledge-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .knowledge-card.active {
+            border: 2px solid var(--gold);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.3);
+        }
+
+        .card-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .card-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(to top, rgba(4, 51, 34, 0.8), transparent);
+        }
+
+        .card-content {
+            padding: 30px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-content h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .card-content p {
+            margin-bottom: 20px;
+            color: #444;
+            font-size: 1rem;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .read-more {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            margin-top: auto;
+        }
+
+        .read-more:hover {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+        }
+
+        /* Detailed Content Section */
+        .detailed-content {
+            display: none;
+            padding: 80px 0;
+            background-color: var(--cream);
+        }
+
+        .detailed-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .content-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .content-header h2 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .content-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+            border-left: 4px solid var(--gold);
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .content-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .content-card p {
+            color: #444;
+            line-height: 1.7;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(4, 51, 34, 0.3);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 120px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            position: relative;
+        }
+
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--gold), white, var(--gold));
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 18px;
+            padding: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 25px;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            position: relative;
+        }
+
+        .testimonial-text::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -20px;
+            left: -15px;
+            color: rgba(212, 175, 55, 0.3);
+            font-family: 'Playfair Display', serif;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold) 0%, #f0c14b 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.4rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer Style */
+        footer {
+            background: linear-gradient(to right, #012d1b, #024b2b);
+            color: #ccc;
+            padding: 3rem 1.5rem 1rem;
+            position: relative;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Logo and About */
+        .footer-logo h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo img {
+            height: 50px;
+            width: 50px;
+            border-radius: 8px;
+            box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+        }
+
+        .footer-logo b {
+            font-family: Algerian, serif;
+            font-size: 25px;
+            color: gold;
+            letter-spacing: 2px;
+        }
+
+        .footer-logo p {
+            color: #bbb;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Social Icons */
+        .social {
+            display: flex;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .social a {
+            width: 40px;
+            height: 40px;
+            background: #014d2c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: gold;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .social a:hover {
+            background: gold;
+            color: #014d2c;
+            transform: scale(1.1);
+        }
+
+        /* Footer Links */
+        footer h3 {
+            color: gold;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer ul li {
+            margin: 0.5rem 0;
+        }
+
+        footer ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 1rem;
+        }
+
+        footer ul li a:hover {
+            color: gold;
+        }
+
+        /* Footer Bottom */
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+            padding-top: 1rem;
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        /* Islamic-themed image placeholders */
+        .foundation-img {
+            background: linear-gradient(rgba(4, 51, 34, 0.7), rgba(4, 51, 34, 0.7)), 
+                        url('https://picsum.photos/seed/islamic-foundation/800/600.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .quran-img {
+            background: linear-gradient(rgba(4, 51, 34, 0.7), rgba(4, 51, 34, 0.7)), 
+                        url('https://picsum.photos/seed/quran-study/800/600.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .spirituality-img {
+            background: linear-gradient(rgba(4, 51, 34, 0.7), rgba(4, 51, 34, 0.7)), 
+                        url('https://picsum.photos/seed/islamic-spirituality/800/600.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .history-img {
+            background: linear-gradient(rgba(4, 51, 34, 0.7), rgba(4, 51, 34, 0.7)), 
+                        url('https://picsum.photos/seed/islamic-history/800/600.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .contemporary-img {
+            background: linear-gradient(rgba(4, 51, 34, 0.7), rgba(4, 51, 34, 0.7)), 
+                        url('https://picsum.photos/seed/islamic-contemporary/800/600.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .community-img {
+            background: linear-gradient(rgba(4, 51, 34, 0.7), rgba(4, 51, 34, 0.7)), 
+                        url('https://picsum.photos/seed/islamic-community/800/600.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            nav ul {
+                gap: 15px;
+                font-size: 0.9rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2.5rem;
+            }
+            
+            .logo-text {
+                font-size: 1.4rem;
+            }
+            
+            .features-grid, .knowledge-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .path-stages {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .path-line {
+                width: 4px;
+                height: 100%;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .path-stage {
+                margin-bottom: 40px;
+            }
+
+            .footer-logo h3 {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-logo p {
+                text-align: center;
+            }
+
+            .social {
+                justify-content: center;
+            }
+
+            footer h3 {
+                text-align: center;
+            }
+
+            footer ul {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fixed Header Container -->
+    <div class="fixed-header">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand" href="index.html">
+                    <img src="pics/logo.jpg" alt="DeenPath" style="height: 50px; border-radius: 10px; box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);">
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button class="navbar-toggler text-gold" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Menu Items + Namaz Times -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                    </ul>
+
+                    <!-- Digital Clock -->
+                    <div id="clock" class="ms-3 me-4 text-end">
+                        <div id="day-date"></div>
+                        <div id="time"></div>
+                        <div id="day-date" class="text-white ms-4">
+                            <strong></strong> <span id="namaz-now"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Hero Section - Now separate from the fixed header -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <h1>Deen Path</h1>
+            <p>Your journey to Islamic knowledge and spiritual growth begins here. Walk the path of learning with guidance from authentic sources.</p>
+            <a href="#path" class="cta-button">Start Your Journey</a>
+        </div>
+    </section>
+
+    <!-- Path Section -->
+    <section class="path-section" id="path">
+        <div class="container">
+            <div class="section-title">
+                <h2>The Path of Islamic Learning</h2>
+                <p>A structured journey through the essential stages of Islamic knowledge</p>
+            </div>
+            
+            <div class="path-container">
+                <div class="path-line"></div>
+                <div class="path-stages">
+                    <div class="path-stage">
+                        <div class="stage-icon"><i class="fas fa-seedling"></i></div>
+                        <div class="stage-title">Foundation</div>
+                        <div class="stage-desc">Basic beliefs, pillars of Islam, and essential Arabic</div>
+                    </div>
+                    <div class="path-stage">
+                        <div class="stage-icon"><i class="fas fa-book-open"></i></div>
+                        <div class="stage-title">Quran</div>
+                        <div class="stage-desc">Recitation, understanding, and reflection</div>
+                    </div>
+                    <div class="path-stage">
+                        <div class="stage-icon"><i class="fas fa-scroll"></i></div>
+                        <div class="stage-title">Hadith</div>
+                        <div class="stage-desc">Prophetic traditions and their application</div>
+                    </div>
+                    <div class="path-stage">
+                        <div class="stage-icon"><i class="fas fa-heart"></i></div>
+                        <div class="stage-title">Spirituality</div>
+                        <div class="stage-desc">Purification of the soul and closeness to Allah</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose Deen Path</h2>
+                <p>Experience a transformative approach to Islamic education</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-map-marked-alt"></i></div>
+                    <h3>Structured Journey</h3>
+                    <p>Follow a carefully designed learning path that builds knowledge progressively from foundation to mastery</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-user-graduate"></i></div>
+                    <h3>Expert Guidance</h3>
+                    <p>Learn from qualified scholars and teachers who provide authentic knowledge and practical guidance</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-users"></i></div>
+                    <h3>Supportive Community</h3>
+                    <p>Connect with fellow learners on the same path, sharing experiences and encouraging growth</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Knowledge Sections -->
+    <section class="knowledge-sections" id="knowledge">
+        <div class="container">
+            <div class="section-title">
+                <h2>Explore The Path</h2>
+                <p>Deepen your understanding at every stage of your journey</p>
+            </div>
+            
+            <div class="knowledge-grid">
+                <div class="knowledge-card" data-content="foundation">
+                    <img src="https://www.bennyhinn.org/wp-content/uploads/2021/02/Eblast-2221-comp.jpg" alt="">
+                    <div class="card-content">
+                        <h3>Foundation of Faith</h3>
+                        <p>Build a strong foundation with essential Islamic beliefs, pillars of Islam, and basic Arabic language skills.</p>
+                        <a href="#" class="read-more">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="knowledge-card" data-content="quran">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Hadith_Books.jpg/1200px-Hadith_Books.jpg" alt="">
+                    <div class="card-content">
+                        <h3>Quran & Hadith Studies</h3>
+                        <p>Deepen your connection with the divine through comprehensive Quranic studies and authentic Hadith sciences.</p>
+                        <a href="#" class="read-more">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="knowledge-card" data-content="spirituality">
+                    <img src="data:image/jpeg;base64,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" alt="">
+                    <div class="card-content">
+                        <h3>Spiritual Growth</h3>
+                        <p>Transform your heart and soul through the science of spirituality, purification, and divine remembrance.</p>
+                        <a href="#" class="read-more">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="knowledge-card" data-content="history">
+                    <img src="data:image/jpeg;base64,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" alt="">
+                    <div class="card-content">
+                        <h3>Islamic History</h3>
+                        <p>Journey through the rich heritage of Islamic civilization, from the time of the Prophet to modern Islamic societies.</p>
+                        <a href="#" class="read-more">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="knowledge-card" data-content="contemporary">
+                    <img src="pics/Contemporary Issues.jpg" alt="">
+                    <div class="card-content">
+                        <h3>Contemporary Issues</h3>
+                        <p>Address modern challenges through the lens of traditional Islamic scholarship and principles.</p>
+                        <a href="#" class="read-more">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="knowledge-card" data-content="community">
+                    <img src="data:image/jpeg;base64,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" alt="">
+                    <div class="card-content">
+                        <h3>Community Development</h3>
+                        <p>Learn to build strong Muslim communities through effective leadership, outreach, and social welfare initiatives.</p>
+                        <a href="#" class="read-more">Explore <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Content Sections -->
+    <!-- Foundation Content -->
+    <div class="detailed-content" id="foundation-content">
+        <div class="content-container">
+            <div class="content-header">
+                <h2>Foundation of Faith</h2>
+                <p>Building the essential groundwork for your Islamic journey</p>
+            </div>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3><i class="fas fa-star"></i> Islamic Beliefs (Aqeedah)</h3>
+                    <p>Understand the fundamental beliefs of Islam including the six articles of faith: belief in Allah, His angels, His revealed books, His messengers, the Day of Judgment, and divine decree.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-mosque"></i> Five Pillars of Islam</h3>
+                    <p>Learn the practical implementation of the five pillars: Shahada (faith declaration), Salah (prayer), Zakat (charity), Sawm (fasting during Ramadan), and Hajj (pilgrimage to Mecca).</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-language"></i> Essential Arabic</h3>
+                    <p>Master basic Arabic language skills to enhance your understanding of Quranic verses and daily prayers. Learn the Arabic alphabet, common vocabulary, and basic grammar.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-book"></i> Introduction to Fiqh</h3>
+                    <p>Gain foundational knowledge of Islamic jurisprudence, covering purification (Taharah), prayer (Salah), and other essential acts of worship.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-history"></i> Islamic History</h3>
+                    <p>Explore the rich history of Islam from the time of Prophet Muhammad (PBUH) through the early caliphates and the golden age of Islamic civilization.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-user-friends"></i> Islamic Etiquette</h3>
+                    <p>Learn the proper manners and etiquette in Islam, including interactions with family, neighbors, and the community, based on Quranic and prophetic teachings.</p>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <a href="#" class="back-button" onclick="showKnowledgeCards()">Back to Explore</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quran & Hadith Content -->
+    <div class="detailed-content" id="quran-content">
+        <div class="content-container">
+            <div class="content-header">
+                <h2>Quran & Hadith Studies</h2>
+                <p>Deepening your connection with divine revelation and prophetic guidance</p>
+            </div>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3><i class="fas fa-book-open"></i> Tajweed Mastery</h3>
+                    <p>Learn the rules of Quranic recitation to perfect your pronunciation and articulation. Master the characteristics of Arabic letters and the rules of elongation and pausing.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-search"></i> Quranic Tafsir</h3>
+                    <p>Understand the meanings and context of Quranic verses through authentic exegesis. Explore the reasons for revelation and the linguistic beauty of the Quran.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-brain"></i> Quranic Reflection</h3>
+                    <p>Develop the skill of contemplating Quranic verses and applying their wisdom to daily life. Learn how to derive lessons and guidance from the divine text.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-scroll"></i> Hadith Sciences</h3>
+                    <p>Understand the methodology of Hadith preservation, verification, and classification. Learn about the famous Hadith collections and their compilers.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-user-circle"></i> Prophetic Biography</h3>
+                    <p>Study the life of Prophet Muhammad (PBUH) as the perfect example to follow. Learn about his character, teachings, and interactions with companions.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-hands-helping"></i> Hadith Application</h3>
+                    <p>Learn how to implement prophetic teachings in contemporary life situations. Understand the relevance of Hadith in addressing modern challenges.</p>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <a href="#" class="back-button" onclick="showKnowledgeCards()">Back to Explore</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spirituality Content -->
+    <div class="detailed-content" id="spirituality-content">
+        <div class="content-container">
+            <div class="content-header">
+                <h2>Spiritual Growth</h2>
+                <p>Transforming your heart and soul through Islamic spirituality</p>
+            </div>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3><i class="fas fa-heart"></i> Purification of the Soul</h3>
+                    <p>Learn the Islamic science of purifying the heart from negative traits and diseases. Identify spiritual ailments and their remedies through Quranic and prophetic guidance.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-praying-hands"></i> Divine Remembrance</h3>
+                    <p>Discover the power of Dhikr and its role in strengthening connection with Allah. Learn various forms of remembrance and their spiritual benefits.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-moon"></i> Night Prayer (Tahajjud)</h3>
+                    <p>Understand the significance and benefits of the voluntary night prayer. Learn how to establish this special connection with Allah during the last third of the night.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-hands"></i> Supplication (Dua)</h3>
+                    <p>Master the art of making sincere supplications to Allah. Learn the etiquette of dua and explore prophetic supplications for various occasions.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-seedling"></i> Spiritual States</h3>
+                    <p>Understand the various stations of the heart and how to attain higher levels of faith. Learn about patience, gratitude, trust, and other spiritual qualities.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-dove"></i> Contentment (Rida)</h3>
+                    <p>Develop the ability to accept Allah's decree with grace and gratitude. Learn how to find peace in Allah's plan and wisdom in all circumstances.</p>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <a href="#" class="back-button" onclick="showKnowledgeCards()">Back to Explore</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Islamic History Content -->
+    <div class="detailed-content" id="history-content">
+        <div class="content-container">
+            <div class="content-header">
+                <h2>Islamic History</h2>
+                <p>Journey through the rich heritage of Islamic civilization</p>
+            </div>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3><i class="fas fa-mosque"></i> Early Islamic Period</h3>
+                    <p>Explore the life of Prophet Muhammad (PBUH) and the early Muslim community. Learn about the challenges and triumphs of the early Islamic state in Medina.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-crown"></i> The Caliphates</h3>
+                    <p>Study the golden age of Islam under the Rashidun, Umayyad, Abbasid, and Ottoman caliphates. Discover the political, social, and cultural developments of each era.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-flask"></i> Islamic Golden Age</h3>
+                    <p>Learn about the remarkable contributions of Muslim scholars to science, mathematics, medicine, astronomy, and philosophy during the Islamic Golden Age.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-landmark"></i> Islamic Civilization</h3>
+                    <p>Discover the spread of Islamic civilization across continents, the development of Islamic art, architecture, and culture in diverse regions.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-globe-asia"></i> Islamic Empires</h3>
+                    <p>Study the major Islamic empires including the Mughal, Safavid, and Ottoman empires, their contributions to Islamic heritage and world civilization.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-history"></i> Modern Islamic History</h3>
+                    <p>Understand the challenges and transformations of the Muslim world in the modern era, including colonialism, independence movements, and contemporary Islamic revival.</p>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <a href="#" class="back-button" onclick="showKnowledgeCards()">Back to Explore</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contemporary Issues Content -->
+<div class="detailed-content" id="contemporary-content">
+    <div class="content-container">
+        <img src="pics/Contemporary Issues.jpg" alt="Contemporary Issues" style="width:100%; border-radius:10px;">
+
+        <div class="content-header">
+            <h2>Contemporary Issues</h2>
+            <p>Addressing modern challenges through Islamic principles</p>
+        </div>
+
+        <div class="content-grid">
+            <!-- Card 1 -->
+            <div class="content-card">
+                <img src="pics/ethics.jpg" alt="Islamic Ethics" class="card-img">
+                <h3><i class="fas fa-balance-scale"></i> Islamic Ethics in Modern Life</h3>
+                <p>Learn how to apply Islamic ethical principles to contemporary issues in business, finance, healthcare, and technology while maintaining Islamic values.</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="content-card">
+                <img src="pics/family.jpg" alt="Family Issues" class="card-img">
+                <h3><i class="fas fa-users"></i> Family and Social Issues</h3>
+                <p>Address modern family challenges including parenting, marriage, divorce, and social relationships through the guidance of Quran and Sunnah.</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="content-card">
+                <img src="pics/science.jpg" alt="Science and Islam" class="card-img">
+                <h3><i class="fas fa-microscope"></i> Science and Islam</h3>
+                <p>Explore the relationship between Islamic teachings and modern scientific developments, including bioethics, environmental issues, and technological advancements.</p>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="content-card">
+                <img src="pics/global.jpg" alt="Islam and Global Challenges" class="card-img">
+                <h3><i class="fas fa-globe"></i> Islam and Global Challenges</h3>
+                <p>Understand Islamic perspectives on global issues such as poverty, climate change, human rights, and international relations.</p>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="content-card">
+                <img src="pics/education.jpg" alt="Islamic Education" class="card-img">
+                <h3><i class="fas fa-graduation-cap"></i> Islamic Education Today</h3>
+                <p>Learn about contemporary approaches to Islamic education, balancing traditional knowledge with modern educational methods and addressing the needs of Muslim youth.</p>
+            </div>
+
+            <!-- Card 6 -->
+            <div class="content-card">
+                <img src="pics/community.jpg" alt="Community Development" class="card-img">
+                <h3><i class="fas fa-hands-helping"></i> Community Development</h3>
+                <p>Discover Islamic principles for building strong, vibrant Muslim communities in the modern world, addressing issues of integration, identity, and social responsibility.</p>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="islamicknowledge.html" class="back-button" onclick="showKnowledgeCards()">Back to Explore</a>
+        </div>
+    </div>
+</div>
+
+    <!-- Community Development Content -->
+    <div class="detailed-content" id="community-content">
+        <div class="content-container">
+            <div class="content-header">
+                <h2>Community Development</h2>
+                <p>Building strong Muslim communities through effective leadership and service</p>
+            </div>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3><i class="fas fa-user-tie"></i> Islamic Leadership</h3>
+                    <p>Learn the principles of effective leadership in Islam based on the examples of Prophet Muhammad (PBUH) and the righteous caliphs. Develop skills to lead with integrity and wisdom.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-hands-helping"></i> Social Welfare in Islam</h3>
+                    <p>Understand the Islamic approach to social welfare, charity, and community service. Learn how to establish effective programs to help those in need.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-mosque"></i> Mosque Management</h3>
+                    <p>Discover best practices for managing mosques and Islamic centers as vibrant community hubs. Learn about administration, programs, and community engagement.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-child"></i> Islamic Education Institutions</h3>
+                    <p>Explore models for establishing and managing Islamic schools, weekend programs, and educational initiatives that serve the needs of Muslim communities.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-handshake"></i> Interfaith Relations</h3>
+                    <p>Learn the principles of engaging with people of other faiths in a manner that promotes mutual respect and understanding while maintaining Islamic identity.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-globe"></i> Outreach and Dawah</h3>
+                    <p>Master the art of sharing Islam with others through effective communication methods. Learn how to address misconceptions and present Islam in a positive light.</p>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                <a href="islamicknowledge.html" class="back-button" onclick="showKnowledgeCards()">Back to Explore</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2 style="color: white;">Journey Stories</h2>
+                <p style="color: rgba(255,255,255,0.8);">Hear from those walking the Deen Path</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Deen Path transformed my approach to Islamic learning. The structured journey helped me build a strong foundation and progress systematically."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">YK</div>
+                        <div>
+                            <div>Yusuf Khan</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">Student, Malaysia</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"As a new Muslim, I was overwhelmed with where to start. Deen Path provided the guidance and structure I needed to learn with confidence."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SJ</div>
+                        <div>
+                            <div>Sarah Johnson</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">Revert, USA</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The spiritual growth I've experienced through Deen Path is immeasurable. It's not just about knowledge, but transformation."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MA</div>
+                        <div>
+                            <div>Mohammed Ali</div>
+                            <div style="font-size: 0.9rem; opacity: 0.8;">Professional, UAE</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <!-- Logo Section -->
+            <div class="footer-logo">
+                <h3>
+                    <img src="pics/logo.jpg" alt="DeenPath Logo">
+                    <b>DeenPath</b>
+                </h3>
+                <p>DeenPath is your trusted companion for authentic Islamic knowledge and spiritual growth.</p>
+                <div class="social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="FAQs.html">FAQs</a></li>
+                </ul>
+            </div>
+
+            <!-- Islamic Resources -->
+            <div>
+                <h3>Islamic Resources</h3>
+                <ul>
+                    <li><a href="quran.html">Quran</a></li>
+                    <li><a href="surah.html">Surah</a></li>
+                    <li><a href="nt.html">Namaz Time</a></li>
+                    <li><a href="calender.html">Calendar</a></li>
+                    <li><a href="counter.html">Tasbeeh Counter</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div>
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="mailto:mohsingohar759@gmail.com">mohsingohar759@gmail.com</a></li>
+                    <li><a href="#">+92 300 1234567</a></li>
+                    <li><a href="#">Karachi, Pakistan</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            © <span id="year"></span> DeenPath. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Calculate the height of the fixed header and set padding-top for the hero section
+        window.addEventListener('load', () => {
+            const fixedHeader = document.querySelector('.fixed-header');
+            const heroSection = document.querySelector('.hero');
+            const headerHeight = fixedHeader.offsetHeight;
+            
+            // Set padding-top for the hero section to prevent it from being hidden behind the fixed header
+            heroSection.style.paddingTop = (headerHeight + 30) + 'px';
+        });
+
+        // Knowledge cards click functionality
+        document.querySelectorAll('.knowledge-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const contentId = this.getAttribute('data-content');
+                
+                // Hide all knowledge cards
+                document.querySelector('.knowledge-sections').style.display = 'none';
+                
+                // Hide all detailed content sections
+                document.querySelectorAll('.detailed-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Show the selected detailed content
+                document.getElementById(contentId + '-content').classList.add('active');
+                
+                // Scroll to the detailed content
+                document.getElementById(contentId + '-content').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        // Back to knowledge cards functionality
+        function showKnowledgeCards() {
+            // Hide all detailed content sections
+            document.querySelectorAll('.detailed-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show the knowledge cards section
+            document.querySelector('.knowledge-sections').style.display = 'block';
+            
+            // Scroll to the knowledge cards section
+            document.querySelector('.knowledge-sections').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Live Clock and Namaz Time Script
+        function updateClockAndNamaz() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const totalMinutes = hours * 60 + minutes;
+
+            // Day & Time
+            const dayOptions = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
+            const dayDate = now.toLocaleDateString('en-US', dayOptions);
+            const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('day-date').textContent = dayDate;
+            document.getElementById('time').textContent = time;
+
+            // Namaz schedule (in minutes)
+            const namazSchedule = [
+                { name: "Fajr", start: 5*60, end: 12*60 },      // 05:00 - 12:00
+                { name: "Dhuhr", start: 12*60, end: 16*60 },   // 12:00 - 16:00
+                { name: "Asr", start: 16*60, end: 18*60 },     // 16:00 - 18:00
+                { name: "Maghrib", start: 18*60, end: 20*60 }, // 18:00 - 20:00
+                { name: "Isha", start: 20*60, end: 5*60 + 24*60 } // 20:00 - 05:00 next day
+            ];
+
+            let currentNamaz = "";
+            for (let i = 0; i < namazSchedule.length; i++) {
+                let namaz = namazSchedule[i];
+                if (namaz.start < namaz.end) {
+                    if (totalMinutes >= namaz.start && totalMinutes < namaz.end) {
+                        currentNamaz = namaz.name;
+                    }
+                } else {
+                    // For Isha crossing midnight
+                    if (totalMinutes >= namaz.start || totalMinutes < namaz.end) {
+                        currentNamaz = namaz.name;
+                    }
+                }
+            }
+
+            // Show current Namaz with example static time (replace with real time if you want)
+            const namazTimes = {
+                "Fajr": "05:00 AM",
+                "Dhuhr": "12:30 PM",
+                "Asr": "04:00 PM",
+                "Maghrib": "06:30 PM",
+                "Isha": "08:00 PM"
+            };
+            document.getElementById('namaz-now').textContent = `${currentNamaz} - ${namazTimes[currentNamaz]}`;
+        }
+
+        // Run immediately & then every second
+        updateClockAndNamaz();
+        setInterval(updateClockAndNamaz, 1000);
+
+        // Dynamic Year Update
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

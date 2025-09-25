@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DeenPath Registration</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Scheherazade&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* General Body Styling */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom right, #000000c9, #333333c9), url('pics/quranbg.jpg') no-repeat center center/cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      color: white;
+      padding: 20px 0;
+    }
+
+    /* Registration Form Container */
+    .registration-container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      padding: 40px;
+      border-radius: 20px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    /* Heading */
+    .registration-container h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2rem;
+      font-weight: 600;
+      color: gold;
+      letter-spacing: 1px;
+    }
+
+    /* Input Fields */
+    .registration-container input[type="text"],
+    .registration-container input[type="email"],
+    .registration-container input[type="password"],
+    .registration-container select {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .registration-container input::placeholder,
+    .registration-container select {
+      color: #ddd;
+      font-size: 14px;
+    }
+
+    /* Focus Effect */
+    .registration-container input:focus,
+    .registration-container select:focus {
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid gold;
+      box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+    }
+
+    /* Password Container */
+    .password-container {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .password-container input {
+      width: 100%;
+      padding-right: 45px;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #ddd;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    /* Checkbox */
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .checkbox-container input[type="checkbox"] {
+      margin-right: 10px;
+      transform: scale(1.2);
+    }
+
+    .checkbox-container label {
+      font-size: 14px;
+      color: #ddd;
+    }
+
+    /* Submit Button */
+    .registration-container input[type="submit"] {
+      background: linear-gradient(135deg, gold, goldenrod);
+      color: black;
+      border: none;
+      padding: 14px;
+      width: 100%;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .registration-container input[type="submit"]:hover {
+      background: linear-gradient(135deg, goldenrod, gold);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+    }
+
+    /* Login Link */
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #ddd;
+    }
+
+    .login-link a {
+      color: gold;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    /* Small Footer Text */
+    .form-footer {
+      text-align: center;
+      font-size: 12px;
+      color: #ccc;
+      margin-top: 20px;
+    }
+
+    /* Animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 576px) {
+      .registration-container {
+        padding: 25px;
+      }
+      .registration-container h2 {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <form id="registrationForm" class="registration-container">
+    <h2>Create Account</h2>
+
+    <input type="text" name="fullName" placeholder="Full Name" required>
+    <input type="email" name="email" placeholder="Email Address" required>
+    
+    <div class="password-container">
+      <input type="password" id="password" name="password" placeholder="Password" required>
+      <span class="password-toggle" onclick="togglePassword()">👁️</span>
+    </div>
+    
+    <div class="password-container">
+      <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+      <span class="password-toggle" onclick="toggleConfirmPassword()">👁️</span>
+    </div>
+    
+    <select name="country" required>
+      <option value="" disabled selected>Select Country</option>
+      <option value="pakistan">Pakistan</option>
+      <option value="india">India</option>
+      <option value="bangladesh">Bangladesh</option>
+      <option value="indonesia">Indonesia</option>
+      <option value="malaysia">Malaysia</option>
+      <option value="saudi-arabia">Saudi Arabia</option>
+      <option value="uae">UAE</option>
+      <option value="egypt">Egypt</option>
+      <option value="turkey">Turkey</option>
+      <option value="usa">USA</option>
+      <option value="uk">UK</option>
+      <option value="other">Other</option>
+    </select>
+    
+    <div class="checkbox-container">
+      <input type="checkbox" id="terms" name="terms" required>
+      <label for="terms">I agree to the <a href="#" style="color: gold;">Terms and Conditions</a></label>
+    </div>
+    
+    <div class="checkbox-container">
+      <input type="checkbox" id="newsletter" name="newsletter">
+      <label for="newsletter">Subscribe to our newsletter for Islamic content</label>
+    </div>
+
+    <input type="submit" value="Register Now">
+    
+    <div class="login-link">
+      Already have an account? <a href="login.html">Login here</a>
+    </div>
+    
+    <p class="form-footer">We respect your privacy. Your information is safe with us.</p>
+  </form>
+
+  <script>
+    // Toggle password visibility
+    function togglePassword() {
+      const passwordField = document.getElementById("password");
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+      } else {
+        passwordField.type = "password";
+      }
+    }
+    
+    // Toggle confirm password visibility
+    function toggleConfirmPassword() {
+      const confirmPasswordField = document.getElementById("confirmPassword");
+      if (confirmPasswordField.type === "password") {
+        confirmPasswordField.type = "text";
+      } else {
+        confirmPasswordField.type = "password";
+      }
+    }
+
+    // Form submission
+    document.getElementById("registrationForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      // Get form values
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+      
+      // Password validation
+      if (password !== confirmPassword) {
+        alert("Passwords do not match. Please try again.");
+        return;
+      }
+      
+      // Password strength validation (optional)
+      if (password.length < 6) {
+        alert("Password must be at least 6 characters long.");
+        return;
+      }
+      
+      // Professional confirmation
+      alert("Thank you for registering with DeenPath! Your account has been created successfully.");
+      
+      // Redirect to Home Page after 1.5 seconds
+      setTimeout(function() {
+        window.location.href = "index.html"; // Replace with your actual home page file
+      }, 1500);
+      
+      // Optional: clear the form
+      this.reset();
+    });
+  </script>
+</body>
+</html>

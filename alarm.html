@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Islamic Prayer Alarm - DeenPath</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ===== RESET ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #012d1b, #011f14);
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ===== BACKGROUND DECORATIONS ===== */
+    .bg-pattern {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 20%),
+        linear-gradient(0deg, rgba(1, 45, 27, 0.8) 0%, rgba(1, 31, 19, 0.9) 100%);
+      z-index: -1;
+    }
+
+    .bg-decoration {
+      position: fixed;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0) 70%);
+      z-index: -1;
+    }
+
+    .bg-decoration-1 {
+      width: 400px;
+      height: 400px;
+      top: -200px;
+      right: -150px;
+      animation: float 20s infinite ease-in-out;
+    }
+
+    .bg-decoration-2 {
+      width: 350px;
+      height: 350px;
+      bottom: -150px;
+      left: -150px;
+      animation: float 25s infinite ease-in-out reverse;
+    }
+
+    .bg-decoration-3 {
+      width: 200px;
+      height: 200px;
+      top: 40%;
+      right: 10%;
+      animation: float 30s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(10deg); }
+    }
+
+    /* ===== CONTAINER ===== */
+    .container {
+      max-width: 500px;
+      width: 90%;
+      background: linear-gradient(145deg, #ffffff, #012f1c);
+      border-radius: 20px;
+      box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 0 20px rgba(255, 255, 255, 0.3);
+      padding: 40px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 1s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #d4af37, #b8860b, #d4af37);
+      animation: shimmer 3s infinite linear;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== HEADER ===== */
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #d4af37, #b8860b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 25px;
+      position: relative;
+      display: inline-block;
+      z-index: 1;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 10%;
+      width: 80%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #d4af37, transparent);
+    }
+
+    .location {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      color: #012d1b;
+      font-weight: 500;
+      z-index: 1;
+      position: relative;
+    }
+
+    .location i {
+      color: #d4af37;
+    }
+
+    /* ===== CURRENT TIME ===== */
+    .current-time {
+      background: linear-gradient(135deg, #012d1b, #011f14);
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 25px;
+      box-shadow: 
+        0 10px 20px rgba(1, 45, 27, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .current-time::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+      z-index: -1;
+    }
+
+    .time-display {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 1px;
+    }
+
+    .date-display {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    /* ===== PRAYER TIME LIST ===== */
+    .prayer-times {
+      margin-bottom: 25px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .prayer-time {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px;
+      margin: 15px 0;
+      border-radius: 15px;
+      background: #f9f6ef;
+      border: 1px solid #f0e6d2;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      animation: slideIn 0.8s ease forwards;
+      opacity: 0;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .prayer-time:nth-child(1) { animation-delay: 0.1s; }
+    .prayer-time:nth-child(2) { animation-delay: 0.2s; }
+    .prayer-time:nth-child(3) { animation-delay: 0.3s; }
+    .prayer-time:nth-child(4) { animation-delay: 0.4s; }
+    .prayer-time:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes slideIn {
+      0% { opacity: 0; transform: translateX(-20px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    .prayer-time::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 4px;
+      background: #d4af37;
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+    }
+
+    .prayer-time:hover {
+      background: rgb(1, 47, 28);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .prayer-time:hover::before {
+      transform: scaleY(1);
+    }
+
+    .prayer-name {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+      color: #012d1b;
+    }
+
+    .prayer-name i {
+      color: #d4af37;
+      font-size: 1.3rem;
+      width: 24px;
+      text-align: center;
+    }
+
+    .prayer-name span {
+      color: #d4af37; /* Gold color for prayer names */
+    }
+
+    .prayer-time span {
+      font-weight: 500;
+      color: #012d1b;
+      font-family: 'Courier New', monospace;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+    }
+
+    /* New styles for hover effect */
+    .prayer-time:hover .prayer-time-display {
+      color: white;
+      font-weight: bold;
+    }
+
+    .next-prayer {
+      background: linear-gradient(135deg, #d4af37, #b8860b);
+      color: white;
+      box-shadow: 
+        0 8px 20px rgba(212, 175, 55, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    }
+
+    .next-prayer .prayer-name,
+    .next-prayer .prayer-time-display {
+      color: white;
+      font-weight: bold;
+    }
+
+    .next-prayer::before {
+      background: white;
+    }
+
+    /* ===== BUTTON ===== */
+    .button-container {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+      position: relative;
+      z-index: 1;
+    }
+
+    button {
+      flex: 1;
+      padding: 16px;
+      background: linear-gradient(135deg, #012d1b, #011f14);
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 
+        0 10px 20px rgba(1, 45, 27, 0.4),
+        inset 0 1px 2px rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    button:hover::before {
+      transform: translateX(0);
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 
+        0 15px 30px rgba(1, 45, 27, 0.6),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2);
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    button i {
+      margin-right: 8px;
+    }
+
+    /* ===== JAMAT TIME ===== */
+    .jamat-time {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 4px;
+      font-style: italic;
+    }
+
+    /* ===== TOAST ===== */
+    #toast {
+      visibility: hidden;
+      min-width: 300px;
+      background-color: #012d1b;
+      color: #fff;
+      text-align: center;
+      border-radius: 10px;
+      padding: 16px;
+      position: fixed;
+      z-index: 1000;
+      left: 50%;
+      bottom: 30px;
+      font-size: 16px;
+      transform: translateX(-50%) translateY(20px);
+      opacity: 0;
+      transition: all 0.5s ease;
+      box-shadow: 
+        0 10px 20px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(212, 175, 55, 0.3);
+    }
+
+    #toast.show {
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    #toast i {
+      color: #d4af37;
+      margin-right: 10px;
+    }
+
+    /* ===== LOADING SPINNER ===== */
+    .spinner-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 300px;
+    }
+
+    .spinner {
+      border: 4px solid rgba(1, 45, 27, 0.1);
+      border-top: 4px solid #d4af37;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      color: #012d1b;
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+
+    /* ===== ALARM MODAL ===== */
+    .alarm-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.5s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .alarm-content {
+      background: linear-gradient(145deg, #ffffff, #f8f5f0);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 0 30px rgba(255, 255, 255, 0.3);
+      animation: scaleIn 0.5s ease;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .alarm-content::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #d4af37, #b8860b, #d4af37);
+    }
+
+    @keyframes scaleIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .alarm-icon {
+      font-size: 3.5rem;
+      color: #d4af37;
+      margin-bottom: 25px;
+      animation: pulse 2s infinite;
+      text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .alarm-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: #012d1b;
+      margin-bottom: 15px;
+      font-weight: 700;
+    }
+
+    .alarm-prayer {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #d4af37;
+      margin-bottom: 20px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .alarm-time {
+      font-size: 1.4rem;
+      color: #012d1b;
+      margin-bottom: 30px;
+      font-weight: 500;
+    }
+
+    .alarm-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .alarm-button {
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .stop-button {
+      background: linear-gradient(135deg, #d4af37, #b8860b);
+      color: white;
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+    }
+
+    .stop-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(212, 175, 55, 0.6);
+    }
+
+    .snooze-button {
+      background: #f0f0f0;
+      color: #012d1b;
+    }
+
+    .snooze-button:hover {
+      background: #e0e0e0;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* ===== SETTINGS ICON ===== */
+    .settings-icon {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, #d4af37, #b8860b);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+
+    .settings-icon:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(212, 175, 55, 0.6);
+    }
+
+    /* ===== LOCATION MODAL ===== */
+    .location-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 3000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.5s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .location-content {
+      background: linear-gradient(145deg, #ffffff, #f8f5f0);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 0 30px rgba(255, 255, 255, 0.3);
+      animation: scaleIn 0.5s ease;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .location-content::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #d4af37, #b8860b, #d4af37);
+    }
+
+    .location-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: #012d1b;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .location-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .location-input {
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 1rem;
+      text-align: center;
+      background: #fff;
+      color: #012d1b;
+      font-weight: 500;
+    }
+
+    .location-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .location-button {
+      padding: 12px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .location-confirm {
+      background: linear-gradient(135deg, #d4af37, #b8860b);
+      color: white;
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+    }
+
+    .location-confirm:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(212, 175, 55, 0.6);
+    }
+
+    .location-cancel {
+      background: #f0f0f0;
+      color: #012d1b;
+    }
+
+    .location-cancel:hover {
+      background: #e0e0e0;
+      transform: translateY(-3px);
+    }
+
+    /* ===== SETTINGS MODAL ===== */
+    .settings-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 3000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.5s ease;
+      backdrop-filter: blur(5px);
+    }
+
+    .settings-content {
+      background: linear-gradient(145deg, #ffffff, #f8f5f0);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1),
+        inset 0 0 30px rgba(255, 255, 255, 0.3);
+      animation: scaleIn 0.5s ease;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .settings-content::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #d4af37, #b8860b, #d4af37);
+    }
+
+    .settings-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: #012d1b;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .settings-options {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+
+    .setting-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      background: #f9f6ef;
+      border-radius: 10px;
+      border: 1px solid #f0e6d2;
+    }
+
+    .setting-label {
+      font-weight: 500;
+      color: #012d1b;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 30px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #d4af37;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(30px);
+    }
+
+    .jamaat-settings {
+      margin-top: 10px;
+    }
+
+    .jamaat-title {
+      font-weight: 600;
+      color: #012d1b;
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .jamaat-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .jamaat-input-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      background: #f9f6ef;
+      border-radius: 8px;
+      border: 1px solid #f0e6d2;
+    }
+
+    .jamaat-label {
+      font-weight: 500;
+      color: #012d1b;
+      width: 80px;
+      text-align: left;
+    }
+
+    .jamaat-input {
+      width: 80px;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .settings-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .settings-button {
+      padding: 12px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .settings-save {
+      background: linear-gradient(135deg, #d4af37, #b8860b);
+      color: white;
+      box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+    }
+
+    .settings-save:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(212, 175, 55, 0.6);
+    }
+
+    .settings-cancel {
+      background: #f0f0f0;
+      color: #012d1b;
+    }
+
+    .settings-cancel:hover {
+      background: #e0e0e0;
+      transform: translateY(-3px);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      .container {
+        width: 95%;
+        padding: 25px 20px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .time-display {
+        font-size: 1.6rem;
+      }
+
+      .button-container {
+        flex-direction: column;
+      }
+
+      .alarm-buttons {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .alarm-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Pattern -->
+  <div class="bg-pattern"></div>
+  
+  <!-- Background Decorations -->
+  <div class="bg-decoration bg-decoration-1"></div>
+  <div class="bg-decoration bg-decoration-2"></div>
+  <div class="bg-decoration bg-decoration-3"></div>
+
+  <!-- Main Container -->
+  <div class="container">
+    <h1>Prayer Times</h1>
+    
+    <div class="location">
+      <i class="fas fa-map-marker-alt"></i>
+      <span id="location">Detecting location...</span>
+    </div>
+
+    <!-- Current Time Display -->
+    <div class="current-time">
+      <div class="time-display" id="currentTime">--:--:--</div>
+      <div class="date-display" id="currentDate">Loading...</div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div id="loading" class="spinner-container">
+      <div class="spinner"></div>
+      <div class="loading-text">Fetching prayer times...</div>
+    </div>
+
+    <!-- Prayer Times Display -->
+    <div id="prayerTimes" style="display:none;">
+      <div class="prayer-times">
+        <div class="prayer-time" id="fajr-time">
+          <div class="prayer-name">
+            <i class="fas fa-moon"></i>
+            <span style="color: gold;">Fajr</span>
+          </div>
+          <div>
+            <span id="fajr" class="prayer-time-display">--:--</span>
+            <div class="jamat-time" id="fajr-jamat" style="color: gold;">Jamat: --:--</div>
+          </div>
+        </div>
+        <div class="prayer-time" id="dhuhr-time">
+          <div class="prayer-name">
+            <i class="fas fa-sun"></i>
+            <span style="color: gold;">Dhuhr</span>
+          </div>
+          <div>
+            <span id="dhuhr" class="prayer-time-display">--:--</span>
+            <div class="jamat-time" id="dhuhr-jamat" style="color: gold;">Jamat: --:--</div>
+          </div>
+        </div>
+        <div class="prayer-time" id="asr-time">
+          <div class="prayer-name">
+            <i class="fas fa-cloud-sun"></i>
+            <span style="color: gold;">Asr</span>
+          </div>
+          <div>
+            <span id="asr" class="prayer-time-display">--:--</span>
+            <div class="jamat-time" id="asr-jamat" style="color: gold;">Jamat: --:--</div>
+          </div>
+        </div>
+        <div class="prayer-time" id="maghrib-time">
+          <div class="prayer-name">
+            <i class="fas fa-sun"></i>
+            <span style="color: gold;">Maghrib</span>
+          </div>
+          <div>
+            <span id="maghrib" class="prayer-time-display">--:--</span>
+            <div class="jamat-time" id="maghrib-jamat" style="color: gold;">Jamat: --:--</div>
+          </div>
+        </div>
+        <div class="prayer-time" id="isha-time">
+          <div class="prayer-name">
+            <i class="fas fa-moon"></i>
+            <span style="color: gold;">Isha</span>
+          </div>
+          <div>
+            <span id="isha" class="prayer-time-display">--:--</span>
+            <div class="jamat-time" id="isha-jamat" style="color: gold;">Jamat: --:--</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="button-container">
+        <button onclick="setCustomAlarms()">
+          <i class="fas fa-bell" style="color: gold;"></i>
+          Set Alarm
+        </button>
+        <button onclick="openLocationModal()">
+          <i class="fas fa-map-marker-alt" style="color: gold;"></i>
+          Location
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Icon -->
+  <div class="settings-icon" onclick="openSettings()">
+    <i class="fas fa-cog"></i>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast"></div>
+
+  <!-- Location Modal -->
+  <div id="locationModal" class="location-modal">
+    <div class="location-content">
+      <div class="location-title">Select Your Location</div>
+      <div class="location-inputs">
+        <input type="text" id="cityInput" class="location-input" placeholder="Enter your city ">
+        <input type="text" id="countryInput" class="location-input" placeholder="Enter your country ">
+        <input type="text" id="provinceInput" class="location-input" placeholder="Enter your province ">
+      </div>
+      <div class="location-buttons">
+        <div class="location-button location-confirm" onclick="confirmLocation()">
+          Confirm
+        </div>
+        <div class="location-button location-cancel" onclick="closeLocationModal()">
+          Cancel
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settingsModal" class="settings-modal">
+    <div class="settings-content">
+      <div class="settings-title">Settings</div>
+      <div class="settings-options">
+        <div class="setting-item">
+          <span class="setting-label">Enable Prayer Alarms</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="alarmToggle" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <span class="setting-label">Enable Vibration</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="vibrationToggle" checked>
+            <span class="slider"></span>
+          </label>
+        </div>
+        
+        <div class="jamaat-settings">
+          <div class="jamaat-title">Jamaat Time Settings (minutes after prayer time)</div>
+          <div class="jamaat-inputs">
+            <div class="jamaat-input-item">
+              <span class="jamaat-label">Fajr:</span>
+              <input type="number" id="fajrOffset" class="jamaat-input" min="0" max="60" value="15">
+            </div>
+            <div class="jamaat-input-item">
+              <span class="jamaat-label">Dhuhr:</span>
+              <input type="number" id="dhuhrOffset" class="jamaat-input" min="0" max="60" value="10">
+            </div>
+            <div class="jamaat-input-item">
+              <span class="jamaat-label">Asr:</span>
+              <input type="number" id="asrOffset" class="jamaat-input" min="0" max="60" value="10">
+            </div>
+            <div class="jamaat-input-item">
+              <span class="jamaat-label">Maghrib:</span>
+              <input type="number" id="maghribOffset" class="jamaat-input" min="0" max="60" value="10">
+            </div>
+            <div class="jamaat-input-item">
+              <span class="jamaat-label">Isha:</span>
+              <input type="number" id="ishaOffset" class="jamaat-input" min="0" max="60" value="15">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <div class="settings-button settings-save" onclick="saveSettings()">
+          Save
+        </div>
+        <div class="settings-button settings-cancel" onclick="closeSettingsModal()">
+          Cancel
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alarm Modal -->
+  <div id="alarmModal" class="alarm-modal">
+    <div class="alarm-content">
+      <div class="alarm-icon">
+        <i class="fas fa-mosque"></i>
+      </div>
+      <div class="alarm-title">Prayer Time</div>
+      <div class="alarm-prayer" id="alarmPrayerName">--</div>
+      <div class="alarm-time" id="alarmTime">--:--</div>
+      <div class="alarm-buttons">
+        <div class="alarm-button stop-button" onclick="stopAlarm()">
+          <i class="fas fa-stop"></i> Stop
+        </div>
+        <div class="alarm-button snooze-button" onclick="snoozeAlarm()">
+          <i class="fas fa-clock"></i> Snooze (5 min)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alarm Audio -->
+  <audio id="alarmAudio" preload="auto">
+    <source src="https://www.islamcan.com/audio/adhan/allahu-akbar-2x.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    let alarmIntervals = {};
+    let timings = {};
+    let jamatTimes = {};
+    let nextPrayer = null;
+    let alarmActive = true;
+    let vibrationEnabled = true;
+    let snoozeTimeout = null;
+    let userLocation = { city: "Karachi", country: "Pakistan", province: "Sindh" };
+    
+    // Jamaat offsets in minutes
+    let jamaatOffsets = {
+      Fajr: 15,
+      Dhuhr: 10,
+      Asr: 10,
+      Maghrib: 10,
+      Isha: 15
+    };
+
+    // Update current time
+    function updateCurrentTime() {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString();
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const dateString = now.toLocaleDateString(undefined, options);
+      
+      document.getElementById("currentTime").textContent = timeString;
+      document.getElementById("currentDate").textContent = dateString;
+    }
+
+    // Update current time every second
+    setInterval(updateCurrentTime, 1000);
+    updateCurrentTime();
+
+    // Toast Notification
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.innerHTML = `<i class="fas fa-mosque"></i> ${message}`;
+      toast.className = "show";
+      setTimeout(() => toast.className = toast.className.replace("show", ""), 3000);
+    }
+
+    // Open Location Modal
+    function openLocationModal() {
+      document.getElementById("locationModal").style.display = "flex";
+      
+      // Pre-fill with current location
+      document.getElementById("cityInput").value = userLocation.city;
+      document.getElementById("countryInput").value = userLocation.country;
+      document.getElementById("provinceInput").value = userLocation.province;
+    }
+
+    // Close Location Modal
+    function closeLocationModal() {
+      document.getElementById("locationModal").style.display = "none";
+    }
+
+    // Confirm Location
+    function confirmLocation() {
+      const city = document.getElementById("cityInput").value.trim();
+      const country = document.getElementById("countryInput").value.trim();
+      const province = document.getElementById("provinceInput").value.trim();
+      
+      if (city && country) {
+        userLocation.city = city;
+        userLocation.country = country;
+        userLocation.province = province;
+        
+        document.getElementById("location").textContent = `${city}, ${country}${province ? ', ' + province : ''}`;
+        
+        closeLocationModal();
+        fetchPrayerTimes(city, country, province);
+      } else {
+        showToast("Please enter valid location information");
+      }
+    }
+
+    // Get user's current location
+    function getUserLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            // Get city and country from coordinates using reverse geocoding
+            fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}&localityLanguage=en`)
+              .then(response => response.json())
+              .then(data => {
+                if (data.city && data.countryName) {
+                  userLocation.city = data.city;
+                  userLocation.country = data.countryName;
+                  // Try to get province if available
+                  if (data.principalSubdivision) {
+                    userLocation.province = data.principalSubdivision;
+                  }
+                  document.getElementById("location").textContent = `${data.city}, ${data.countryName}${data.principalSubdivision ? ', ' + data.principalSubdivision : ''}`;
+                  fetchPrayerTimes(data.city, data.countryName, data.principalSubdivision);
+                } else {
+                  // Fallback to default location if reverse geocoding fails
+                  document.getElementById("location").textContent = "Karachi, Pakistan, Sindh";
+                  fetchPrayerTimes("Karachi", "Pakistan", "Sindh");
+                }
+              })
+              .catch(error => {
+                console.error("Reverse geocoding error:", error);
+                // Fallback to default location
+                document.getElementById("location").textContent = "Karachi, Pakistan, Sindh";
+                fetchPrayerTimes("Karachi", "Pakistan", "Sindh");
+              });
+          },
+          error => {
+            console.error("Geolocation error:", error);
+            // Fallback to default location if geolocation fails
+            document.getElementById("location").textContent = "Karachi, Pakistan, Sindh";
+            fetchPrayerTimes("Karachi", "Pakistan", "Sindh");
+          }
+        );
+      } else {
+        // Geolocation not supported, use default location
+        document.getElementById("location").textContent = "Karachi, Pakistan, Sindh";
+        fetchPrayerTimes("Karachi", "Pakistan", "Sindh");
+      }
+    }
+
+    // Fetch Prayer Times
+    async function fetchPrayerTimes(city, country, province) {
+      const loading = document.getElementById("loading");
+      const prayerTimesDiv = document.getElementById("prayerTimes");
+
+      try {
+        loading.style.display = "flex";
+        prayerTimesDiv.style.display = "none";
+
+        // Fetch prayer times from API
+        const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=2`);
+        const data = await response.json();
+
+        timings = data.data.timings;
+        
+        // Calculate jamat times using the offsets
+        jamatTimes = {
+          Fajr: calculateJamatTime(timings.Fajr, jamaatOffsets.Fajr),
+          Dhuhr: calculateJamatTime(timings.Dhuhr, jamaatOffsets.Dhuhr),
+          Asr: calculateJamatTime(timings.Asr, jamaatOffsets.Asr),
+          Maghrib: calculateJamatTime(timings.Maghrib, jamaatOffsets.Maghrib),
+          Isha: calculateJamatTime(timings.Isha, jamaatOffsets.Isha)
+        };
+
+        // Update Times
+        document.getElementById("fajr").innerText = timings.Fajr;
+        document.getElementById("fajr-jamat").innerText = "Jamat: " + jamatTimes.Fajr;
+        
+        document.getElementById("dhuhr").innerText = timings.Dhuhr;
+        document.getElementById("dhuhr-jamat").innerText = "Jamat: " + jamatTimes.Dhuhr;
+        
+        document.getElementById("asr").innerText = timings.Asr;
+        document.getElementById("asr-jamat").innerText = "Jamat: " + jamatTimes.Asr;
+        
+        document.getElementById("maghrib").innerText = timings.Maghrib;
+        document.getElementById("maghrib-jamat").innerText = "Jamat: " + jamatTimes.Maghrib;
+        
+        document.getElementById("isha").innerText = timings.Isha;
+        document.getElementById("isha-jamat").innerText = "Jamat: " + jamatTimes.Isha;
+
+        loading.style.display = "none";
+        prayerTimesDiv.style.display = "block";
+
+        showToast("Prayer times updated!");
+
+        // Find next prayer and highlight it
+        highlightNextPrayer();
+        
+        // Schedule alarms if enabled
+        if (alarmActive) {
+          scheduleAllAlarms();
+        }
+      } catch (error) {
+        console.error(error);
+        showToast("Failed to fetch prayer times");
+        loading.style.display = "none";
+      }
+    }
+
+    // Calculate Jamat Time (typically 10-20 minutes after prayer time)
+    function calculateJamatTime(prayerTime, minutesToAdd) {
+      const [hours, minutes] = prayerTime.split(':').map(Number);
+      const date = new Date();
+      date.setHours(hours, minutes + minutesToAdd, 0, 0);
+      
+      const jamatHours = date.getHours().toString().padStart(2, '0');
+      const jamatMinutes = date.getMinutes().toString().padStart(2, '0');
+      
+      return `${jamatHours}:${jamatMinutes}`;
+    }
+
+    // Set Custom Alarms
+    function setCustomAlarms() {
+      // Prompt user for each prayer time
+      const fajrTime = prompt("Enter Fajr prayer time (e.g. 05:00):", timings.Fajr || "05:00");
+      const dhuhrTime = prompt("Enter Dhuhr prayer time (e.g. 12:30):", timings.Dhuhr || "12:30");
+      const asrTime = prompt("Enter Asr prayer time (e.g. 15:45):", timings.Asr || "15:45");
+      const maghribTime = prompt("Enter Maghrib prayer time (e.g. 18:15):", timings.Maghrib || "18:15");
+      const ishaTime = prompt("Enter Isha prayer time (e.g. 19:45):", timings.Isha || "19:45");
+
+      // Update timings if user provided valid times
+      if (fajrTime) timings.Fajr = fajrTime;
+      if (dhuhrTime) timings.Dhuhr = dhuhrTime;
+      if (asrTime) timings.Asr = asrTime;
+      if (maghribTime) timings.Maghrib = maghribTime;
+      if (ishaTime) timings.Isha = ishaTime;
+
+      // Recalculate jamat times using the offsets
+      jamatTimes = {
+        Fajr: calculateJamatTime(timings.Fajr, jamaatOffsets.Fajr),
+        Dhuhr: calculateJamatTime(timings.Dhuhr, jamaatOffsets.Dhuhr),
+        Asr: calculateJamatTime(timings.Asr, jamaatOffsets.Asr),
+        Maghrib: calculateJamatTime(timings.Maghrib, jamaatOffsets.Maghrib),
+        Isha: calculateJamatTime(timings.Isha, jamaatOffsets.Isha)
+      };
+
+      // Update display
+      document.getElementById("fajr").innerText = timings.Fajr;
+      document.getElementById("fajr-jamat").innerText = "Jamat: " + jamatTimes.Fajr;
+      
+      document.getElementById("dhuhr").innerText = timings.Dhuhr;
+      document.getElementById("dhuhr-jamat").innerText = "Jamat: " + jamatTimes.Dhuhr;
+      
+      document.getElementById("asr").innerText = timings.Asr;
+      document.getElementById("asr-jamat").innerText = "Jamat: " + jamatTimes.Asr;
+      
+      document.getElementById("maghrib").innerText = timings.Maghrib;
+      document.getElementById("maghrib-jamat").innerText = "Jamat: " + jamatTimes.Maghrib;
+      
+      document.getElementById("isha").innerText = timings.Isha;
+      document.getElementById("isha-jamat").innerText = "Jamat: " + jamatTimes.Isha;
+
+      showToast("Custom prayer times set!");
+
+      // Find next prayer and highlight it
+      highlightNextPrayer();
+      
+      // Schedule alarms
+      scheduleAllAlarms();
+    }
+
+    // Highlight next prayer
+    function highlightNextPrayer() {
+      // Remove previous highlight
+      document.querySelectorAll('.prayer-time').forEach(el => {
+        el.classList.remove('next-prayer');
+      });
+
+      const now = new Date();
+      const currentTime = now.toTimeString().slice(0, 5);
+      
+      const prayers = [
+        { name: 'Fajr', time: timings.Fajr, element: 'fajr-time' },
+        { name: 'Dhuhr', time: timings.Dhuhr, element: 'dhuhr-time' },
+        { name: 'Asr', time: timings.Asr, element: 'asr-time' },
+        { name: 'Maghrib', time: timings.Maghrib, element: 'maghrib-time' },
+        { name: 'Isha', time: timings.Isha, element: 'isha-time' }
+      ];
+
+      // Find next prayer
+      for (let i = 0; i < prayers.length; i++) {
+        if (currentTime < prayers[i].time) {
+          nextPrayer = prayers[i];
+          document.getElementById(nextPrayer.element).classList.add('next-prayer');
+          return;
+        }
+      }
+
+      // If all prayers have passed, next prayer is Fajr tomorrow
+      nextPrayer = prayers[0];
+      document.getElementById(nextPrayer.element).classList.add('next-prayer');
+    }
+
+    // Schedule Alarms
+    function scheduleAllAlarms() {
+      clearAllAlarms();
+      
+      const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
+      prayers.forEach(prayer => {
+        alarmIntervals[prayer] = setInterval(() => {
+          const now = new Date();
+          const currentTime = now.toTimeString().slice(0, 5);
+
+          if (currentTime === timings[prayer]) {
+            triggerAlarm(prayer);
+          }
+        }, 1000);
+      });
+    }
+
+    // Clear all alarms
+    function clearAllAlarms() {
+      Object.values(alarmIntervals).forEach(interval => {
+        clearInterval(interval);
+      });
+      alarmIntervals = {};
+    }
+
+    // Trigger Alarm
+    function triggerAlarm(prayer) {
+      // Clear this alarm to prevent multiple triggers
+      clearInterval(alarmIntervals[prayer]);
+      delete alarmIntervals[prayer];
+
+      const audio = document.getElementById("alarmAudio");
+      audio.currentTime = 0;
+      
+      // Play Allahu Akbar (2 times)
+      audio.play().then(() => {
+        // Audio started playing successfully
+      }).catch(error => {
+        console.error("Audio play error:", error);
+        showToast("Unable to play alarm sound");
+      });
+
+      // Vibrate if enabled
+      if (vibrationEnabled && "vibrate" in navigator) {
+        // Vibrate pattern: 200ms on, 100ms off, 200ms on, 100ms off, 200ms on
+        navigator.vibrate([200, 100, 200, 100, 200]);
+      }
+
+      // Show alarm modal
+      document.getElementById("alarmPrayerName").textContent = prayer;
+      document.getElementById("alarmTime").textContent = timings[prayer];
+      document.getElementById("alarmModal").style.display = "flex";
+
+      // Show toast notification
+      showToast(`It's time for ${prayer} prayer`);
+
+      // Update next prayer
+      setTimeout(() => {
+        highlightNextPrayer();
+        if (alarmActive) {
+          scheduleAllAlarms();
+        }
+      }, 60000); // After 1 minute, update next prayer
+    }
+
+    // Stop Alarm
+    function stopAlarm() {
+      const audio = document.getElementById("alarmAudio");
+      audio.pause();
+      audio.currentTime = 0;
+      
+      document.getElementById("alarmModal").style.display = "none";
+      
+      if (snoozeTimeout) {
+        clearTimeout(snoozeTimeout);
+        snoozeTimeout = null;
+      }
+      
+      showToast("Alarm stopped");
+    }
+
+    // Snooze Alarm
+    function snoozeAlarm() {
+      stopAlarm();
+      
+      const prayer = document.getElementById("alarmPrayerName").textContent;
+      showToast(`Snoozed ${prayer} alarm for 5 minutes`);
+      
+      // Set snooze timeout
+      snoozeTimeout = setTimeout(() => {
+        triggerAlarm(prayer);
+      }, 5 * 60 * 1000); // 5 minutes
+    }
+
+    // Open Settings Modal
+    function openSettings() {
+      // Set current values in the settings modal
+      document.getElementById("alarmToggle").checked = alarmActive;
+      document.getElementById("vibrationToggle").checked = vibrationEnabled;
+      
+      document.getElementById("fajrOffset").value = jamaatOffsets.Fajr;
+      document.getElementById("dhuhrOffset").value = jamaatOffsets.Dhuhr;
+      document.getElementById("asrOffset").value = jamaatOffsets.Asr;
+      document.getElementById("maghribOffset").value = jamaatOffsets.Maghrib;
+      document.getElementById("ishaOffset").value = jamaatOffsets.Isha;
+      
+      document.getElementById("settingsModal").style.display = "flex";
+    }
+
+    // Close Settings Modal
+    function closeSettingsModal() {
+      document.getElementById("settingsModal").style.display = "none";
+    }
+
+    // Save Settings
+    function saveSettings() {
+      // Get values from settings modal
+      alarmActive = document.getElementById("alarmToggle").checked;
+      vibrationEnabled = document.getElementById("vibrationToggle").checked;
+      
+      jamaatOffsets.Fajr = parseInt(document.getElementById("fajrOffset").value) || 15;
+      jamaatOffsets.Dhuhr = parseInt(document.getElementById("dhuhrOffset").value) || 10;
+      jamaatOffsets.Asr = parseInt(document.getElementById("asrOffset").value) || 10;
+      jamaatOffsets.Maghrib = parseInt(document.getElementById("maghribOffset").value) || 10;
+      jamaatOffsets.Isha = parseInt(document.getElementById("ishaOffset").value) || 15;
+      
+      // Recalculate jamat times with new offsets
+      if (Object.keys(timings).length > 0) {
+        jamatTimes = {
+          Fajr: calculateJamatTime(timings.Fajr, jamaatOffsets.Fajr),
+          Dhuhr: calculateJamatTime(timings.Dhuhr, jamaatOffsets.Dhuhr),
+          Asr: calculateJamatTime(timings.Asr, jamaatOffsets.Asr),
+          Maghrib: calculateJamatTime(timings.Maghrib, jamaatOffsets.Maghrib),
+          Isha: calculateJamatTime(timings.Isha, jamaatOffsets.Isha)
+        };
+
+        // Update display
+        document.getElementById("fajr-jamat").innerText = "Jamat: " + jamatTimes.Fajr;
+        document.getElementById("dhuhr-jamat").innerText = "Jamat: " + jamatTimes.Dhuhr;
+        document.getElementById("asr-jamat").innerText = "Jamat: " + jamatTimes.Asr;
+        document.getElementById("maghrib-jamat").innerText = "Jamat: " + jamatTimes.Maghrib;
+        document.getElementById("isha-jamat").innerText = "Jamat: " + jamatTimes.Isha;
+      }
+      
+      // Schedule or clear alarms based on alarmActive setting
+      if (alarmActive) {
+        scheduleAllAlarms();
+        showToast("Alarms enabled");
+      } else {
+        clearAllAlarms();
+        showToast("Alarms disabled");
+      }
+      
+      closeSettingsModal();
+    }
+
+    // Auto-detect location on page load
+    getUserLocation();
+
+    // Auto Refresh Prayer Times Every 6 Hours
+    setInterval(() => {
+      if (userLocation.city && userLocation.country) {
+        fetchPrayerTimes(userLocation.city, userLocation.country, userLocation.province);
+      }
+    }, 6 * 60 * 60 * 1000);
+  </script>
+</body>
+</html>

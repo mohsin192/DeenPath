@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore - Islamic Knowledge</title>
+  <link rel="icon" type="image/png" href="pics/logo.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- AOS Animation Library -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <style>
+    :root {
+      --primary-dark: rgb(1, 63, 38);
+      --primary-light: rgb(6, 95, 70);
+      --accent-gold: rgb(245, 208, 114);
+      --text-light: #fefefe;
+      --text-dark: #1f2937;
+      --card-bg: #ffffff;
+      --bg-color: #f3f4f6;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: rgb(1, 63, 38);
+      color: var(--text-light);
+      overflow-x: hidden;
+    }
+
+    /* Hero Section */
+    .hero-banner {
+      background-image: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 80%), url('pics/headmosqueex.jpg?v=1.0');
+      background-size: cover;
+      background-position: center;
+      height: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      padding-bottom: 30px;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    /* Animated radial wave effect */
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(245, 208, 114, 0.15), transparent 70%);
+      animation: wave 8s infinite linear;
+      z-index: 0;
+    }
+
+    @keyframes wave {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .hero-banner h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      margin: 0;
+      letter-spacing: 2px;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+      color: gold;
+      position: relative;
+      z-index: 2;
+      animation: fadeInDown 2s ease;
+    }
+
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-50px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Explore Grid */
+    .explore-container {
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 25px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 40px;
+    }
+
+    /* Explore Cards */
+    .explore-card {
+      position: relative;
+      z-index: 1;
+      border-radius: 1.25rem;
+      overflow: hidden;
+      text-align: center;
+      border: 4px solid transparent;
+      background: linear-gradient(var(--card-bg), var(--card-bg)) padding-box, 
+                  linear-gradient(45deg, var(--primary-dark), var(--accent-gold)) border-box;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      transform: translateY(0);
+      animation: floatCard 5s ease-in-out infinite;
+    }
+
+    /* Floating Animation */
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .explore-card:hover {
+      transform: translateY(-15px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    .explore-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-top-left-radius: 1rem;
+      border-top-right-radius: 1rem;
+      transition: transform 0.6s ease;
+      opacity: 1;
+    }
+
+    .explore-card:hover img {
+      transform: scale(1.08);
+    }
+
+    .explore-card h3 {
+      margin: 20px 0 10px;
+      color: var(--primary-dark);
+      font-weight: 600;
+      font-size: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .explore-card h3::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 25%;
+      width: 50%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    .explore-card:hover h3::after {
+      transform: scaleX(1);
+    }
+
+    .explore-card p {
+      font-size: 0.95rem;
+      margin: 0 25px 20px;
+      color: #555;
+      line-height: 1.6;
+      transition: color 0.3s ease;
+    }
+
+    .explore-card:hover p {
+      color: var(--primary-dark);
+    }
+
+    /* Button Styling */
+    .explore-card .btn {
+      display: inline-block;
+      margin-bottom: 30px;
+      padding: 12px 30px;
+      background: linear-gradient(135deg, var(--accent-gold), #eab308);
+      color: var(--text-dark);
+      font-weight: bold;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.4s ease;
+      box-shadow: 0 6px 20px rgba(245, 208, 114, 0.5);
+      border: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Button Glow Animation */
+    .explore-card .btn:hover {
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 0 15px rgba(245, 208, 114, 0.8), 0 0 30px rgba(245, 208, 114, 0.5);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 25px;
+      background: var(--primary-dark);
+      color: var(--text-light);
+      margin-top: 60px;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+      animation: shimmer 3s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .hero-banner h1 {
+        font-size: 2.5rem;
+      }
+      .explore-container {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        margin: 40px auto;
+      }
+    }
+
+        /* ==== GLOBAL RESET ==== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      flex: 1;
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* ==== FOOTER STYLE ==== */
+    footer {
+      background: linear-gradient(to right, #012d1b, #024b2b);
+      color: #ccc;
+      padding: 3rem 1.5rem 1rem;
+      position: relative;
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Logo and About */
+    .footer-logo h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo img {
+      height: 50px;
+      width: 50px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+    }
+
+    .footer-logo b {
+      font-family: Algerian, serif;
+      font-size: 25px;
+      color: gold;
+      letter-spacing: 2px;
+    }
+
+    .footer-logo p {
+      color: #bbb;
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Social Icons */
+    .social {
+      display: flex;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+
+    .social a {
+      width: 40px;
+      height: 40px;
+      background: #014d2c;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: gold;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .social a:hover {
+      background: gold;
+      color: #014d2c;
+      transform: scale(1.1);
+    }
+
+    /* Footer Links */
+    footer h3 {
+      color: gold;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    footer ul {
+      list-style: none;
+    }
+
+    footer ul li {
+      margin: 0.5rem 0;
+    }
+
+    footer ul li a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-size: 1rem;
+    }
+
+    footer ul li a:hover {
+      color: gold;
+    }
+
+    /* Footer Bottom */
+    .footer-bottom {
+      text-align: center;
+      border-top: 1px solid rgba(255, 215, 0, 0.3);
+      padding-top: 1rem;
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .footer-logo h3 {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-logo p {
+        text-align: center;
+      }
+
+      .social {
+        justify-content: center;
+      }
+
+      footer h3 {
+        text-align: center;
+      }
+
+      footer ul {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body style="background-color: #012d1b;">
+
+  <!-- Hero Section -->
+  <div class="hero-banner" data-aos="fade-down">
+    <h1 style="font-family: Lucida Handwriting;">Explore Islamic Knowledge</h1>
+  </div>
+
+  <!-- Explore Section -->
+  <div class="explore-container">
+    <div class="explore-card" data-aos="zoom-in" data-aos-delay="100">
+      <img src="pics/quranbg.jpg?v=1.0" alt="Quran">
+      <h3>Quran</h3>
+      <p>Learn and explore the Holy Quran with detailed Tafsir, Tajweed, and translations.</p>
+      <a href="quran.html" class="btn">Explore</a>
+    </div>
+
+    <div class="explore-card" data-aos="zoom-in" data-aos-delay="200">
+      <img src="pics/quranils.jpeg?v=1.0" alt="Surah">
+      <h3>Surah</h3>
+      <p>Read Surahs with meaning, virtues, and guidance to implement in daily life.</p>
+      <a href="surah.html" class="btn">Explore</a>
+    </div>
+
+    <div class="explore-card" data-aos="zoom-in" data-aos-delay="300">
+      <img src="pics/prayers.jpg?v=1.0" alt="Prayer">
+      <h3>Prayer & Worship</h3>
+      <p>Understand Salah, Dua, and worship practices that bring you closer to Allah.</p>
+      <a href="prayer&worship.html" class="btn">Explore</a>
+    </div>
+
+    <div class="explore-card" data-aos="zoom-in" data-aos-delay="400">
+      <img src="pics/exploremosque.jpg?v=1.0" alt="Knowledge">
+      <h3>Islamic Knowledge</h3>
+      <p>Discover Islamic history, Seerah of the Prophet ﷺ, and the timeless legacy of Islam.</p>
+      <a href="islamicknowledge.html" class="btn">Explore</a>
+    </div>
+
+    <div class="explore-card" data-aos="zoom-in" data-aos-delay="500">
+      <img src="pics/course.png" alt="Hadith">
+      <h3>Course</h3>
+      <p>Learn the foundations of Islam through an interactive and structured course designed to build your faith, knowledge, and practice.</p>
+      <a href="course.html" class="btn">Explore</a>
+    </div>
+
+    <div class="explore-card" data-aos="zoom-in" data-aos-delay="600">
+      <img src="pics/islamic art.png" alt="Islamic Arts & Architecture">
+      <h3>Islamic Arts & Architecture</h3>
+      <p>Explore the beauty of Islamic art, calligraphy, and historical architecture.</p>
+      <a href="islamicart.html" class="btn">Explore</a>
+    </div>
+  </div>
+<!-- Footer Placeholder -->
+  <div id="footer"></div>
+
+  <script>
+    // JS: Dynamically insert footer
+    document.addEventListener("DOMContentLoaded", function () {
+      const footerHTML = `
+        <footer>
+          <div class="footer-container">
+            <!-- Logo Section -->
+            <div class="footer-logo">
+              <h3>
+                <img src="pics/logo.jpg" alt="DeenPath Logo">
+                <b>DeenPath</b>
+              </h3>
+              <p>DeenPath is your trusted companion for authentic Islamic knowledge and spiritual growth.</p>
+              <div class="social">
+                <a href="#">F</a>
+                <a href="#">T</a>
+                <a href="#">Y</a>
+                <a href="#">I</a>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+              <h3>Quick Links</h3>
+              <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="FAQs.html">FAQs</a></li>
+              </ul>
+            </div>
+
+            <!-- Islamic Resources -->
+            <div>
+              <h3>Islamic Resources</h3>
+              <ul>
+                <li><a href="quran.html">Quran</a></li>
+                <li><a href="surah.html">Surah</a></li>
+                <li><a href="nt.html">Namaz Time</a></li>
+                <li><a href="calender.html">Calendar</a></li>
+                <li><a href="counter.html">Tasbeeh Counter</a></li>
+                <li><a href="course.html">course</a></li>
+              </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div>
+              <h3>Contact</h3>
+              <ul>
+                <li><a href="mailto:mohsingohar759@gmail.com">mohsingohar759@gmail.com</a></li>
+                <li><a href="#">+92 300 1234567</a></li>
+                <li><a href="#">Karachi, Pakistan</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Footer Bottom -->
+          <div class="footer-bottom">
+            © <span id="year"></span> DeenPath. All Rights Reserved.
+          </div>
+        </footer>
+      `;
+
+      // Inject footer into the placeholder
+      document.getElementById("footer").innerHTML = footerHTML;
+
+      // Dynamic Year Update
+      document.getElementById("year").textContent = new Date().getFullYear();
+    });
+  </script>
+  <script>
+    // Initialize AOS Animations
+    AOS.init({
+      duration: 1000,
+      easing: 'ease-in-out',
+      once: true
+    });
+  </script>
+</body>
+</html>

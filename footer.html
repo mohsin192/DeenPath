@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeenPath - Footer Demo</title>
+  <style>
+    /* ==== GLOBAL RESET ==== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      flex: 1;
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* ==== FOOTER STYLE ==== */
+    footer {
+      background: linear-gradient(to right, #012d1b, #024b2b);
+      color: #ccc;
+      padding: 3rem 1.5rem 1rem;
+      position: relative;
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Logo and About */
+    .footer-logo h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo img {
+      height: 50px;
+      width: 50px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+    }
+
+    .footer-logo b {
+      font-family: Algerian, serif;
+      font-size: 25px;
+      color: gold;
+      letter-spacing: 2px;
+    }
+
+    .footer-logo p {
+      color: #bbb;
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Social Icons */
+    .social {
+      display: flex;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+
+    .social a {
+      width: 40px;
+      height: 40px;
+      background: #014d2c;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: gold;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .social a:hover {
+      background: gold;
+      color: #014d2c;
+      transform: scale(1.1);
+    }
+
+    /* Footer Links */
+    footer h3 {
+      color: gold;
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    footer ul {
+      list-style: none;
+    }
+
+    footer ul li {
+      margin: 0.5rem 0;
+    }
+
+    footer ul li a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-size: 1rem;
+    }
+
+    footer ul li a:hover {
+      color: gold;
+    }
+
+    /* Footer Bottom */
+    .footer-bottom {
+      text-align: center;
+      border-top: 1px solid rgba(255, 215, 0, 0.3);
+      padding-top: 1rem;
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .footer-logo h3 {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-logo p {
+        text-align: center;
+      }
+
+      .social {
+        justify-content: center;
+      }
+
+      footer h3 {
+        text-align: center;
+      }
+
+      footer ul {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Footer Placeholder -->
+  <div id="footer"></div>
+
+  <script>
+    // JS: Dynamically insert footer
+    document.addEventListener("DOMContentLoaded", function () {
+      const footerHTML = `
+        <footer>
+          <div class="footer-container">
+            <!-- Logo Section -->
+            <div class="footer-logo">
+              <h3>
+                <img src="pics/logo.jpg" alt="DeenPath Logo">
+                <b>DeenPath</b>
+              </h3>
+              <p>DeenPath is your trusted companion for authentic Islamic knowledge and spiritual growth.</p>
+              <div class="social">
+                <a href="#">F</a>
+                <a href="#">T</a>
+                <a href="#">Y</a>
+                <a href="#">I</a>
+              </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+              <h3>Quick Links</h3>
+              <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="FAQs.html">FAQs</a></li>
+              </ul>
+            </div>
+
+            <!-- Islamic Resources -->
+            <div>
+              <h3>Islamic Resources</h3>
+              <ul>
+                <li><a href="quran.html">Quran</a></li>
+                <li><a href="surah.html">Surah</a></li>
+                <li><a href="nt.html">Namaz Time</a></li>
+                <li><a href="calender.html">Calendar</a></li>
+                <li><a href="counter.html">Tasbeeh Counter</a></li>
+                <li><a href="course.html">course</a></li>
+              </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div>
+              <h3>Contact</h3>
+              <ul>
+                <li><a href="mailto:mohsingohar759@gmail.com">mohsingohar759@gmail.com</a></li>
+                <li><a href="#">+92 300 1234567</a></li>
+                <li><a href="#">Karachi, Pakistan</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Footer Bottom -->
+          <div class="footer-bottom">
+            © <span id="year"></span> DeenPath. All Rights Reserved.
+          </div>
+        </footer>
+      `;
+
+      // Inject footer into the placeholder
+      document.getElementById("footer").innerHTML = footerHTML;
+
+      // Dynamic Year Update
+      document.getElementById("year").textContent = new Date().getFullYear();
+    });
+  </script>
+</body>
+</html>

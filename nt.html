@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Global Prayer Timings with Azan Alarm</title>
+  <link rel="icon" type="image/png" href="pics/logo.jpg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #002b18;
+      --card: #003d26;
+      --primary: #013220;
+      --accent: gold;
+      --accent-light: #ffd700;
+      --text: #ffffff;
+      --text-secondary: #cccccc;
+      --border: rgba(255, 215, 0, 0.2);
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      --radius: 12px;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      background-image: url('pics/quranbg.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 43, 24, 0.85);
+      z-index: -1;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary), rgba(1, 50, 32, 0.8));
+      padding: 25px 20px;
+      text-align: center;
+      border-bottom: 3px solid var(--accent);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      transform: translate(50%, -50%);
+    }
+    
+    header h1 {
+      margin: 0;
+      color: var(--accent);
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      position: relative;
+      z-index: 2;
+    }
+    
+    header p {
+      margin: 8px 0 0;
+      color: var(--text-secondary);
+      font-size: 16px;
+      font-weight: 300;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    .loc-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      padding: 15px 20px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      flex: 1;
+      min-width: 300px;
+    }
+    
+    .loc-card i {
+      color: var(--accent);
+      font-size: 24px;
+    }
+    
+    .loc-text {
+      font-size: 18px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+    
+    .country-selector {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 20px;
+      color: gold;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .country-selector:hover {
+      background: rgb(4, 51, 34);
+      border-color: var(--accent);
+    }
+    
+    .table-container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      margin-bottom: 30px;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: var(--text);
+      font-weight: 500;
+    }
+    
+    th, td {
+      padding: 16px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    
+    th {
+      background: var(--primary);
+      color: var(--accent);
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    tr:hover td {
+      background: rgba(255, 215, 0, 0.1);
+      transition: background 0.3s ease;
+    }
+    
+    .prayer-times {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .prayer-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .prayer-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+    
+    .prayer-card h3 {
+      color: var(--accent);
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 10px;
+      font-size: 22px;
+    }
+    
+    .prayer-card p {
+      font-size: 20px;
+      color: var(--text);
+    }
+    
+    .alarm-controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .alarm-btn {
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      color: var(--primary);
+      border: none;
+      border-radius: 30px;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .alarm-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+    }
+    
+    .alarm-btn:active {
+      transform: translateY(1px);
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-secondary);
+    }
+    
+    .loading i {
+      font-size: 24px;
+      color: var(--accent);
+      animation: spin 1s linear infinite;
+      margin-right: 10px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--card);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 15px 20px;
+      box-shadow: var(--shadow);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      max-width: 350px;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+    }
+    
+    .notification.show {
+      transform: translateX(0);
+    }
+    
+    .notification i {
+      color: var(--accent);
+      font-size: 24px;
+    }
+    
+    .notification-content h4 {
+      margin: 0 0 5px;
+      color: var(--accent);
+    }
+    
+    .notification-content p {
+      margin: 0;
+      color: var(--text);
+      font-size: 14px;
+    }
+    
+    .close-notification {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 16px;
+    }
+    
+    .permission-card {
+      background: rgba(255, 215, 0, 0.1);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    
+    .permission-card h3 {
+      color: var(--accent);
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+    
+    .permission-card p {
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+    
+    .permission-btn {
+      background: var(--accent);
+      color: var(--primary);
+      border: none;
+      border-radius: 30px;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .permission-btn:hover {
+      background: var(--accent-light);
+      transform: translateY(-2px);
+    }
+    
+    .dual-time-card {
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      padding: 15px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .dual-time-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+    
+    .dual-time-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      color: var(--accent);
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    
+    .dual-time-header i {
+      margin-right: 8px;
+    }
+    
+    .dual-time-content {
+      display: flex;
+      justify-content: space-around;
+    }
+    
+    .time-block {
+      text-align: center;
+    }
+    
+    .time-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 5px;
+    }
+    
+    .time-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    
+    .jamaah-time {
+      color: var(--accent);
+    }
+    
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 24px;
+      }
+      
+      .controls {
+        flex-direction: column;
+      }
+      
+      .loc-card {
+        width: 100%;
+      }
+      
+      th, td {
+        padding: 12px 8px;
+        font-size: 14px;
+      }
+      
+      .prayer-times {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .dual-time-content {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fa-solid fa-mosque"></i> Global Prayer Timings</h1>
+    <p>Accurate Prayer Times + Azan Alarm</p>
+  </header>
+  
+  <div class="container">
+    <div class="permission-card" id="permissionCard" style="display: none;">
+      <h3><i class="fa-solid fa-location-crosshairs"></i> Enable Location Services</h3>
+      <p>Please enable location services to get accurate prayer times for your current location.</p>
+      <button id="enableLocationBtn" class="permission-btn">
+        <i class="fa-solid fa-location-dot"></i> Enable Location
+      </button>
+    </div>
+    
+    <div class="controls">
+      <div class="loc-card">
+        <i class="fa-solid fa-location-dot"></i>
+        <div id="locationText" class="loc-text">Detecting Your Location…</div>
+      </div>
+      <select id="countrySelector" class="country-selector">
+        <option value="all">All Countries</option>
+        <option value="PK">Pakistan</option>
+        <option value="SA">Saudi Arabia</option>
+        <option value="AE">United Arab Emirates</option>
+        <option value="EG">Egypt</option>
+        <option value="TR">Turkey</option>
+        <option value="ID">Indonesia</option>
+        <option value="IN">India</option>
+        <option value="BD">Bangladesh</option>
+        <option value="US">United States</option>
+        <option value="GB">United Kingdom</option>
+        <option value="CA">Canada</option>
+        <option value="FR">France</option>
+        <option value="DE">Germany</option>
+        <option value="MY">Malaysia</option>
+        <option value="NG">Nigeria</option>
+        <option value="IR">Iran</option>
+        <option value="IQ">Iraq</option>
+        <option value="JO">Jordan</option>
+        <option value="LB">Lebanon</option>
+        <option value="LY">Libya</option>
+        <option value="MA">Morocco</option>
+        <option value="OM">Oman</option>
+        <option value="QA">Qatar</option>
+        <option value="TN">Tunisia</option>
+        <option value="YE">Yemen</option>
+        <option value="SY">Syria</option>
+        <option value="DZ">Algeria</option>
+        <option value="KW">Kuwait</option>
+        <option value="BH">Bahrain</option>
+      </select>
+    </div>
+    <div class="alarm-controls">
+  <a href="alarm.html" id="testAlarmBtn" class="alarm-btn">
+    <i class="fa-solid fa-bell"></i> Test Azan Alarm
+  </a>
+</div>
+
+      <button id="stopAlarmBtn" class="alarm-btn">
+        <i class="fa-solid fa-bell-slash"></i> Stop Alarm
+      </button>
+    </div>
+  </div>
+    <div class="table-container">
+      <table id="timingsTable">
+        <thead>
+          <tr>
+            <th>City</th>
+            <th>Country</th>
+            <th>Fajr</th>
+            <th>Dhuhr</th>
+            <th>Asr</th>
+            <th>Maghrib</th>
+            <th>Isha</th>
+          </tr>
+        </thead>
+        <tbody id="timingsBody">
+          <tr>
+            <td colspan="7" class="loading"><i class="fas fa-spinner"></i> Loading prayer timings…</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="prayer-times">
+      <div class="dual-time-card">
+        <div class="dual-time-header">
+          <i class="fa-solid fa-cloud-sun"></i> Fajr
+        </div>
+        <div class="dual-time-content">
+          <div class="time-block">
+            <div class="time-label">Azan</div>
+            <div class="time-value" id="showFajr">--:--</div>
+          </div>
+          <div class="time-block">
+            <div class="time-label">Jama'ah</div>
+            <div class="time-value jamaah-time" id="showFajrJamaah">--:--</div>
+          </div>
+        </div>
+      </div>
+      <div class="dual-time-card">
+        <div class="dual-time-header">
+          <i class="fa-solid fa-sun"></i> Dhuhr
+        </div>
+        <div class="dual-time-content">
+          <div class="time-block">
+            <div class="time-label">Azan</div>
+            <div class="time-value" id="showDhuhr">--:--</div>
+          </div>
+          <div class="time-block">
+            <div class="time-label">Jama'ah</div>
+            <div class="time-value jamaah-time" id="showDhuhrJamaah">--:--</div>
+          </div>
+        </div>
+      </div>
+      <div class="dual-time-card">
+        <div class="dual-time-header">
+          <i class="fa-solid fa-cloud-sun"></i> Asr
+        </div>
+        <div class="dual-time-content">
+          <div class="time-block">
+            <div class="time-label">Azan</div>
+            <div class="time-value" id="showAsr">--:--</div>
+          </div>
+          <div class="time-block">
+            <div class="time-label">Jama'ah</div>
+            <div class="time-value jamaah-time" id="showAsrJamaah">--:--</div>
+          </div>
+        </div>
+      </div>
+      <div class="dual-time-card">
+        <div class="dual-time-header">
+          <i class="fa-solid fa-moon"></i> Maghrib
+        </div>
+        <div class="dual-time-content">
+          <div class="time-block">
+            <div class="time-label">Azan</div>
+            <div class="time-value" id="showMaghrib">--:--</div>
+          </div>
+          <div class="time-block">
+            <div class="time-label">Jama'ah</div>
+            <div class="time-value jamaah-time" id="showMaghribJamaah">--:--</div>
+          </div>
+        </div>
+      </div>
+      <div class="dual-time-card">
+        <div class="dual-time-header">
+          <i class="fa-solid fa-moon"></i> Isha
+        </div>
+        <div class="dual-time-content">
+          <div class="time-block">
+            <div class="time-label">Azan</div>
+            <div class="time-value" id="showIsha">--:--</div>
+          </div>
+          <div class="time-block">
+            <div class="time-label">Jama'ah</div>
+            <div class="time-value jamaah-time" id="showIshaJamaah">--:--</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  
+  <!-- Notification -->
+  <div id="notification" class="notification">
+    <i class="fa-solid fa-mosque"></i>
+    <div class="notification-content">
+      <h4>Prayer Time</h4>
+      <p id="notificationText">It's time for prayer!</p>
+    </div>
+    <button class="close-notification" onclick="closeNotification()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+  
+  <!-- Azan Audio -->
+  <audio id="azanAudio" src="pics/azanaudio.m4a" preload="auto"></audio>
+  
+  <script>
+    // Global cities data with countries
+    const cities = [
+      // Pakistan
+      {name:"Karachi", country:"PK", lat:24.8607, lon:67.0011},
+      {name:"Lahore", country:"PK", lat:31.5497, lon:74.3436},
+      {name:"Islamabad", country:"PK", lat:33.6844, lon:73.0479},
+      {name:"Peshawar", country:"PK", lat:34.0151, lon:71.5249},
+      {name:"Quetta", country:"PK", lat:30.1798, lon:66.9750},
+      {name:"Multan", country:"PK", lat:30.1575, lon:71.5249},
+      {name:"Faisalabad", country:"PK", lat:31.4504, lon:73.1350},
+      {name:"Hyderabad", country:"PK", lat:25.3960, lon:68.3578},
+      {name:"Sialkot", country:"PK", lat:32.4927, lon:74.5319},
+      {name:"Bahawalpur", country:"PK", lat:29.3956, lon:71.6836},
+      {name:"Rawalpindi", country:"PK", lat:33.5651, lon:73.0169},
+      {name:"Sukkur", country:"PK", lat:27.7052, lon:68.8574},
+      {name:"Larkana", country:"PK", lat:27.5586, lon:68.2120},
+      {name:"Gujranwala", country:"PK", lat:32.1877, lon:74.1945},
+      {name:"Abbottabad", country:"PK", lat:34.1688, lon:73.2215},
+      {name:"Mardan", country:"PK", lat:34.1978, lon:72.0406},
+      {name:"Sargodha", country:"PK", lat:32.0837, lon:72.6719},
+      {name:"Dera Ghazi Khan", country:"PK", lat:30.0561, lon:70.6354},
+      {name:"Mirpur Khas", country:"PK", lat:25.5263, lon:69.0087},
+      {name:"Mingora (Swat)", country:"PK", lat:34.7708, lon:72.3656},
+      
+      // Saudi Arabia
+      {name:"Mecca", country:"SA", lat:21.3891, lon:39.8579},
+      {name:"Medina", country:"SA", lat:24.5247, lon:39.5692},
+      {name:"Riyadh", country:"SA", lat:24.7136, lon:46.6753},
+      {name:"Jeddah", country:"SA", lat:21.4858, lon:39.1925},
+      {name:"Dammam", country:"SA", lat:26.3927, lon:49.9773},
+      
+      // United Arab Emirates
+      {name:"Dubai", country:"AE", lat:25.2048, lon:55.2708},
+      {name:"Abu Dhabi", country:"AE", lat:24.4539, lon:54.3773},
+      {name:"Sharjah", country:"AE", lat:25.3573, lon:55.4033},
+      {name:"Ajman", country:"AE", lat:25.4052, lon:55.5136},
+      {name:"Fujairah", country:"AE", lat:25.1207, lon:56.3315},
+      
+      // Egypt
+      {name:"Cairo", country:"EG", lat:30.0444, lon:31.2357},
+      {name:"Alexandria", country:"EG", lat:31.2001, lon:29.9187},
+      {name:"Giza", country:"EG", lat:30.0131, lon:31.2089},
+      {name:"Luxor", country:"EG", lat:25.6872, lon:32.6396},
+      {name:"Aswan", country:"EG", lat:24.0889, lon:32.8998},
+      
+      // Turkey
+      {name:"Istanbul", country:"TR", lat:41.0082, lon:28.9784},
+      {name:"Ankara", country:"TR", lat:39.9334, lon:32.8597},
+      {name:"Izmir", country:"TR", lat:38.4237, lon:27.1484},
+      {name:"Bursa", country:"TR", lat:40.1885, lon:29.0610},
+      {name:"Antalya", country:"TR", lat:36.8841, lon:30.7039},
+      
+      // Indonesia
+      {name:"Jakarta", country:"ID", lat:-6.2088, lon:106.8456},
+      {name:"Surabaya", country:"ID", lat:-7.2575, lon:112.7521},
+      {name:"Medan", country:"ID", lat:3.5952, lon:98.6722},
+      {name:"Bandung", country:"ID", lat:-6.9175, lon:107.6191},
+      {name:"Makassar", country:"ID", lat:-5.1477, lon:119.4327},
+      
+      // India
+      {name:"New Delhi", country:"IN", lat:28.6139, lon:77.2090},
+      {name:"Mumbai", country:"IN", lat:19.0760, lon:72.8777},
+      {name:"Bangalore", country:"IN", lat:12.9716, lon:77.5946},
+      {name:"Hyderabad", country:"IN", lat:17.3850, lon:78.4867},
+      {name:"Chennai", country:"IN", lat:13.0827, lon:80.2707},
+      
+      // Bangladesh
+      {name:"Dhaka", country:"BD", lat:23.8103, lon:90.4125},
+      {name:"Chittagong", country:"BD", lat:22.3569, lon:91.7832},
+      {name:"Khulna", country:"BD", lat:22.8456, lon:89.5403},
+      {name:"Rajshahi", country:"BD", lat:24.3745, lon:88.6042},
+      {name:"Sylhet", country:"BD", lat:24.8998, lon:91.8717},
+      
+      // United States
+      {name:"New York", country:"US", lat:40.7128, lon:-74.0060},
+      {name:"Los Angeles", country:"US", lat:34.0522, lon:-118.2437},
+      {name:"Chicago", country:"US", lat:41.8781, lon:-87.6298},
+      {name:"Houston", country:"US", lat:29.7604, lon:-95.3698},
+      {name:"Detroit", country:"US", lat:42.3314, lon:-83.0458},
+      
+      // United Kingdom
+      {name:"London", country:"GB", lat:51.5074, lon:-0.1278},
+      {name:"Birmingham", country:"GB", lat:52.4862, lon:-1.8904},
+      {name:"Manchester", country:"GB", lat:53.4808, lon:-2.2426},
+      {name:"Bradford", country:"GB", lat:53.7960, lon:-1.7594},
+      {name:"Leicester", country:"GB", lat:52.6369, lon:-1.1398},
+      
+      // Canada
+      {name:"Toronto", country:"CA", lat:43.6532, lon:-79.3832},
+      {name:"Montreal", country:"CA", lat:45.5017, lon:-73.5673},
+      {name:"Vancouver", country:"CA", lat:49.2827, lon:-123.1207},
+      {name:"Calgary", country:"CA", lat:51.0447, lon:-114.0719},
+      {name:"Ottawa", country:"CA", lat:45.4215, lon:-75.6972},
+      
+      // France
+      {name:"Paris", country:"FR", lat:48.8566, lon:2.3522},
+      {name:"Marseille", country:"FR", lat:43.2965, lon:5.3698},
+      {name:"Lyon", country:"FR", lat:45.7640, lon:4.8357},
+      {name:"Toulouse", country:"FR", lat:43.6047, lon:1.4442},
+      {name:"Nice", country:"FR", lat:43.7102, lon:7.2620},
+      
+      // Germany
+      {name:"Berlin", country:"DE", lat:52.5200, lon:13.4050},
+      {name:"Hamburg", country:"DE", lat:53.5511, lon:9.9937},
+      {name:"Munich", country:"DE", lat:48.1351, lon:11.5820},
+      {name:"Cologne", country:"DE", lat:50.9375, lon:6.9603},
+      {name:"Frankfurt", country:"DE", lat:50.1109, lon:8.6821},
+      
+      // Malaysia
+      {name:"Kuala Lumpur", country:"MY", lat:3.1390, lon:101.6869},
+      {name:"George Town", country:"MY", lat:5.4164, lon:100.3327},
+      {name:"Ipoh", country:"MY", lat:4.5975, lon:101.0901},
+      {name:"Shah Alam", country:"MY", lat:3.0853, lon:101.5320},
+      {name:"Malacca City", country:"MY", lat:2.1944, lon:102.2484},
+      
+      // Nigeria
+      {name:"Lagos", country:"NG", lat:6.5244, lon:3.3792},
+      {name:"Kano", country:"NG", lat:12.0022, lon:8.5919},
+      {name:"Ibadan", country:"NG", lat:7.3775, lon:3.9470},
+      {name:"Kaduna", country:"NG", lat:10.5105, lon:7.4165},
+      {name:"Port Harcourt", country:"NG", lat:4.8156, lon:7.0498},
+      
+      // Iran
+      {name:"Tehran", country:"IR", lat:35.6892, lon:51.3890},
+      {name:"Mashhad", country:"IR", lat:36.2605, lon:59.6168},
+      {name:"Isfahan", country:"IR", lat:32.6570, lon:51.6776},
+      {name:"Karaj", country:"IR", lat:35.8327, lon:50.9916},
+      {name:"Shiraz", country:"IR", lat:29.5918, lon:52.5837},
+      
+      // Iraq
+      {name:"Baghdad", country:"IQ", lat:33.3152, lon:44.3661},
+      {name:"Basra", country:"IQ", lat:30.5081, lon:47.7835},
+      {name:"Mosul", country:"IQ", lat:36.3450, lon:43.1507},
+      {name:"Erbil", country:"IQ", lat:36.1911, lon:44.0093},
+      {name:"Najaf", country:"IQ", lat:32.0253, lon:35.3450},
+      
+      // Jordan
+      {name:"Amman", country:"JO", lat:31.9516, lon:35.9454},
+      {name:"Irbid", country:"JO", lat:32.5556, lon:35.8517},
+      {name:"Zarqa", country:"JO", lat:32.0625, lon:36.0878},
+      {name:"Aqaba", country:"JO", lat:29.5326, lon:35.0091},
+      {name:"Madaba", country:"JO", lat:31.7167, lon:35.7922},
+      
+      // Lebanon
+      {name:"Beirut", country:"LB", lat:33.8938, lon:35.5018},
+      {name:"Tripoli", country:"LB", lat:34.4367, lon:35.8493},
+      {name:"Sidon", country:"LB", lat:33.5634, lon:35.3716},
+      {name:"Tyre", country:"LB", lat:33.2733, lon:35.1939},
+      {name:"Nabatieh", country:"LB", lat:33.3786, lon:35.4837},
+      
+      // Libya
+      {name:"Tripoli", country:"LY", lat:32.8872, lon:13.1913},
+      {name:"Benghazi", country:"LY", lat:32.1147, lon:20.0670},
+      {name:"Misrata", country:"LY", lat:32.3757, lon:15.0946},
+      {name:"Zawiya", country:"LY", lat:32.7583, lon:12.7333},
+      {name:"Bayda", country:"LY", lat:32.7616, lon:21.7492},
+      
+      // Morocco
+      {name:"Casablanca", country:"MA", lat:33.5731, lon:-7.5898},
+      {name:"Rabat", country:"MA", lat:34.0209, lon:-5.8416},
+      {name:"Fes", country:"MA", lat:34.0181, lon:-5.0078},
+      {name:"Marrakesh", country:"MA", lat:31.6295, lon:-7.9811},
+      {name:"Tangier", country:"MA", lat:35.7595, lon:-5.8340},
+      
+      // Oman
+      {name:"Muscat", country:"OM", lat:23.5859, lon:58.4059},
+      {name:"Salalah", country:"OM", lat:17.0215, lon:54.0914},
+      {name:"Nizwa", country:"OM", lat:22.9334, lon:57.5297},
+      {name:"Sohar", country:"OM", lat:24.3483, lon:56.7083},
+      {name:"Sur", country:"OM", lat:22.5672, lon:59.5289},
+      
+      // Qatar
+      {name:"Doha", country:"QA", lat:25.2854, lon:51.5310},
+      {name:"Al Rayyan", country:"QA", lat:25.2919, lon:51.4344},
+      {name:"Al Wakrah", country:"QA", lat:25.1715, lon:51.6036},
+      {name:"Al Khor", country:"QA", lat:25.6842, lon:51.5056},
+      {name:"Dukhan", country:"QA", lat:25.4244, lon:50.7828},
+      
+      // Tunisia
+      {name:"Tunis", country:"TN", lat:36.8065, lon:10.1815},
+      {name:"Sfax", country:"TN", lat:34.7406, lon:10.7603},
+      {name:"Sousse", country:"TN", lat:35.8256, lon:10.6369},
+      {name:"Kairouan", country:"TN", lat:35.6781, lon:10.0962},
+      {name:"Bizerte", country:"TN", lat:37.2744, lon:9.8739},
+      
+      // Yemen
+      {name:"Sana'a", country:"YE", lat:15.3694, lon:44.1910},
+      {name:"Aden", country:"YE", lat:12.7794, lon:45.0367},
+      {name:"Taiz", country:"YE", lat:13.5795, lon:44.0208},
+      {name:"Hodeidah", country:"YE", lat:14.7978, lon:42.9545},
+      {name:"Ibb", country:"YE", lat:13.9667, lon:44.1833},
+      
+      // Syria
+      {name:"Damascus", country:"SY", lat:33.5138, lon:36.2765},
+      {name:"Aleppo", country:"SY", lat:36.2021, lon:37.1343},
+      {name:"Homs", country:"SY", lat:34.7264, lon:36.7234},
+      {name:"Latakia", country:"SY", lat:35.5178, lon:35.7932},
+      {name:"Deir ez-Zor", country:"SY", lat:35.3290, lon:40.1356},
+      
+      // Algeria
+      {name:"Algiers", country:"DZ", lat:36.7525, lon:3.04197},
+      {name:"Oran", country:"DZ", lat:35.6911, lon:-0.6417},
+      {name:"Constantine", country:"DZ", lat:36.3650, lon:6.6147},
+      {name:"Annaba", country:"DZ", lat:36.9062, lon:7.7665},
+      {name:"Blida", country:"DZ", lat:36.4706, lon:2.8283},
+      
+      // Kuwait
+      {name:"Kuwait City", country:"KW", lat:29.3759, lon:47.9774},
+      {name:"Hawalli", country:"KW", lat:29.3347, lon:48.0289},
+      {name:"Al Ahmadi", country:"KW", lat:29.0764, lon:48.0734},
+      {name:"Al Farwaniyah", country:"KW", lat:29.2775, lon:47.9586},
+      {name:"Al Jahra", country:"KW", lat:29.3375, lon:47.6578},
+      
+      // Bahrain
+      {name:"Manama", country:"BH", lat:26.2285, lon:50.5861},
+      {name:"Riffa", country:"BH", lat:26.1622, lon:50.5576},
+      {name:"Muharraq", country:"BH", lat:26.2572, lon:50.6361},
+      {name:"Hamad Town", country:"BH", lat:26.1481, lon:50.4869},
+      {name:"A'ali", country:"BH", lat:26.2156, lon:50.5058}
+    ];
+    
+    // Country names mapping
+    const countryNames = {
+      "PK": "Pakistan",
+      "SA": "Saudi Arabia",
+      "AE": "United Arab Emirates",
+      "EG": "Egypt",
+      "TR": "Turkey",
+      "ID": "Indonesia",
+      "IN": "India",
+      "BD": "Bangladesh",
+      "US": "United States",
+      "GB": "United Kingdom",
+      "CA": "Canada",
+      "FR": "France",
+      "DE": "Germany",
+      "MY": "Malaysia",
+      "NG": "Nigeria",
+      "IR": "Iran",
+      "IQ": "Iraq",
+      "JO": "Jordan",
+      "LB": "Lebanon",
+      "LY": "Libya",
+      "MA": "Morocco",
+      "OM": "Oman",
+      "QA": "Qatar",
+      "TN": "Tunisia",
+      "YE": "Yemen",
+      "SY": "Syria",
+      "DZ": "Algeria",
+      "KW": "Kuwait",
+      "BH": "Bahrain"
+    };
+    
+    let allTimings = {};   // store city timings
+    let alarmTriggered = {}; // store which prayer alarms have been triggered
+    let currentCountry = "all"; // current selected country
+    let userLocation = null; // store user's current location
+    let userLocationTimings = null; // store user's location prayer timings
+    
+    // Jama'ah time settings (in minutes after azan)
+    let jamaahSettings = {
+      Fajr: 20,
+      Dhuhr: 15,
+      Asr: 15,
+      Maghrib: 10,
+      Isha: 15
+    };
+    
+    // Load saved settings
+    function loadSettings() {
+      const savedSettings = localStorage.getItem("jamaahSettings");
+      if (savedSettings) {
+        jamaahSettings = JSON.parse(savedSettings);
+      }
+    }
+    
+    // Convert 24h time to 12h format
+    function to12h(time24) {
+      if (!time24) return "--:--";
+      const [h, m] = time24.split(":").map(Number);
+      const ampm = h >= 12 ? "PM" : "AM";
+      const hh = (h % 12) || 12;
+      return `${hh}:${String(m).padStart(2, "0")} ${ampm}`;
+    }
+    
+    // Calculate Jama'ah time by adding minutes to azan time
+    function calculateJamaahTime(azanTime, delayMinutes) {
+      if (!azanTime) return "--:--";
+      
+      const [hours, minutes] = azanTime.split(":").map(Number);
+      const date = new Date();
+      date.setHours(hours, minutes + delayMinutes, 0, 0);
+      
+      const newHours = date.getHours();
+      const newMinutes = date.getMinutes();
+      
+      return `${String(newHours).padStart(2, "0")}:${String(newMinutes).padStart(2, "0")}`;
+    }
+    
+    // Fetch prayer timings for a city
+    async function fetchTimings(city) {
+      try {
+        const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${city.lat}&longitude=${city.lon}&method=2`);
+        const json = await res.json();
+        return json.data.timings;
+      } catch (e) {
+        console.error("API error:", e);
+        return null;
+      }
+    }
+    
+    // Fetch prayer timings for coordinates
+    async function fetchTimingsByCoords(lat, lon) {
+      try {
+        const res = await fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`);
+        const json = await res.json();
+        return json.data.timings;
+      } catch (e) {
+        console.error("API error:", e);
+        return null;
+      }
+    }
+    
+    // Load all prayer timings
+    async function loadAllTimings() {
+      const tbody = document.getElementById("timingsBody");
+      tbody.innerHTML = "";
+      
+      // Filter cities by selected country
+      const filteredCities = currentCountry === "all" 
+        ? cities 
+        : cities.filter(city => city.country === currentCountry);
+      
+      for (const city of filteredCities) {
+        const timings = await fetchTimings(city);
+        const tr = document.createElement("tr");
+        
+        if (timings) {
+          allTimings[city.name] = timings;
+          
+          // Calculate Jama'ah times
+          const fajrJamaah = calculateJamaahTime(timings.Fajr, jamaahSettings.Fajr);
+          const dhuhrJamaah = calculateJamaahTime(timings.Dhuhr, jamaahSettings.Dhuhr);
+          const asrJamaah = calculateJamaahTime(timings.Asr, jamaahSettings.Asr);
+          const maghribJamaah = calculateJamaahTime(timings.Maghrib, jamaahSettings.Maghrib);
+          const ishaJamaah = calculateJamaahTime(timings.Isha, jamaahSettings.Isha);
+          
+          tr.innerHTML = `
+            <td>${city.name}</td>
+            <td>${countryNames[city.country] || city.country}</td>
+            <td>${to12h(fajrJamaah)}</td>
+            <td>${to12h(dhuhrJamaah)}</td>
+            <td>${to12h(asrJamaah)}</td>
+            <td>${to12h(maghribJamaah)}</td>
+            <td>${to12h(ishaJamaah)}</td>`;
+        } else {
+          tr.innerHTML = `<td>${city.name}</td><td>${countryNames[city.country] || city.country}</td><td colspan="5">Error loading</td>`;
+        }
+        tbody.appendChild(tr);
+      }
+    }
+    
+    // Detect user's location
+    function detectLocation() {
+      const locText = document.getElementById("locationText");
+      
+      if (!navigator.geolocation) {
+        locText.textContent = "Geolocation not supported.";
+        document.getElementById("permissionCard").style.display = "none";
+        return;
+      }
+      
+      // Check if we already have permission
+      navigator.permissions.query({ name: 'geolocation' }).then(permissionStatus => {
+        if (permissionStatus.state === 'granted') {
+          // Permission already granted, get location
+          getCurrentLocation();
+        } else if (permissionStatus.state === 'prompt') {
+          // Show permission card
+          document.getElementById("permissionCard").style.display = "block";
+        } else {
+          // Permission denied
+          locText.textContent = "Location access denied.";
+          document.getElementById("permissionCard").style.display = "none";
+        }
+        
+        // Listen for permission changes
+        permissionStatus.onchange = function() {
+          if (this.state === 'granted') {
+            getCurrentLocation();
+          } else {
+            locText.textContent = "Location access denied.";
+            document.getElementById("permissionCard").style.display = "none";
+          }
+        };
+      });
+    }
+    
+    // Get current location
+    function getCurrentLocation() {
+      const locText = document.getElementById("locationText");
+      locText.textContent = "Getting your location...";
+      document.getElementById("permissionCard").style.display = "none";
+      
+      navigator.geolocation.getCurrentPosition(
+        async pos => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+          
+          // Store user location
+          userLocation = {
+            lat: lat,
+            lon: lon,
+            accuracy: pos.coords.accuracy
+          };
+          
+          // Get location details including city and province/state
+          try {
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18`);
+            const data = await response.json();
+            
+            if (data && data.address) {
+              let cityName = "";
+              let provinceName = "";
+              let countryName = "";
+              
+              // Try to get city name
+              if (data.address.city) {
+                cityName = data.address.city;
+              } else if (data.address.town) {
+                cityName = data.address.town;
+              } else if (data.address.village) {
+                cityName = data.address.village;
+              } else if (data.address.county) {
+                cityName = data.address.county;
+              } else if (data.address.suburb) {
+                cityName = data.address.suburb;
+              }
+              
+              // Try to get province/state name
+              if (data.address.state) {
+                provinceName = data.address.state;
+              } else if (data.address.province) {
+                provinceName = data.address.province;
+              }
+              
+              // Get country name
+              if (data.address.country) {
+                countryName = data.address.country;
+              }
+              
+              // Create location display text
+              let locationText = "";
+              if (cityName) {
+                locationText = cityName;
+                if (provinceName) {
+                  locationText += `, ${provinceName}`;
+                }
+                if (countryName) {
+                  locationText += `, ${countryName}`;
+                }
+              } else {
+                locationText = `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+              }
+              
+              locText.innerHTML = `Your Location: <b>${locationText}</b>`;
+            } else {
+              locText.innerHTML = `Your Location: <b>${lat.toFixed(4)}, ${lon.toFixed(4)}</b>`;
+            }
+          } catch (error) {
+            console.error("Reverse geocoding error:", error);
+            locText.innerHTML = `Your Location: <b>${lat.toFixed(4)}, ${lon.toFixed(4)}</b>`;
+          }
+          
+          // Fetch prayer timings for user's location
+          const timings = await fetchTimingsByCoords(lat, lon);
+          
+          if (timings) {
+            userLocationTimings = timings;
+            
+            // Update main prayer cards
+            updatePrayerCards(timings);
+          }
+        },
+        err => {
+          console.error("Geolocation error:", err);
+          locText.textContent = "Location access denied.";
+          document.getElementById("permissionCard").style.display = "none";
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 60000
+        }
+      );
+    }
+    
+    // Update prayer cards with timings
+    function updatePrayerCards(timings) {
+      // Calculate Jama'ah times
+      const fajrJamaah = calculateJamaahTime(timings.Fajr, jamaahSettings.Fajr);
+      const dhuhrJamaah = calculateJamaahTime(timings.Dhuhr, jamaahSettings.Dhuhr);
+      const asrJamaah = calculateJamaahTime(timings.Asr, jamaahSettings.Asr);
+      const maghribJamaah = calculateJamaahTime(timings.Maghrib, jamaahSettings.Maghrib);
+      const ishaJamaah = calculateJamaahTime(timings.Isha, jamaahSettings.Isha);
+      
+      // Update main prayer cards
+      document.getElementById("showFajr").textContent = to12h(timings.Fajr);
+      document.getElementById("showDhuhr").textContent = to12h(timings.Dhuhr);
+      document.getElementById("showAsr").textContent = to12h(timings.Asr);
+      document.getElementById("showMaghrib").textContent = to12h(timings.Maghrib);
+      document.getElementById("showIsha").textContent = to12h(timings.Isha);
+      
+      document.getElementById("showFajrJamaah").textContent = to12h(fajrJamaah);
+      document.getElementById("showDhuhrJamaah").textContent = to12h(dhuhrJamaah);
+      document.getElementById("showAsrJamaah").textContent = to12h(asrJamaah);
+      document.getElementById("showMaghribJamaah").textContent = to12h(maghribJamaah);
+      document.getElementById("showIshaJamaah").textContent = to12h(ishaJamaah);
+      
+      // Save to localStorage
+      localStorage.setItem("fajr", to12h(timings.Fajr));
+      localStorage.setItem("Dhuhr", to12h(timings.Dhuhr));
+      localStorage.setItem("Asr", to12h(timings.Asr));
+      localStorage.setItem("maghrib", to12h(timings.Maghrib));
+      localStorage.setItem("Isha", to12h(timings.Isha));
+      
+      localStorage.setItem("fajrJamaah", to12h(fajrJamaah));
+      localStorage.setItem("dhuhrJamaah", to12h(dhuhrJamaah));
+      localStorage.setItem("asrJamaah", to12h(asrJamaah));
+      localStorage.setItem("maghribJamaah", to12h(maghribJamaah));
+      localStorage.setItem("ishaJamaah", to12h(ishaJamaah));
+    }
+    
+    // Check for prayer times and trigger alarms
+    function checkAlarms() {
+      const now = new Date();
+      const currentTime = now.getHours().toString().padStart(2, "0") + ":" + now.getMinutes().toString().padStart(2, "0");
+      
+      // Check user location prayer times first
+      if (userLocationTimings) {
+        for (const prayer of ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"]) {
+          // Calculate Jama'ah time
+          const jamaahTime = calculateJamaahTime(userLocationTimings[prayer], jamaahSettings[prayer]).slice(0, 5);
+          
+          if (jamaahTime === currentTime && !alarmTriggered["user-" + prayer]) {
+            playAzan("Your Location", prayer + " Jama'ah");
+            alarmTriggered["user-" + prayer] = true; // prevent repeat
+            
+            // Reset alarm after 1 minute
+            setTimeout(() => {
+              alarmTriggered["user-" + prayer] = false;
+            }, 60000);
+          }
+        }
+      }
+      
+      // Check other cities
+      for (const city in allTimings) {
+        const timings = allTimings[city];
+        for (const prayer of ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"]) {
+          // Calculate Jama'ah time
+          const jamaahTime = calculateJamaahTime(timings[prayer], jamaahSettings[prayer]).slice(0, 5);
+          
+          if (jamaahTime === currentTime && !alarmTriggered[city + "-" + prayer]) {
+            playAzan(city, prayer + " Jama'ah");
+            alarmTriggered[city + "-" + prayer] = true; // prevent repeat
+            
+            // Reset alarm after 1 minute
+            setTimeout(() => {
+              alarmTriggered[city + "-" + prayer] = false;
+            }, 60000);
+          }
+        }
+      }
+    }
+    
+    // Play azan and show notification
+    function playAzan(location, prayer, ringtoneUrl = null) {
+      showNotification(`${prayer}`, `It's time for ${prayer} in ${location}!`);
+      
+      const audio = document.getElementById("azanAudio");
+      
+      // If a specific ringtone URL is provided, use it
+      if (ringtoneUrl) {
+        audio.src = ringtoneUrl;
+      }
+      
+      audio.play();
+    }
+    
+    // Show notification
+    function showNotification(title, message) {
+      const notification = document.getElementById("notification");
+      document.querySelector("#notification h4").textContent = title;
+      document.querySelector("#notification p").textContent = message;
+      notification.classList.add("show");
+      
+      // Auto hide after 10 seconds
+      setTimeout(() => {
+        notification.classList.remove("show");
+      }, 10000);
+    }
+    
+    // Close notification
+    function closeNotification() {
+      document.getElementById("notification").classList.remove("show");
+    }
+    
+    // Stop alarm
+    function stopAlarm() {
+      const audio = document.getElementById("azanAudio");
+      audio.pause();
+      audio.currentTime = 0;
+      closeNotification();
+    }
+    
+    // Initialize the app
+    function init() {
+      // Apply theme
+      let theme = localStorage.getItem("theme") || "Light";
+      applyTheme(theme);
+      
+      // Load saved settings
+      loadSettings();
+      
+      // Display saved alarm timings
+      document.getElementById("showFajr").textContent = localStorage.getItem("fajr") || "--:--";
+      document.getElementById("showDhuhr").textContent = localStorage.getItem("Dhuhr") || "--:--";
+      document.getElementById("showAsr").textContent = localStorage.getItem("Asr") || "--:--";
+      document.getElementById("showMaghrib").textContent = localStorage.getItem("maghrib") || "--:--";
+      document.getElementById("showIsha").textContent = localStorage.getItem("Isha") || "--:--";
+      
+      document.getElementById("showFajrJamaah").textContent = localStorage.getItem("fajrJamaah") || "--:--";
+      document.getElementById("showDhuhrJamaah").textContent = localStorage.getItem("dhuhrJamaah") || "--:--";
+      document.getElementById("showAsrJamaah").textContent = localStorage.getItem("asrJamaah") || "--:--";
+      document.getElementById("showMaghribJamaah").textContent = localStorage.getItem("maghribJamaah") || "--:--";
+      document.getElementById("showIshaJamaah").textContent = localStorage.getItem("ishaJamaah") || "--:--";
+      
+      // Set up country selector
+      const countrySelector = document.getElementById("countrySelector");
+      countrySelector.addEventListener("change", function() {
+        currentCountry = this.value;
+        loadAllTimings();
+      });
+      
+      // Set up enable location button
+      document.getElementById("enableLocationBtn").addEventListener("click", function() {
+        getCurrentLocation();
+      });
+      
+      // Set up test alarm button
+      document.getElementById("testAlarmBtn").addEventListener("click", function() {
+        playAzan("Test City", "Test Prayer");
+      });
+      
+      // Set up stop alarm button
+      document.getElementById("stopAlarmBtn").addEventListener("click", function() {
+        stopAlarm();
+      });
+      
+      // Detect location and load timings
+      detectLocation();
+      loadAllTimings();
+      
+      // Check for alarms every minute
+      setInterval(checkAlarms, 60000);
+    }
+    
+    // Apply theme
+    function applyTheme(theme) {
+      // This function would apply the selected theme
+      console.log("Applying theme:", theme);
+    }
+    
+    // Initialize when DOM is loaded
+    document.addEventListener("DOMContentLoaded", init);
+  </script>
+  
+  <script src="theme.js"></script>
+</body>
+</html>
