@@ -218,6 +218,7 @@
       box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
       margin-bottom: 30px;
       transition: transform 0.5s ease;
+      overflow: hidden;
     }
 
     .compass::before {
@@ -242,7 +243,7 @@
       transform-origin: bottom center;
       transform: translate(-50%, -100%) rotate(0deg);
       border-radius: 3px;
-      transition: transform 0.5s ease;
+      transition: transform 0.3s ease;
       z-index: 2;
     }
 
@@ -264,7 +265,7 @@
       position: absolute;
       width: 100%;
       height: 100%;
-      transition: transform 0.5s ease;
+      transition: transform 0.3s ease;
     }
 
     .direction {
@@ -733,6 +734,59 @@
       color: #3498db;
     }
 
+    /* Compass Animation Enhancement */
+    .compass-compass-rose {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .compass-compass-rose::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 90%;
+      height: 90%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: conic-gradient(
+        from 0deg,
+        rgba(255, 215, 0, 0.1) 0deg,
+        rgba(255, 215, 0, 0.3) 90deg,
+        rgba(255, 215, 0, 0.1) 180deg,
+        rgba(255, 215, 0, 0.3) 270deg,
+        rgba(255, 215, 0, 0.1) 360deg
+      );
+    }
+
+    /* Compass degree markers */
+    .compass-markers {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+
+    .compass-marker {
+      position: absolute;
+      width: 2px;
+      height: 10px;
+      background-color: gold;
+      top: 5px;
+      left: 50%;
+      transform-origin: center 145px;
+    }
+
+    .compass-marker.major {
+      height: 15px;
+      width: 3px;
+    }
+
     /* Responsive Behavior */
     @media (max-width: 768px) {
       .hero h1 {
@@ -864,6 +918,8 @@
         <div class="col-lg-6" data-aos="fade-left">
           <div class="compass-container">
             <div class="compass" id="compass">
+              <div class="compass-compass-rose"></div>
+              <div class="compass-markers" id="compass-markers"></div>
               <div class="compass-directions" id="compass-directions">
                 <div class="direction north">N</div>
                 <div class="direction east">E</div>
@@ -1133,6 +1189,28 @@
       needle.style.transform = `translate(-50%, -100%) rotate(${angle}deg)`;
     }
 
+    // Create compass markers
+    function createCompassMarkers() {
+      const markersContainer = document.getElementById('compass-markers');
+      
+      // Create 36 markers (every 10 degrees)
+      for (let i = 0; i < 36; i++) {
+        const marker = document.createElement('div');
+        marker.className = 'compass-marker';
+        
+        // Make major markers at cardinal directions
+        if (i % 9 === 0) {
+          marker.classList.add('major');
+        }
+        
+        // Position the marker
+        const angle = i * 10;
+        marker.style.transform = `rotate(${angle}deg)`;
+        
+        markersContainer.appendChild(marker);
+      }
+    }
+
     // Sample cities with their coordinates and qibla directions
     const cities = {
       "karachi": { lat: 24.8607, lon: 67.0011, qibla: 264.5 },
@@ -1165,6 +1243,9 @@
         
         // Update compass
         updateCompass(qiblaAngle);
+        
+        // Update current Qibla angle for device compass
+        currentQiblaAngle = qiblaAngle;
         
         // Show success toast
         showToast(`Qibla direction for ${cityInput.charAt(0).toUpperCase() + cityInput.slice(1)} found!`, 'success');
@@ -1200,6 +1281,9 @@
             // Update compass
             updateCompass(qiblaAngle);
             
+            // Update current Qibla angle for device compass
+            currentQiblaAngle = qiblaAngle;
+            
             // Show success toast
             showToast('Qibla direction for your current location found!', 'success');
           },
@@ -1225,6 +1309,7 @@
     let deviceOrientationHandler = null;
     let isDeviceCompassActive = false;
     let currentQiblaAngle = 264.5; // Default to Karachi's Qibla angle
+    let deviceHeading = 0; // Track device heading
 
     document.getElementById('device-compass-btn').addEventListener('click', function() {
       if (!isDeviceCompassActive) {
@@ -1275,9 +1360,12 @@
         const alpha = event.alpha;
         
         if (alpha !== null) {
+          // Update device heading
+          deviceHeading = alpha;
+          
           // Calculate the relative angle between the device's heading and the Qibla direction
           // This makes the needle always point to the Qibla direction regardless of device orientation
-          const relativeAngle = (currentQiblaAngle - alpha + 360) % 360;
+          const relativeAngle = (currentQiblaAngle - deviceHeading + 360) % 360;
           
           // Update the needle to point to the Qibla direction
           const needle = document.getElementById('needle');
@@ -1285,7 +1373,7 @@
           
           // Update the compass directions to show the current device orientation
           const compassDirections = document.getElementById('compass-directions');
-          compassDirections.style.transform = `rotate(${alpha}deg)`;
+          compassDirections.style.transform = `rotate(${deviceHeading}deg)`;
         }
       };
 
@@ -1318,6 +1406,9 @@
 
     // Initialize with default location (Karachi)
     window.addEventListener('load', function() {
+      // Create compass markers
+      createCompassMarkers();
+      
       const defaultCity = cities["karachi"];
       const qiblaAngle = calculateQibla(defaultCity.lat, defaultCity.lon);
       const direction = getDirectionName(qiblaAngle);
@@ -1328,6 +1419,17 @@
       document.getElementById('qibla-angle').textContent = `${qiblaAngle.toFixed(1)}° (${direction})`;
       
       updateCompass(qiblaAngle);
+      
+      // Auto-start device compass if supported
+      if (window.DeviceOrientationEvent) {
+        // For iOS, we need permission, so we don't auto-start
+        if (typeof DeviceOrientationEvent.requestPermission !== 'function') {
+          // For non-iOS devices, we can auto-start
+          setTimeout(() => {
+            startDeviceCompass();
+          }, 1000);
+        }
+      }
     });
 
     // Add scroll effect to navbar
@@ -1342,5 +1444,5 @@
       }
     });
   </script>
-</body>
+</body> 
 </html>

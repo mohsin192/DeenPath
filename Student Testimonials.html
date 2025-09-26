@@ -7,6 +7,9 @@
   <!-- Google Fonts: Playfair Display (elegant serif) and Inter (clean sans-serif) -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <!-- AOS Animation Library -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <style>
     /* ---------- Base ---------- */
     :root{
@@ -107,6 +110,97 @@
       color: var(--accent);
     }
     
+    /* Animated Background Particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: float 20s infinite linear;
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.3;
+      }
+      90% {
+        opacity: 0.3;
+      }
+      100% {
+        transform: translateY(-100vh) translateX(100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    
+    /* Glowing orb effect */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.6;
+      animation: pulse-orb 8s infinite alternate ease-in-out;
+      z-index: -1;
+    }
+    
+    .orb1 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.8) 0%, rgba(212, 175, 55, 0) 70%);
+      top: -150px;
+      right: -150px;
+      animation-delay: 0s;
+    }
+    
+    .orb2 {
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(1, 63, 38, 0.6) 0%, rgba(1, 63, 38, 0) 70%);
+      bottom: -100px;
+      left: -100px;
+      animation-delay: 2s;
+    }
+    
+    .orb3 {
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(139, 195, 74, 0.5) 0%, rgba(139, 195, 74, 0) 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-delay: 4s;
+    }
+    
+    @keyframes pulse-orb {
+      0% {
+        transform: scale(1);
+        opacity: 0.6;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 0.6;
+      }
+    }
+    
     /* ---------- Hero Section ---------- */
     .hero {
       position: relative;
@@ -139,12 +233,15 @@
     }
     .hero-content {
       max-width: 800px;
+      position: relative;
+      z-index: 1;
     }
     .hero h1 {
       font-size: 4rem;
       color: var(--accent);
       margin-bottom: 1.5rem;
       line-height: 1.1;
+      text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
     }
     .hero p {
       font-size: 1.3rem;
@@ -167,9 +264,38 @@
       border-radius: 5px;
     }
     
+    /* Animated text effect */
+    .animated-text {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .animated-text::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: underline 2s ease-in-out infinite;
+    }
+    
+    @keyframes underline {
+      0%, 100% {
+        transform: scaleX(0);
+      }
+      50% {
+        transform: scaleX(1);
+      }
+    }
+    
     /* ---------- Testimonials Section ---------- */
     .testimonials-section {
       padding: 80px 0;
+      position: relative;
     }
     .section-header {
       text-align: center;
@@ -211,15 +337,47 @@
       height: 100%;
       display: flex;
       flex-direction: column;
+      position: relative;
+    }
+    .testimonial-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.6s;
+    }
+    .testimonial-card:hover::before {
+      transform: translateX(100%);
     }
     .testimonial-card:hover {
       transform: translateY(-15px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
     }
     .testimonial-header {
       padding: 25px;
       background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: white;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .testimonial-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    .testimonial-card:hover .testimonial-header::before {
+      opacity: 1;
     }
     .testimonial-avatar {
       width: 100px;
@@ -229,6 +387,12 @@
       margin: 0 auto 15px;
       border: 4px solid var(--accent);
       background-color: #f0f0f0; /* Fallback background color */
+      position: relative;
+      z-index: 1;
+      transition: transform 0.5s;
+    }
+    .testimonial-card:hover .testimonial-avatar {
+      transform: scale(1.1);
     }
     .testimonial-avatar img {
       width: 100%;
@@ -251,6 +415,7 @@
       flex-grow: 1;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
     .testimonial-quote {
       position: relative;
@@ -300,6 +465,7 @@
       margin-bottom: 80px;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     }
     .featured-testimonial::before {
       content: '';
@@ -310,6 +476,16 @@
       height: 100%;
       background: url('https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
       opacity: 0.1;
+      z-index: 0;
+    }
+    .featured-testimonial::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, transparent 0%, rgba(1, 63, 38, 0.7) 100%);
       z-index: 0;
     }
     .featured-content {
@@ -323,6 +499,7 @@
       color: white;
       font-size: 2.5rem;
       margin-bottom: 20px;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
     .featured-content p {
       color: var(--text-secondary);
@@ -343,6 +520,12 @@
       overflow: hidden;
       border: 3px solid var(--accent);
       background-color: #f0f0f0; /* Fallback background color */
+      position: relative;
+      z-index: 1;
+      transition: transform 0.5s;
+    }
+    .featured-testimonial:hover .featured-avatar {
+      transform: scale(1.1);
     }
     .featured-avatar img {
       width: 100%;
@@ -366,20 +549,61 @@
       backdrop-filter: blur(10px);
       border-radius: var(--radius);
       margin-bottom: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .stats-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(1, 63, 38, 0.2) 0%, rgba(1, 63, 38, 0.1) 100%);
+      z-index: 0;
     }
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 30px;
+      position: relative;
+      z-index: 1;
     }
     .stat-item {
       text-align: center;
+      padding: 20px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(5px);
+      transition: var(--transition);
+    }
+    .stat-item:hover {
+      transform: translateY(-10px);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
     }
     .stat-number {
       font-size: 3rem;
       font-weight: 700;
       color: var(--accent);
       margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
+    }
+    .stat-number::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.5s;
+    }
+    .stat-item:hover .stat-number::after {
+      transform: scaleX(1);
     }
     .stat-label {
       color: var(--text-secondary);
@@ -405,6 +629,16 @@
       opacity: 0.1;
       z-index: 0;
     }
+    .cta-section::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, transparent 0%, rgba(1, 63, 38, 0.8) 100%);
+      z-index: 0;
+    }
     .cta-content {
       position: relative;
       z-index: 1;
@@ -415,6 +649,7 @@
       font-size: 3rem;
       color: white;
       margin-bottom: 20px;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
     .cta-content p {
       font-size: 1.2rem;
@@ -439,10 +674,42 @@
       font-weight: 500;
       cursor: pointer;
       transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .filter-option::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--accent);
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+      z-index: -1;
     }
     .filter-option:hover, .filter-option.active {
-      background: var(--accent);
       color: var(--primary-dark);
+    }
+    .filter-option:hover::before, .filter-option.active::before {
+      transform: translateY(0);
+    }
+    
+    /* Shimmer effect for cards */
+    @keyframes shimmer {
+      0% {
+        background-position: -1000px 0;
+      }
+      100% {
+        background-position: 1000px 0;
+      }
+    }
+    
+    .testimonial-card {
+      background: linear-gradient(90deg, var(--card-bg) 0%, rgba(255, 255, 255, 0.8) 50%, var(--card-bg) 100%);
+      background-size: 1000px 100%;
+      animation: shimmer 3s infinite;
     }
     
     /* Responsive */
@@ -494,11 +761,19 @@
   </style>
 </head>
 <body>
+  <!-- Animated Background Particles -->
+  <div class="particles" id="particles"></div>
+  
+  <!-- Glowing Orbs -->
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
   <!-- Hero Section -->
-  <section class="hero">
+  <section class="hero" data-aos="fade-down">
     <div class="container">
       <div class="hero-content">
-        <h1>Student Success Stories</h1>
+        <h1 class="animated-text">Student Success Stories</h1>
         <p>Hear from our alumni who have transformed their lives through our premium Islamic education courses. Their journeys inspire us every day to continue delivering excellence.</p>
         <div class="hero-actions">
           <a href="#testimonials" class="btn btn-primary">Read Testimonials</a>
@@ -510,7 +785,7 @@
   </section>
 
   <!-- Featured Testimonial -->
-  <section id="featured" class="featured-testimonial">
+  <section id="featured" class="featured-testimonial" data-aos="fade-up">
     <div class="container">
       <div class="featured-content">
         <h2>"The Quranic recitation course completely transformed my relationship with the Quran. The personalized feedback from scholars was invaluable."</h2>
@@ -528,23 +803,23 @@
   </section>
 
   <!-- Stats Section -->
-  <section class="stats-section">
+  <section class="stats-section" data-aos="fade-up">
     <div class="container">
       <div class="stats-grid">
-        <div class="stat-item">
-          <div class="stat-number">5000+</div>
+        <div class="stat-item" data-aos="zoom-in" data-aos-delay="100">
+          <div class="stat-number" data-count="5000">0</div>
           <div class="stat-label">Successful Graduates</div>
         </div>
-        <div class="stat-item">
-          <div class="stat-number">98%</div>
+        <div class="stat-item" data-aos="zoom-in" data-aos-delay="200">
+          <div class="stat-number" data-count="98">0</div>
           <div class="stat-label">Satisfaction Rate</div>
         </div>
-        <div class="stat-item">
-          <div class="stat-number">50+</div>
+        <div class="stat-item" data-aos="zoom-in" data-aos-delay="300">
+          <div class="stat-number" data-count="50">0</div>
           <div class="stat-label">Expert Scholars</div>
         </div>
-        <div class="stat-item">
-          <div class="stat-number">30+</div>
+        <div class="stat-item" data-aos="zoom-in" data-aos-delay="400">
+          <div class="stat-number" data-count="30">0</div>
           <div class="stat-label">Countries</div>
         </div>
       </div>
@@ -552,7 +827,7 @@
   </section>
 
   <!-- Testimonials Section -->
-  <section id="testimonials" class="testimonials-section">
+  <section id="testimonials" class="testimonials-section" data-aos="fade-up">
     <div class="container">
       <div class="section-header">
         <h2>Student Testimonials</h2>
@@ -570,7 +845,7 @@
       
       <div class="testimonials-grid">
         <!-- Testimonial Card 1 -->
-        <div class="testimonial-card" data-category="quran">
+        <div class="testimonial-card" data-category="quran" data-aos="fade-up" data-aos-delay="100">
           <div class="testimonial-header">
             <div class="testimonial-avatar">
               <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Aisha Khan">
@@ -600,7 +875,7 @@
         </div>
         
         <!-- Testimonial Card 2 -->
-        <div class="testimonial-card" data-category="finance">
+        <div class="testimonial-card" data-category="finance" data-aos="fade-up" data-aos-delay="200">
           <div class="testimonial-header">
             <div class="testimonial-avatar">
               <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Yusuf Ahmed">
@@ -630,10 +905,10 @@
         </div>
         
         <!-- Testimonial Card 3 -->
-        <div class="testimonial-card" data-category="arabic">
+        <div class="testimonial-card" data-category="arabic" data-aos="fade-up" data-aos-delay="300">
           <div class="testimonial-header">
             <div class="testimonial-avatar">
-              <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Fatima Ibrahim">
+              <img src="data:image/jpeg;base64,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" alt="Fatima Ibrahim">
             </div>
             <div class="testimonial-info">
               <h3>Fatima Ibrahim</h3>
@@ -660,7 +935,7 @@
         </div>
         
         <!-- Testimonial Card 4 -->
-        <div class="testimonial-card" data-category="theology">
+        <div class="testimonial-card" data-category="theology" data-aos="fade-up" data-aos-delay="400">
           <div class="testimonial-header">
             <div class="testimonial-avatar">
               <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Omar Hassan">
@@ -690,7 +965,7 @@
         </div>
         
         <!-- Testimonial Card 5 -->
-        <div class="testimonial-card" data-category="quran">
+        <div class="testimonial-card" data-category="quran" data-aos="fade-up" data-aos-delay="500">
           <div class="testimonial-header">
             <div class="testimonial-avatar">
               <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Maryam Siddiqui">
@@ -720,7 +995,7 @@
         </div>
         
         <!-- Testimonial Card 6 -->
-        <div class="testimonial-card" data-category="arabic">
+        <div class="testimonial-card" data-category="arabic" data-aos="fade-up" data-aos-delay="600">
           <div class="testimonial-header">
             <div class="testimonial-avatar">
               <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Abdullah Rahman">
@@ -753,17 +1028,105 @@
   </section>
 
   <!-- CTA Section -->
-  <section class="cta-section">
+  <section class="cta-section" data-aos="fade-up">
     <div class="container">
       <div class="cta-content">
         <h2>Share Your Success Story</h2>
         <p>Join thousands of students who have transformed their understanding of Islam through our premium educational platform. Your journey begins today.</p>
-        <a href="courses.html" class="btn btn-accent">Explore Courses</a>
+        <a href="course.html" class="btn btn-accent">Explore Courses</a>
       </div>
     </div>
   </section>
 
   <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 1000,
+      easing: 'ease-in-out',
+      once: true,
+      mirror: false
+    });
+    
+    // Create floating particles
+    document.addEventListener('DOMContentLoaded', function() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 50;
+      const colors = ['rgba(212, 175, 55, 0.7)', 'rgba(255, 255, 255, 0.5)', 'rgba(1, 63, 38, 0.5)'];
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+
+        // Random size between 3px and 8px
+        const size = Math.random() * 5 + 3;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        // Random color
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.backgroundColor = color;
+
+        // Random position
+        particle.style.left = `${Math.random() * 100}%`;
+
+        // Random animation duration between 10s and 20s
+        const duration = Math.random() * 10 + 10;
+        particle.style.animationDuration = `${duration}s`;
+
+        // Random delay
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+
+        // Random horizontal movement
+        const horizontalMovement = Math.random() * 200 - 100;
+        particle.style.setProperty('--horizontal-movement', `${horizontalMovement}px`);
+        
+        particlesContainer.appendChild(particle);
+      }
+    });
+    
+    // Counter animation for stats
+    document.addEventListener('DOMContentLoaded', function() {
+      const counters = document.querySelectorAll('.stat-number[data-count]');
+      
+      const speed = 200;
+      
+      counters.forEach(counter => {
+        const animate = () => {
+          const value = +counter.getAttribute('data-count');
+          const data = +counter.innerText;
+          const time = value / speed;
+          
+          if (data < value) {
+            counter.innerText = Math.ceil(data + time);
+            setTimeout(animate, 1);
+          } else {
+            counter.innerText = value;
+            if (counter.getAttribute('data-count') === "98") {
+              counter.innerText = value + "%";
+            } else if (counter.getAttribute('data-count') === "50") {
+              counter.innerText = value + "+";
+            } else if (counter.getAttribute('data-count') === "30") {
+              counter.innerText = value + "+";
+            } else {
+              counter.innerText = value + "+";
+            }
+          }
+        };
+        
+        // Start animation when element is in viewport
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              animate();
+              observer.unobserve(entry.target);
+            }
+          });
+        });
+        
+        observer.observe(counter);
+      });
+    });
+    
     // Filter functionality
     document.querySelectorAll('.filter-option').forEach(button => {
       button.addEventListener('click', () => {
@@ -777,15 +1140,24 @@
         testimonialCards.forEach(card => {
           if (filter === 'all') {
             card.style.display = 'flex';
+            // Re-add AOS animation when showing cards again
+            card.setAttribute('data-aos', 'fade-up');
           } else {
             const categories = card.getAttribute('data-category').split(' ');
             if (categories.includes(filter)) {
               card.style.display = 'flex';
+              // Re-add AOS animation when showing cards again
+              card.setAttribute('data-aos', 'fade-up');
             } else {
               card.style.display = 'none';
             }
           }
         });
+        
+        // Refresh AOS after filtering
+        setTimeout(() => {
+          AOS.refresh();
+        }, 100);
       });
     });
     

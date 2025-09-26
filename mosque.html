@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #1a73e8;
@@ -22,23 +23,28 @@
             --map-red: #ea4335;
             --map-yellow: #fbbc04;
             --map-green: #34a853;
+            --gold: #FFD700;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
         
         body {
             background-color: var(--map-bg);
             color: var(--text-primary);
             overflow: hidden;
+            background: linear-gradient(to bottom right, #00000081, #3333337c), 
+                        url('pics/Masjid\ Al-Nabawi.jpg') no-repeat center center/cover;
+            background-attachment: fixed;
         }
         
         .header {
-            background-color: var(--map-panel);
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
             height: 64px;
             display: flex;
             align-items: center;
@@ -46,18 +52,20 @@
             box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
             z-index: 1000;
             position: relative;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
         }
         
         .header h1 {
             font-size: 22px;
-            font-weight: 400;
-            color: var(--text-primary);
+            font-weight: 600;
+            color: var(--gold);
             display: flex;
             align-items: center;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
         
         .header i {
-            color: var(--accent);
+            color: var(--gold);
             margin-right: 12px;
             font-size: 24px;
         }
@@ -75,7 +83,8 @@
             left: 16px;
             z-index: 1000;
             width: 360px;
-            background-color: var(--map-panel);
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
             border-radius: 8px;
             box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
             display: flex;
@@ -83,10 +92,12 @@
             padding: 0 12px;
             height: 48px;
             transition: box-shadow 0.2s;
+            border: 1px solid rgba(255, 215, 0, 0.3);
         }
         
         .search-container:focus-within {
             box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+            border-color: var(--gold);
         }
         
         .search-icon {
@@ -105,8 +116,8 @@
         }
         
         .search-button {
-            background-color: var(--map-blue);
-            color: white;
+            background-color: var(--gold);
+            color: #000;
             border: none;
             border-radius: 4px;
             padding: 8px 16px;
@@ -114,11 +125,12 @@
             cursor: pointer;
             font-size: 14px;
             font-weight: 500;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
         }
         
         .search-button:hover {
-            background-color: #1765cc;
+            background-color: #e6c200;
+            transform: translateY(-1px);
         }
         
         /* Google Maps-style controls */
@@ -133,14 +145,16 @@
         }
         
         .control-group {
-            background-color: var(--map-panel);
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
             border-radius: 8px;
             box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
             overflow: hidden;
+            border: 1px solid rgba(255, 215, 0, 0.3);
         }
         
         .control-btn {
-            background: var(--map-panel);
+            background: transparent;
             border: none;
             width: 40px;
             height: 40px;
@@ -150,16 +164,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
         }
         
         .control-btn:hover {
-            background-color: var(--map-hover);
+            background-color: rgba(255, 215, 0, 0.2);
+            color: var(--gold);
         }
         
         .control-btn:active {
-            background-color: var(--map-blue);
-            color: white;
+            background-color: var(--gold);
+            color: #000;
         }
         
         .divider {
@@ -174,7 +189,8 @@
             bottom: 120px;
             right: 16px;
             z-index: 1000;
-            background-color: var(--map-panel);
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
             border: none;
             width: 40px;
             height: 40px;
@@ -186,16 +202,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 215, 0, 0.3);
         }
         
         .location-btn:hover {
-            background-color: var(--map-hover);
+            background-color: rgba(255, 215, 0, 0.2);
+            color: var(--gold);
         }
         
         .location-btn:active {
-            background-color: var(--map-blue);
-            color: white;
+            background-color: var(--gold);
+            color: #000;
         }
         
         /* Google Maps-style info window */
@@ -204,7 +222,8 @@
             bottom: 40px;
             left: 40px;
             z-index: 1000;
-            background-color: var(--map-panel);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             border-radius: 8px;
             box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
             width: 320px;
@@ -212,6 +231,7 @@
             overflow-y: auto;
             display: none;
             animation: slideUp 0.3s ease-out;
+            border: 1px solid rgba(255, 215, 0, 0.3);
         }
         
         .info-header {
@@ -259,7 +279,7 @@
             width: 24px;
             height: 24px;
             margin-right: 12px;
-            color: var(--text-secondary);
+            color: var(--gold);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -284,27 +304,27 @@
             border-radius: 4px;
             font-size: 14px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
             font-weight: 500;
         }
         
         .directions-btn {
-            background-color: var(--map-blue);
-            color: white;
+            background-color: var(--gold);
+            color: #000;
         }
         
         .directions-btn:hover {
-            background-color: #1765cc;
+            background-color: #e6c200;
         }
         
         .save-btn {
-            background-color: var(--map-panel);
-            color: var(--map-blue);
+            background-color: rgba(255, 255, 255, 0.9);
+            color: var(--gold);
             border: 1px solid var(--map-border);
         }
         
         .save-btn:hover {
-            background-color: var(--map-hover);
+            background-color: rgba(255, 215, 0, 0.1);
         }
         
         /* Google Maps-style directions panel */
@@ -313,13 +333,15 @@
             top: 0;
             right: -400px;
             z-index: 1000;
-            background-color: var(--map-panel);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             width: 400px;
             height: 100%;
             box-shadow: -2px 0 8px rgba(0,0,0,0.15);
             transition: right 0.3s ease;
             display: flex;
             flex-direction: column;
+            border-left: 1px solid rgba(255, 215, 0, 0.3);
         }
         
         .directions-panel.active {
@@ -368,9 +390,10 @@
             display: flex;
             align-items: center;
             margin-bottom: 8px;
-            background-color: var(--map-bg);
+            background-color: rgba(255, 255, 255, 0.7);
             border-radius: 4px;
             padding: 12px;
+            border: 1px solid var(--map-border);
         }
         
         .directions-input-icon {
@@ -410,9 +433,10 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 24px;
-            background-color: var(--map-bg);
+            background-color: rgba(255, 255, 255, 0.7);
             border-radius: 4px;
             padding: 4px;
+            border: 1px solid var(--map-border);
         }
         
         .travel-mode {
@@ -423,16 +447,16 @@
             padding: 8px;
             border-radius: 4px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
         }
         
         .travel-mode:hover {
-            background-color: var(--map-hover);
+            background-color: rgba(255, 215, 0, 0.1);
         }
         
         .travel-mode.active {
-            background-color: var(--map-blue);
-            color: white;
+            background-color: var(--gold);
+            color: #000;
         }
         
         .travel-mode i {
@@ -445,10 +469,11 @@
         }
         
         .directions-route {
-            background-color: var(--map-bg);
+            background-color: rgba(255, 255, 255, 0.7);
             border-radius: 4px;
             padding: 16px;
             margin-bottom: 16px;
+            border: 1px solid var(--map-border);
         }
         
         .route-header {
@@ -484,18 +509,18 @@
         .start-btn {
             width: 100%;
             padding: 12px;
-            background-color: var(--map-blue);
-            color: white;
+            background-color: var(--gold);
+            color: #000;
             border: none;
             border-radius: 4px;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
         }
         
         .start-btn:hover {
-            background-color: #1765cc;
+            background-color: #e6c200;
         }
         
         /* Google Maps-style bottom panel */
@@ -505,8 +530,9 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            background-color: var(--map-panel);
-            border-top: 1px solid var(--map-border);
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
             box-shadow: 0 -1px 2px 0 rgba(60,64,67,0.3), 0 -1px 3px 1px rgba(60,64,67,0.15);
             padding: 8px 16px;
             display: flex;
@@ -516,7 +542,7 @@
         
         .bottom-text {
             font-size: 12px;
-            color: var(--text-secondary);
+            color: rgba(255, 255, 255, 0.7);
         }
         
         .bottom-links {
@@ -526,7 +552,7 @@
         
         .bottom-link {
             font-size: 12px;
-            color: var(--map-blue);
+            color: var(--gold);
             text-decoration: none;
         }
         
@@ -536,12 +562,14 @@
             bottom: 40px;
             left: 40px;
             z-index: 1000;
-            background-color: var(--map-panel);
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
             border-radius: 2px;
             box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
             padding: 4px 8px;
             font-size: 12px;
             color: var(--text-secondary);
+            border: 1px solid rgba(255, 215, 0, 0.3);
         }
         
         /* Google Maps-style attribution */
@@ -551,10 +579,10 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            background-color: rgba(255,255,255,0.7);
+            background-color: rgba(0, 0, 0, 0.7);
             padding: 2px 4px;
             font-size: 10px;
-            color: var(--text-secondary);
+            color: rgba(255, 255, 255, 0.7);
             text-align: right;
         }
         
@@ -568,6 +596,8 @@
             position: relative;
             border: 2px solid white;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
+            cursor: pointer;
         }
         
         .mosque-marker::before {
@@ -591,40 +621,51 @@
             left: 10px;
         }
         
-        .user-location-marker {
-            background-color: var(--map-blue);
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 3px solid white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        .user-mosque-marker {
+            background-color: var(--gold);
+            width: 36px;
+            height: 36px;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
             position: relative;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
         }
         
-        .user-location-marker::after {
+        .user-mosque-marker::before {
             content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            width: 15px;
+            height: 15px;
+            background-color: white;
             border-radius: 50%;
-            background-color: rgba(26, 115, 232, 0.3);
-            animation: pulse 2s infinite;
+            top: 8px;
+            left: 8px;
+        }
+        
+        .user-mosque-marker::after {
+            content: "";
+            position: absolute;
+            width: 5px;
+            height: 12px;
+            background-color: white;
+            top: 18px;
+            left: 13px;
         }
         
         @keyframes pulse {
             0% {
-                transform: scale(1);
-                opacity: 0.7;
+                transform: rotate(-45deg) scale(1);
+                opacity: 1;
             }
-            70% {
-                transform: scale(2);
-                opacity: 0;
+            50% {
+                transform: rotate(-45deg) scale(1.1);
+                opacity: 0.8;
             }
             100% {
-                transform: scale(1);
-                opacity: 0;
+                transform: rotate(-45deg) scale(1);
+                opacity: 1;
             }
         }
         
@@ -634,13 +675,15 @@
             top: 80px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: var(--map-panel);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             padding: 16px 24px;
             border-radius: 4px;
             box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
             z-index: 1001;
             display: none;
             animation: slideDown 0.3s ease-out;
+            border: 1px solid rgba(255, 215, 0, 0.3);
         }
         
         .notification.success {
@@ -682,9 +725,9 @@
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 3px solid rgba(0, 102, 51, 0.3);
+            border: 3px solid rgba(255, 215, 0, 0.3);
             border-radius: 50%;
-            border-top-color: var(--accent);
+            border-top-color: var(--gold);
             animation: spin 1s ease-in-out infinite;
         }
         
@@ -699,9 +742,10 @@
             left: 0;
             right: 0;
             z-index: 999;
-            background-color: var(--map-panel);
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
             padding: 8px 16px;
-            border-bottom: 1px solid var(--map-border);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -710,7 +754,7 @@
         
         .stats-text {
             font-size: 14px;
-            color: var(--text-secondary);
+            color: rgba(255, 255, 255, 0.9);
         }
         
         /* Hidden class */
@@ -722,6 +766,8 @@
         .leaflet-popup-content-wrapper {
             border-radius: 8px;
             box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 2px 6px 2px rgba(60,64,67,0.15);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
         }
         
         .leaflet-popup-content {
@@ -730,7 +776,7 @@
         }
         
         .leaflet-popup-tip {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
         }
         
         /* Google Maps-style zoom controls */
@@ -739,6 +785,8 @@
             box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
             border-radius: 8px;
             overflow: hidden;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
         }
         
         .leaflet-control-zoom a {
@@ -747,12 +795,13 @@
             line-height: 40px;
             font-size: 18px;
             border: none;
-            background-color: white;
+            background-color: transparent;
             color: var(--text-primary);
         }
         
         .leaflet-control-zoom a:hover {
-            background-color: var(--map-hover);
+            background-color: rgba(255, 215, 0, 0.2);
+            color: var(--gold);
         }
         
         .leaflet-control-zoom a:first-child {
@@ -761,8 +810,9 @@
         
         /* Google Maps-style attribution */
         .leaflet-control-attribution {
-            background-color: rgba(255,255,255,0.7);
+            background-color: rgba(0, 0, 0, 0.7);
             font-size: 10px;
+            color: rgba(255, 255, 255, 0.7);
         }
         
         /* Google Maps-style map tiles */
@@ -772,7 +822,8 @@
         
         /* Google Maps-style fullscreen */
         .leaflet-control-fullscreen-button {
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
             border: none;
             width: 40px;
             height: 40px;
@@ -783,11 +834,13 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 8px;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 215, 0, 0.3);
         }
         
         .leaflet-control-fullscreen-button:hover {
-            background-color: var(--map-hover);
+            background-color: rgba(255, 215, 0, 0.2);
+            color: var(--gold);
         }
         
         /* Google Maps-style map type control */
@@ -796,40 +849,100 @@
             top: 16px;
             right: 16px;
             z-index: 1000;
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
             border-radius: 8px;
             box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            border: 1px solid rgba(255, 215, 0, 0.3);
         }
         
         .map-type-btn {
-            background: white;
+            background: transparent;
             border: none;
             padding: 12px 16px;
             cursor: pointer;
             font-size: 14px;
             color: var(--text-primary);
             text-align: left;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
         }
         
         .map-type-btn:hover {
-            background-color: var(--map-hover);
+            background-color: rgba(255, 215, 0, 0.1);
         }
         
         .map-type-btn.active {
-            background-color: var(--map-blue);
-            color: white;
+            background-color: var(--gold);
+            color: #000;
         }
         
         .map-type-btn:not(:last-child) {
             border-bottom: 1px solid var(--map-border);
         }
+        
+        /* Glowing orbs background */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.6;
+            animation: pulse-orb 8s infinite alternate ease-in-out;
+            z-index: -1;
+        }
+        
+        .orb1 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(255, 215, 0, 0) 70%);
+            top: -150px;
+            right: -150px;
+            animation-delay: 0s;
+        }
+        
+        .orb2 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.2) 0%, rgba(0, 191, 255, 0) 70%);
+            bottom: -100px;
+            left: -100px;
+            animation-delay: 2s;
+        }
+        
+        .orb3 {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.2) 0%, rgba(138, 43, 226, 0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 4s;
+        }
+        
+        @keyframes pulse-orb {
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Glowing orbs -->
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    
     <div class="header">
         <h1><i class="fas fa-mosque"></i> Pakistan Mosque Finder</h1>
     </div>
@@ -856,7 +969,7 @@
         
         <!-- Location Button -->
         <button class="location-btn" id="locationBtn" title="My location">
-            <i class="fas fa-location-arrow"></i>
+            <i class="fas fa-mosque"></i>
         </button>
         
         <!-- Info Window -->
@@ -909,7 +1022,7 @@
                 <div class="directions-inputs">
                     <div class="directions-input-group">
                         <div class="directions-input-icon">
-                            <i class="fas fa-circle"></i>
+                            <i class="fas fa-mosque"></i>
                         </div>
                         <input type="text" class="directions-input" id="fromInput" placeholder="Your location" readonly>
                         <button class="directions-swap" id="swapBtn">
@@ -1060,7 +1173,7 @@
                         const lng = position.coords.longitude;
                         userLocation = { lat, lng };
                         
-                        // Add marker for user's location
+                        // Add marker for user's location with mosque icon
                         if (userLocationMarker) {
                             map.removeLayer(userLocationMarker);
                         }
@@ -1068,14 +1181,14 @@
                         userLocationMarker = L.marker([lat, lng], {
                             icon: L.divIcon({
                                 className: "custom-marker",
-                                html: `<div class="user-location-marker"></div>`,
-                                iconSize: [20, 20],
-                                iconAnchor: [10, 10],
+                                html: `<div class="user-mosque-marker"></div>`,
+                                iconSize: [36, 36],
+                                iconAnchor: [18, 18],
                             }),
                         }).addTo(map);
                         
                         map.setView([lat, lng], 13);
-                        document.getElementById('locationStatus').innerHTML = '<i class="fas fa-check-circle" style="color: #34A853;"></i> Location enabled';
+                        document.getElementById('locationStatus').innerHTML = '<i class="fas fa-check-circle" style="color: var(--gold);"></i> Location enabled';
                         showNotification("Location found!", 'success');
                         
                         // Update from input in directions panel
@@ -1482,15 +1595,20 @@
                     }),
                 }).addTo(map);
 
+                // Add click event to marker to open directions panel
+                marker.on('click', function() {
+                    openDirectionsPanel(mosque);
+                });
+
                 // Add popup to each mosque marker with mosque icon instead of location icon
                 marker.bindPopup(`
                     <div style="text-align: center;">
                         <i class="fas fa-mosque" style="color: var(--accent); font-size: 24px; margin-bottom: 10px;"></i>
                         <h3 style="margin: 0 0 5px 0; color: var(--primary);">${mosque.name}</h3>
                         <p style="margin: 0; color: var(--text-secondary);">${mosque.city}, Pakistan</p>
-                        <button onclick="showMosqueDetails('${mosque.name}', '${mosque.city}', ${mosque.lat}, ${mosque.lng})" 
-                                style="margin-top: 10px; background-color: var(--primary); color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
-                            <i class="fas fa-info-circle"></i> View Details
+                        <button onclick="openDirectionsPanel({name: '${mosque.name}', city: '${mosque.city}', lat: ${mosque.lat}, lng: ${mosque.lng}})" 
+                                style="margin-top: 10px; background-color: var(--gold); color: #000; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                            <i class="fas fa-directions"></i> Get Directions
                         </button>
                     </div>
                 `);
@@ -1500,6 +1618,27 @@
                 allMarkers.push(marker);
             }, index * 5); // stagger markers by 5ms for faster loading
         });
+        
+        // Function to open directions panel with mosque data
+        function openDirectionsPanel(mosque) {
+            // Store selected mosque
+            selectedMosque = mosque;
+            
+            // Open directions panel
+            document.getElementById('directionsPanel').classList.add('active');
+            
+            // Update destination input
+            document.getElementById('toInput').value = mosque.name;
+            
+            // Center map on the selected mosque
+            map.setView([mosque.lat, mosque.lng], 15);
+            
+            // Simulate route calculation
+            simulateRouteCalculation();
+            
+            // Show notification
+            showNotification(`Getting directions to ${mosque.name}`, 'info');
+        }
         
         // Map type control
         document.querySelectorAll('.map-type-btn').forEach(btn => {
@@ -1572,7 +1711,7 @@
             }
         }
         
-        // Location button
+        // Location button - changed to mosque icon
         document.getElementById('locationBtn').addEventListener('click', function() {
             getUserLocation();
         });
@@ -1605,10 +1744,11 @@
                 }
             });
             
-            // If search term is not empty, focus map on first matching mosque
+            // If search term is not empty, focus map on first matching mosque and open directions panel
             if (firstMatch) {
                 const mosque = firstMatch.mosqueData;
                 map.setView([mosque.lat, mosque.lng], 12);
+                openDirectionsPanel(mosque);
                 showNotification(`Found ${mosque.name} in ${mosque.city}`, 'success');
             } else {
                 showNotification("No mosques found matching your search", 'error');
