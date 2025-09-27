@@ -5,222 +5,91 @@
   <title>DeenPath Registration</title>
   <link rel="icon" type="image/png" href="pics/logo.jpg">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Scheherazade&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
   <style>
-    /* General Body Styling */
+    /* ===== Global Reset ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ===== Body Styling ===== */
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to bottom right, #00000081, #3333337c), 
+      background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.85), rgba(51, 51, 51, 0.7)),
                   url('pics/quranbg.jpg') no-repeat center center/cover;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      color: white;
       overflow: hidden;
-      background-attachment: fixed;
-      perspective: 1000px;
+      color: white;
+      position: relative;
     }
 
-    /* Advanced floating particles background */
+    /* ===== Floating Particles ===== */
     .particles {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      z-index: 0;
       overflow: hidden;
-      z-index: -1;
     }
 
     .particle {
       position: absolute;
       border-radius: 50%;
-      filter: blur(1px);
-      animation: float 15s infinite linear;
+      filter: blur(2px);
+      animation: floatUp linear infinite;
     }
 
-    @keyframes float {
-      0% {
-        transform: translateY(100vh) translateX(0) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.8;
-      }
-      90% {
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(-100vh) translateX(100px) rotate(360deg);
-        opacity: 0;
-      }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(-10vh); opacity: 0; }
     }
 
-    /* Glowing orbs */
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(40px);
-      opacity: 0.6;
-      animation: pulse-orb 8s infinite alternate ease-in-out;
-    }
 
-    .orb1 {
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(255, 215, 0, 0.8) 0%, rgba(255, 215, 0, 0) 70%);
-      top: -150px;
-      right: -150px;
-      animation-delay: 0s;
-    }
 
-    .orb2 {
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(0, 191, 255, 0.6) 0%, rgba(0, 191, 255, 0) 70%);
-      bottom: -100px;
-      left: -100px;
-      animation-delay: 2s;
-    }
-
-    .orb3 {
-      width: 250px;
-      height: 250px;
-      background: radial-gradient(circle, rgba(138, 43, 226, 0.5) 0%, rgba(138, 43, 226, 0) 70%);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      animation-delay: 4s;
-    }
-
-    @keyframes pulse-orb {
-      0% {
-        transform: scale(1);
-        opacity: 0.6;
-      }
-      50% {
-        transform: scale(1.2);
-        opacity: 0.8;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 0.6;
-      }
-    }
-
-    /* Registration Form Container with 3D effect */
+    /* ===== Form Container ===== */
     .registration-container {
+      position: relative;
+      z-index: 2;
       background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(15px);
-      padding: 40px;
+      padding: 35px;
       border-radius: 20px;
-      max-width: 500px;
-      width: 90%;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 
-                  0 0 100px rgba(255, 215, 0, 0.2);
-      border: 1px solid rgba(255, 215, 0, 0.3);
-      position: relative;
-      z-index: 1;
-      transform-style: preserve-3d;
-      transform: rotateX(5deg);
-      transition: transform 0.5s ease;
-      animation: entry 1s ease-out forwards;
+      width: 400px;
+      max-width: 90%;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5),
+                  0 0 50px rgba(255, 215, 0, 0.3);
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      animation: fadeIn 1s ease-out;
+      transform: translateY(0);
     }
 
-    .registration-container:hover {
-      transform: rotateX(0) scale(1.02);
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-40px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    @keyframes entry {
-      from {
-        opacity: 0;
-        transform: translateY(50px) rotateX(15deg);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) rotateX(5deg);
-      }
-    }
-
-    /* Glowing border effect */
-    .registration-container::before {
-      content: "";
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(45deg, gold, transparent, gold);
-      border-radius: 20px;
-      z-index: -1;
-      opacity: 0.7;
-      animation: borderRotate 4s linear infinite;
-    }
-
-    @keyframes borderRotate {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-
-    /* Heading with advanced animation */
+    /* ===== Heading ===== */
     .registration-container h2 {
       text-align: center;
-      margin-bottom: 30px;
-      font-size: 2.5rem;
-      font-weight: 600;
+      font-size: 2rem;
       color: gold;
-      letter-spacing: 2px;
-      position: relative;
-      text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
-      animation: glow 2s ease-in-out infinite alternate;
+      margin-bottom: 25px;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
     }
 
-    .registration-container h2::after {
-      content: "";
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, gold, transparent);
-      animation: expandWidth 2s ease-out forwards;
-    }
-
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
-      }
-      to {
-        text-shadow: 0 0 20px rgba(255, 215, 0, 0.9), 0 0 30px rgba(255, 215, 0, 0.5);
-      }
-    }
-
-    @keyframes expandWidth {
-      from {
-        width: 0;
-      }
-      to {
-        width: 100px;
-      }
-    }
-
-    /* Input Fields with advanced effects */
+    /* ===== Input Groups ===== */
     .form-group {
       position: relative;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
 
     .form-group i {
@@ -230,259 +99,102 @@
       transform: translateY(-50%);
       color: gold;
       font-size: 18px;
-      z-index: 2;
-      transition: all 0.3s ease;
     }
 
-    .registration-container input[type="text"],
-    .registration-container input[type="email"],
-    .registration-container input[type="password"],
+    .registration-container input,
     .registration-container select {
       width: 100%;
-      padding: 14px 14px 14px 45px;
+      padding: 12px 12px 12px 45px;
       border: none;
       border-radius: 10px;
       background: rgba(255, 255, 255, 0.15);
       color: white;
-      font-size: 16px;
-      transition: all 0.3s ease;
+      font-size: 15px;
       outline: none;
-      position: relative;
-      z-index: 1;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: 0.3s;
     }
 
-    .registration-container select {
-      padding-left: 15px;
+    .registration-container input:focus,
+    .registration-container select:focus {
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid gold;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
     }
 
-    .registration-container select option {
-      background: #333;
-      color: white;
-    }
-
-    .registration-container input::placeholder,
-    .registration-container select::placeholder {
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 14px;
-      transition: all 0.3s ease;
-    }
-
-    /* Password Container */
-    .password-container {
-      position: relative;
-      margin-bottom: 25px;
-    }
-
-    .password-container input {
-      padding-right: 45px;
-    }
-
+    /* ===== Password Toggle ===== */
     .password-toggle {
       position: absolute;
       right: 15px;
       top: 50%;
       transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: gold;
       cursor: pointer;
-      font-size: 18px;
-      z-index: 2;
-      transition: all 0.3s ease;
+      color: gold;
+      font-size: 16px;
     }
 
-    .password-toggle:hover {
-      color: white;
-      transform: translateY(-50%) scale(1.2);
-    }
-
-    /* Advanced focus effect */
-    .registration-container input:focus,
-    .registration-container select:focus {
-      background: rgba(255, 255, 255, 0.25);
-      border: 1px solid gold;
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.6), 
-                  0 5px 15px rgba(0, 0, 0, 0.3);
-      transform: translateY(-2px);
-    }
-
-    .registration-container input:focus + i,
-    .registration-container select:focus + i {
-      color: white;
-      text-shadow: 0 0 10px gold;
-      transform: translateY(-50%) scale(1.2);
-    }
-
-    .registration-container input:focus::placeholder,
-    .registration-container select:focus::placeholder {
-      color: rgba(255, 255, 255, 0.9);
-      transform: translateY(-20px);
-      font-size: 12px;
-    }
-
-    /* Checkbox */
+    /* ===== Checkboxes ===== */
     .checkbox-container {
       display: flex;
       align-items: center;
-      margin-bottom: 25px;
-      padding-left: 10px;
+      gap: 10px;
+      font-size: 14px;
+      margin-bottom: 15px;
     }
 
-    .checkbox-container input[type="checkbox"] {
-      margin-right: 10px;
+    .checkbox-container input {
+      width: auto;
       transform: scale(1.2);
       cursor: pointer;
-      width: auto;
-      padding: 0;
-      background: none;
-      box-shadow: none;
     }
 
-    .checkbox-container label {
-      font-size: 14px;
-      color: #ddd;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-
-    .checkbox-container label:hover {
-      color: gold;
-    }
-
-    .checkbox-container a {
+    .checkbox-container label a {
       color: gold;
       text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
     }
 
-    .checkbox-container a:hover {
-      text-decoration: underline;
-    }
-
-    /* Submit Button with advanced effects */
-    .submit-container {
-      position: relative;
-      overflow: hidden;
-      border-radius: 10px;
-      margin-top: 10px;
-    }
-
+    /* ===== Submit Button ===== */
     .registration-container input[type="submit"] {
       background: linear-gradient(135deg, goldenrod, gold);
       color: black;
-      border: none;
-      padding: 14px;
-      width: 100%;
-      border-radius: 10px;
-      font-size: 18px;
-      font-weight: 600;
+      font-weight: bold;
       cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      z-index: 1;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .registration-container input[type="submit"]::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-      z-index: -1;
-      transition: all 0.5s ease;
+      transition: 0.3s;
     }
 
     .registration-container input[type="submit"]:hover {
       background: linear-gradient(135deg, gold, goldenrod);
-      transform: translateY(-3px);
-      box-shadow: 0 7px 20px rgba(255, 215, 0, 0.4);
+      box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
     }
 
-    .registration-container input[type="submit"]:hover::before {
-      left: 100%;
-    }
-
-    .registration-container input[type="submit"]:active {
-      transform: translateY(1px);
-    }
-
-    /* Login Link */
+    /* ===== Login Link ===== */
     .login-link {
       text-align: center;
-      margin-top: 20px;
+      margin-top: 15px;
       font-size: 14px;
-      color: #ddd;
-      animation: fadeIn 1s ease-out 0.9s forwards;
-      opacity: 0;
+      color: #ccc;
     }
 
     .login-link a {
       color: gold;
       text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      position: relative;
-      display: inline-block;
     }
 
-    .login-link a:after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: gold;
-      transition: width 0.3s ease;
-    }
-
-    .login-link a:hover:after {
-      width: 100%;
-    }
-
-    /* Small Footer Text */
-    .form-footer {
-      text-align: center;
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.7);
-      margin-top: 15px;
-      opacity: 0;
-      animation: fadeIn 1s ease-out 1s forwards;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    /* Success message */
+    /* ===== Success Popup ===== */
     .success-message {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) scale(0);
-      background: linear-gradient(135deg, rgba(0, 77, 64, 0.9), rgba(0, 121, 107, 0.9));
+      background: rgba(0, 77, 64, 0.95);
       color: white;
-      padding: 30px;
+      padding: 25px;
       border-radius: 15px;
       text-align: center;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-      z-index: 1000;
-      max-width: 400px;
       width: 90%;
-      border: 1px solid rgba(255, 215, 0, 0.5);
+      max-width: 350px;
       opacity: 0;
-      transition: all 0.5s ease;
+      transition: 0.4s ease;
+      z-index: 999;
     }
 
     .success-message.show {
@@ -491,351 +203,164 @@
     }
 
     .success-message i {
-      font-size: 50px;
+      font-size: 40px;
       color: gold;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       animation: bounce 1s infinite;
     }
 
     @keyframes bounce {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-15px);
-      }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
     }
 
-    .success-message h3 {
-      margin: 0 0 10px;
-      font-size: 24px;
-      color: gold;
-    }
-
-    .success-message p {
-      margin: 0;
-      font-size: 16px;
-    }
-
-    /* Loading Animation */
-    .loading-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1001;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .loading-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .loading-spinner {
-      width: 70px;
-      height: 70px;
-      border: 5px solid rgba(255, 215, 0, 0.3);
-      border-radius: 50%;
-      border-top-color: gold;
-      animation: spin 1s ease-in-out infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* Mobile Responsive */
-    @media (max-width: 576px) {
+    /* ===== Mobile Responsive ===== */
+    @media (max-width: 480px) {
       .registration-container {
         padding: 25px;
       }
       .registration-container h2 {
-        font-size: 2rem;
-      }
-      .orb1, .orb2, .orb3 {
-        display: none;
+        font-size: 1.8rem;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Floating particles -->
+  <!-- Floating Background Particles -->
   <div class="particles" id="particles"></div>
-  
-  <!-- Glowing orbs -->
+
+  <!-- Glowing Orbs -->
   <div class="orb orb1"></div>
   <div class="orb orb2"></div>
-  <div class="orb orb3"></div>
 
-  <!-- Loading Overlay -->
-  <div class="loading-overlay" id="loadingOverlay">
-    <div class="loading-spinner"></div>
-  </div>
-
-  <!-- Success Message -->
+  <!-- Success Popup -->
   <div class="success-message" id="successMessage">
     <i class="fas fa-check-circle"></i>
     <h3>Registration Successful!</h3>
-    <p>Thank you for joining DeenPath. Your account has been created.</p>
+    <p>Redirecting to home page...</p>
   </div>
 
+  <!-- Registration Form -->
   <form id="registrationForm" class="registration-container">
     <h2>Create Account</h2>
 
     <div class="form-group">
-      <input type="text" name="fullName" placeholder="Full Name" required>
       <i class="fas fa-user"></i>
+      <input type="text" name="fullName" placeholder="Full Name" required>
     </div>
-    
+
     <div class="form-group">
-      <input type="email" name="email" placeholder="Email Address" required>
       <i class="fas fa-envelope"></i>
+      <input type="email" name="email" placeholder="Email Address" required>
     </div>
-    
-    <div class="password-container form-group">
-      <input type="password" id="password" name="password" placeholder="Password" required>
-      <i class="fas fa-lock"></i>
-      <span class="password-toggle" onclick="togglePassword()">
-        <i class="fas fa-eye"></i>
-      </span>
-    </div>
-    
-    <div class="password-container form-group">
-      <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
-      <i class="fas fa-lock"></i>
-      <span class="password-toggle" onclick="toggleConfirmPassword()">
-        <i class="fas fa-eye"></i>
-      </span>
-    </div>
-    
+
     <div class="form-group">
+      <i class="fas fa-lock"></i>
+      <input type="password" id="password" name="password" placeholder="Password" required>
+      <span class="password-toggle" onclick="togglePassword('password')">
+        <i class="fas fa-eye"></i>
+      </span>
+    </div>
+
+    <div class="form-group">
+      <i class="fas fa-lock"></i>
+      <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
+      <span class="password-toggle" onclick="togglePassword('confirmPassword')">
+        <i class="fas fa-eye"></i>
+      </span>
+    </div>
+
+    <div class="form-group">
+      <i class="fas fa-globe"></i>
       <select name="country" required>
         <option value="" disabled selected>Select Country</option>
         <option value="pakistan">Pakistan</option>
         <option value="india">India</option>
         <option value="bangladesh">Bangladesh</option>
-        <option value="indonesia">Indonesia</option>
-        <option value="malaysia">Malaysia</option>
         <option value="saudi-arabia">Saudi Arabia</option>
         <option value="uae">UAE</option>
-        <option value="egypt">Egypt</option>
-        <option value="turkey">Turkey</option>
         <option value="usa">USA</option>
         <option value="uk">UK</option>
         <option value="other">Other</option>
       </select>
-      <i class="fas fa-globe"></i>
-    </div>
-    
-    <div class="checkbox-container">
-      <input type="checkbox" id="terms" name="terms" required>
-      <label for="terms">I agree to the <a href="#">Terms and Conditions</a></label>
-    </div>
-    
-    <div class="checkbox-container">
-      <input type="checkbox" id="newsletter" name="newsletter">
-      <label for="newsletter">Subscribe to our newsletter for Islamic content</label>
     </div>
 
-    <div class="submit-container">
-      <input type="submit" value="Register Now">
+    <div class="checkbox-container">
+      <input type="checkbox" id="terms" required>
+      <label for="terms">I agree to the <a href="#">Terms & Conditions</a></label>
     </div>
-    
+
+    <div class="checkbox-container">
+      <input type="checkbox" id="newsletter">
+      <label for="newsletter">Subscribe to our newsletter</label>
+    </div>
+
+    <input type="submit" value="Register Now">
+
     <div class="login-link">
       Already have an account? <a href="login.html">Login here</a>
     </div>
-    
-    <p class="form-footer">We respect your privacy. Your information is safe with us.</p>
   </form>
 
   <script>
-    // Create floating particles with enhanced effects
-    document.addEventListener('DOMContentLoaded', function() {
+    // ===== Floating Particles Script =====
+    document.addEventListener('DOMContentLoaded', () => {
       const particlesContainer = document.getElementById('particles');
-      const particleCount = 50;
-      const colors = ['rgba(255, 215, 0, 0.7)', 'rgba(255, 255, 255, 0.5)', 'rgba(0, 191, 255, 0.5)'];
+      const colors = ['rgba(255,215,0,0.7)', 'rgba(255,255,255,0.6)', 'rgba(0,191,255,0.6)'];
 
-      for (let i = 0; i < particleCount; i++) {
+      for (let i = 0; i < 40; i++) {
         const particle = document.createElement('div');
         particle.classList.add('particle');
 
-        // Random size between 3px and 8px
         const size = Math.random() * 5 + 3;
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
-        
-        // Random color
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        particle.style.backgroundColor = color;
 
-        // Random position
+        particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
         particle.style.left = `${Math.random() * 100}%`;
 
-        // Random animation duration between 10s and 20s
         const duration = Math.random() * 10 + 10;
         particle.style.animationDuration = `${duration}s`;
 
-        // Random delay
-        particle.style.animationDelay = `${Math.random() * 5}s`;
-
-        // Random horizontal movement
-        const horizontalMovement = Math.random() * 200 - 100;
-        particle.style.setProperty('--horizontal-movement', `${horizontalMovement}px`);
-        
         particlesContainer.appendChild(particle);
       }
     });
 
-    // Toggle password visibility
-    function togglePassword() {
-      const passwordField = document.getElementById("password");
-      const passwordToggle = document.querySelector('.password-container:nth-child(4) .password-toggle i');
-      
-      if (passwordField.type === "password") {
-        passwordField.type = "text";
-        passwordToggle.classList.remove('fa-eye');
-        passwordToggle.classList.add('fa-eye-slash');
+    // ===== Password Toggle =====
+    function togglePassword(fieldId) {
+      const field = document.getElementById(fieldId);
+      const icon = field.nextElementSibling.querySelector('i');
+
+      if (field.type === "password") {
+        field.type = "text";
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
       } else {
-        passwordField.type = "password";
-        passwordToggle.classList.remove('fa-eye-slash');
-        passwordToggle.classList.add('fa-eye');
-      }
-    }
-    
-    // Toggle confirm password visibility
-    function toggleConfirmPassword() {
-      const confirmPasswordField = document.getElementById("confirmPassword");
-      const passwordToggle = document.querySelector('.password-container:nth-child(5) .password-toggle i');
-      
-      if (confirmPasswordField.type === "password") {
-        confirmPasswordField.type = "text";
-        passwordToggle.classList.remove('fa-eye');
-        passwordToggle.classList.add('fa-eye-slash');
-      } else {
-        confirmPasswordField.type = "password";
-        passwordToggle.classList.remove('fa-eye-slash');
-        passwordToggle.classList.add('fa-eye');
+        field.type = "password";
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
       }
     }
 
-    // Form submission with enhanced animations
-    document.getElementById("registrationForm").addEventListener("submit", function(e) {
+    // ===== Form Validation & Submission =====
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      
-      // Get form values
-      const password = document.getElementById("password").value;
-      const confirmPassword = document.getElementById("confirmPassword").value;
-      
-      // Password validation
-      if (password !== confirmPassword) {
-        // Create error message
-        const errorMessage = document.createElement('div');
-        errorMessage.className = 'error-message';
-        errorMessage.style.position = 'fixed';
-        errorMessage.style.top = '20px';
-        errorMessage.style.left = '50%';
-        errorMessage.style.transform = 'translateX(-50%)';
-        errorMessage.style.background = 'rgba(220, 53, 69, 0.9)';
-        errorMessage.style.color = 'white';
-        errorMessage.style.padding = '10px 20px';
-        errorMessage.style.borderRadius = '5px';
-        errorMessage.style.zIndex = '1000';
-        errorMessage.style.animation = 'fadeIn 0.3s ease-out';
-        errorMessage.textContent = 'Passwords do not match. Please try again.';
-        
-        document.body.appendChild(errorMessage);
-        
-        // Remove error message after 3 seconds
-        setTimeout(() => {
-          errorMessage.style.animation = 'fadeOut 0.3s ease-out forwards';
-          setTimeout(() => {
-            document.body.removeChild(errorMessage);
-          }, 300);
-        }, 3000);
-        
-        return;
-      }
-      
-      // Password strength validation
-      if (password.length < 6) {
-        // Create error message
-        const errorMessage = document.createElement('div');
-        errorMessage.className = 'error-message';
-        errorMessage.style.position = 'fixed';
-        errorMessage.style.top = '20px';
-        errorMessage.style.left = '50%';
-        errorMessage.style.transform = 'translateX(-50%)';
-        errorMessage.style.background = 'rgba(220, 53, 69, 0.9)';
-        errorMessage.style.color = 'white';
-        errorMessage.style.padding = '10px 20px';
-        errorMessage.style.borderRadius = '5px';
-        errorMessage.style.zIndex = '1000';
-        errorMessage.style.animation = 'fadeIn 0.3s ease-out';
-        errorMessage.textContent = 'Password must be at least 6 characters long.';
-        
-        document.body.appendChild(errorMessage);
-        
-        // Remove error message after 3 seconds
-        setTimeout(() => {
-          errorMessage.style.animation = 'fadeOut 0.3s ease-out forwards';
-          setTimeout(() => {
-            document.body.removeChild(errorMessage);
-          }, 300);
-        }, 3000);
-        
-        return;
-      }
-      
-      // Add animation to form when submitting
-      this.style.animation = "pulse 0.5s";
-      
-      // Show loading overlay
-      const loadingOverlay = document.getElementById('loadingOverlay');
-      loadingOverlay.classList.add('active');
-      
-      // Simulate API call
-      setTimeout(() => {
-        // Hide loading overlay
-        loadingOverlay.classList.remove('active');
-        
-        // Show success message
-        const successMessage = document.getElementById('successMessage');
-        successMessage.classList.add('show');
-        
-        // Reset animation
-        setTimeout(() => {
-          this.style.animation = "";
-          this.reset();
-        }, 500);
-        
-        // Redirect to Home Page after 2.5 seconds
-        setTimeout(function() {
-          successMessage.classList.remove('show');
-          setTimeout(() => {
-            window.location.href = "index.html";
-          }, 500);
-        }, 2500);
-      }, 1500);
-    });
 
-    // Add interactive hover effect to form elements
-    const formInputs = document.querySelectorAll('input, textarea, select');
-    formInputs.forEach(input => {
-      input.addEventListener('mouseenter', function() {
-        this.parentElement.style.transform = 'translateY(-2px)';
-      });
-      
-      input.addEventListener('mouseleave', function() {
-        this.parentElement.style.transform = 'translateY(0)';
-      });
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const successPopup = document.getElementById('successMessage');
+
+      if (password !== confirmPassword) {
+        alert('Passwords do not match!');
+        return;
+      }
+
+      // Show success popup
+      successPopup.classList.add('show');
+
+      // Redirect after 2.5s
+      setTimeout(() => {
+        successPopup.classList.remove('show');
+        window.location.href = 'index.html';
+      }, 2500);
     });
   </script>
 </body>
