@@ -1444,6 +1444,82 @@
         navbar.style.background = 'linear-gradient(to right, #013220, #014d2c)';
       }
     });
+
+    // Qibla Watch Simulation - This is the new code that simulates a real qibla watch
+    function simulateQiblaWatch() {
+      const needle = document.getElementById('needle');
+      const compass = document.getElementById('compass');
+      const compassDirections = document.getElementById('compass-directions');
+      
+      // Initial position
+      let currentAngle = 0;
+      let targetAngle = currentQiblaAngle;
+      let isMoving = false;
+      
+      // Function to animate the needle
+      function animateNeedle() {
+        if (!isMoving) return;
+        
+        // Calculate the difference between current and target angles
+        let diff = targetAngle - currentAngle;
+        
+        // Normalize the difference to be between -180 and 180
+        if (diff > 180) diff -= 360;
+        if (diff < -180) diff += 360;
+        
+        // Move the needle gradually
+        const step = diff * 0.1; // Adjust this value to control speed
+        currentAngle += step;
+        
+        // Apply the rotation
+        needle.style.transform = `translate(-50%, -100%) rotate(${currentAngle}deg)`;
+        
+        // Continue animation if not at target
+        if (Math.abs(diff) > 0.5) {
+          requestAnimationFrame(animateNeedle);
+        } else {
+          isMoving = false;
+        }
+      }
+      
+      // Function to set a new target angle
+      function setTargetAngle(angle) {
+        targetAngle = angle;
+        if (!isMoving) {
+          isMoving = true;
+          animateNeedle();
+        }
+      }
+      
+      // Function to simulate the watch being moved
+      function simulateWatchMovement() {
+        // Generate a random movement
+        const randomMovement = (Math.random() - 0.5) * 10; // Random movement between -5 and 5 degrees
+        const newAngle = (currentAngle + randomMovement + 360) % 360;
+        
+        // Set the new target angle
+        setTargetAngle(newAngle);
+        
+        // Schedule the next movement
+        setTimeout(simulateWatchMovement, 1000 + Math.random() * 2000); // Random interval between 1-3 seconds
+      }
+      
+      // Start the simulation
+      simulateWatchMovement();
+      
+      // Return the function to set the target angle externally
+      return setTargetAngle;
+    }
+    
+    // Initialize the qibla watch simulation
+    const setTargetAngle = simulateQiblaWatch();
+    
+    // Override the updateCompass function to use the qibla watch simulation
+    const originalUpdateCompass = updateCompass;
+    updateCompass = function(angle) {
+      currentQiblaAngle = angle;
+      setTargetAngle(angle);
+    };
   </script>
 </body> 
 </html>
