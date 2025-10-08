@@ -160,6 +160,7 @@
       align-items: center;
       padding: 30px 15px;
       animation: fadeInUp 1s ease;
+      gap: 20px;
     }
 
     @keyframes fadeInUp {
@@ -484,7 +485,146 @@
       100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
     }
 
+    /* History Panel Styles */
+    .history-panel {
+      background: rgba(1, 62, 37, 0.85);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 20px;
+      width: 100%;
+      max-width: 350px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 
+                  inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      position: relative;
+      overflow: hidden;
+      animation: slideInLeft 0.8s ease;
+      display: flex;
+      flex-direction: column;
+      height: 500px;
+    }
+
+    @keyframes slideInLeft {
+      0% { transform: translateX(-100%); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+
+    .history-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--accent-gold), var(--light-gold));
+      animation: shimmer 3s infinite linear;
+    }
+
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    }
+
+    .history-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--accent-gold);
+      margin: 0;
+    }
+
+    .history-clear {
+      background: none;
+      border: none;
+      color: var(--accent-gold);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .history-clear:hover {
+      color: var(--light-gold);
+    }
+
+    .history-list {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 5px;
+    }
+
+    .history-list::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .history-list::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+
+    .history-list::-webkit-scrollbar-thumb {
+      background: var(--accent-gold);
+      border-radius: 10px;
+    }
+
+    .history-item {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .history-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(5px);
+    }
+
+    .history-date {
+      font-size: 0.9rem;
+      color: var(--light-gold);
+    }
+
+    .history-count {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent-gold);
+    }
+
+    .history-empty {
+      text-align: center;
+      color: var(--light-gold);
+      font-style: italic;
+      margin-top: 50px;
+    }
+
+    .auto-count-indicator {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(1, 62, 37, 0.9);
+      color: var(--accent-gold);
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      display: none;
+      animation: pulse 2s infinite;
+    }
+
+    .auto-count-indicator.active {
+      display: block;
+    }
+
     @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+      }
+      
       .counter-value {
         font-size: 5rem;
       }
@@ -503,6 +643,11 @@
         top: 10px;
         right: 10px;
       }
+      
+      .history-panel {
+        max-width: 100%;
+        height: 300px;
+      }
     }
   </style>
 </head>
@@ -516,16 +661,34 @@
 
   <header class="header">
     <div class="logo">
-      <img src="pics/logo.jpg" alt="" style="height: 50px; width: 50px;">
+      <img src="pics/logo.jpg" alt="" style="height: 50px; width: 50px;border-radius: 10px;">
       <div>
-        <div class="logo-text">Deep Path</div>
+        <div class="logo-text" style="font-family: Lucida Handwriting;">Deep Path</div>
         <div class="tagline">Premium Tasbeeh Counter</div>
       </div>
     </div>
   </header>
 
   <div class="main-container">
+    <!-- History Panel -->
+    <div class="history-panel">
+      <div class="history-header">
+        <h3 class="history-title">History</h3>
+        <button class="history-clear" onclick="clearHistory()">
+          <i class="fas fa-trash"></i> Clear
+        </button>
+      </div>
+      <div class="history-list" id="history-list">
+        <div class="history-empty">No history yet. Start counting!</div>
+      </div>
+    </div>
+
+    <!-- Counter Container -->
     <div class="counter-container">
+      <div class="auto-count-indicator" id="auto-count-indicator">
+        <i class="fas fa-sync-alt"></i> Auto Counting
+      </div>
+      
       <div class="arabic-text">بِسْمِ ٱللّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
       
       <div class="counter-display">
@@ -567,6 +730,25 @@
           <option value="1000">1000 (Advanced)</option>
           <option value="1500">1500 (Advanced)</option>
           <option value="2000">2000 (Advanced)</option>
+        </select>
+      </div>
+      
+      <div class="setting-item">
+        <label class="setting-label" for="auto-count">Auto Count</label>
+        <select class="setting-select" id="auto-count" onchange="updateAutoCount()">
+          <option value="off">Off</option>
+          <option value="100">Auto 100</option>
+          <option value="500">Auto 500</option>
+          <option value="1000">Auto 1000</option>
+        </select>
+      </div>
+      
+      <div class="setting-item">
+        <label class="setting-label" for="auto-speed">Auto Speed (ms)</label>
+        <select class="setting-select" id="auto-speed" onchange="updateAutoSpeed()">
+          <option value="500">Fast (500ms)</option>
+          <option value="1000">Normal (1s)</option>
+          <option value="2000">Slow (2s)</option>
         </select>
       </div>
     </div>
@@ -640,6 +822,129 @@
     let count = 0;
     let dailyGoal = 100;
     let previousPercentage = 0;
+    let autoCountTarget = 0;
+    let autoCountSpeed = 1000;
+    let autoCountInterval = null;
+    let historyData = [];
+    
+    // Load data from localStorage
+    function loadData() {
+      // Load current count
+      const savedCount = localStorage.getItem('tasbeehCount');
+      if (savedCount) {
+        count = parseInt(savedCount);
+        document.getElementById('count').innerText = count;
+      }
+      
+      // Load daily goal
+      const savedGoal = localStorage.getItem('dailyGoal');
+      if (savedGoal) {
+        dailyGoal = parseInt(savedGoal);
+        document.getElementById('daily-goal').value = dailyGoal;
+      }
+      
+      // Load history
+      const savedHistory = localStorage.getItem('tasbeehHistory');
+      if (savedHistory) {
+        historyData = JSON.parse(savedHistory);
+        renderHistory();
+      }
+      
+      // Load auto count settings
+      const savedAutoCount = localStorage.getItem('autoCountTarget');
+      if (savedAutoCount) {
+        autoCountTarget = parseInt(savedAutoCount);
+        document.getElementById('auto-count').value = autoCountTarget;
+      }
+      
+      const savedAutoSpeed = localStorage.getItem('autoCountSpeed');
+      if (savedAutoSpeed) {
+        autoCountSpeed = parseInt(savedAutoSpeed);
+        document.getElementById('auto-speed').value = autoCountSpeed;
+      }
+      
+      updateProgress();
+    }
+    
+    // Save data to localStorage
+    function saveData() {
+      localStorage.setItem('tasbeehCount', count);
+      localStorage.setItem('dailyGoal', dailyGoal);
+      localStorage.setItem('tasbeehHistory', JSON.stringify(historyData));
+      localStorage.setItem('autoCountTarget', autoCountTarget);
+      localStorage.setItem('autoCountSpeed', autoCountSpeed);
+    }
+    
+    // Save current count to history
+    function saveToHistory() {
+      if (count === 0) return;
+      
+      const now = new Date();
+      const dateStr = now.toLocaleDateString();
+      const timeStr = now.toLocaleTimeString();
+      
+      // Check if there's already an entry for today
+      const todayIndex = historyData.findIndex(item => item.date === dateStr);
+      
+      if (todayIndex !== -1) {
+        // Update existing entry
+        historyData[todayIndex].count = count;
+        historyData[todayIndex].time = timeStr;
+      } else {
+        // Add new entry
+        historyData.unshift({
+          date: dateStr,
+          time: timeStr,
+          count: count
+        });
+        
+        // Keep only last 30 entries
+        if (historyData.length > 30) {
+          historyData = historyData.slice(0, 30);
+        }
+      }
+      
+      saveData();
+      renderHistory();
+    }
+    
+    // Render history list
+    function renderHistory() {
+      const historyList = document.getElementById('history-list');
+      
+      if (historyData.length === 0) {
+        historyList.innerHTML = '<div class="history-empty">No history yet. Start counting!</div>';
+        return;
+      }
+      
+      historyList.innerHTML = '';
+      
+      historyData.forEach(item => {
+        const historyItem = document.createElement('div');
+        historyItem.className = 'history-item';
+        
+        const dateDiv = document.createElement('div');
+        dateDiv.className = 'history-date';
+        dateDiv.textContent = `${item.date} ${item.time}`;
+        
+        const countDiv = document.createElement('div');
+        countDiv.className = 'history-count';
+        countDiv.textContent = item.count;
+        
+        historyItem.appendChild(dateDiv);
+        historyItem.appendChild(countDiv);
+        historyList.appendChild(historyItem);
+      });
+    }
+    
+    // Clear history
+    function clearHistory() {
+      if (confirm('Are you sure you want to clear all history?')) {
+        historyData = [];
+        saveData();
+        renderHistory();
+      }
+    }
     
     function increment() {
       count++;
@@ -657,13 +962,31 @@
         navigator.vibrate(50);
       }
       
+      // Save to localStorage
+      saveData();
+      
       updateProgress();
+      
+      // Check if auto count target is reached
+      if (autoCountTarget > 0 && count >= autoCountTarget) {
+        stopAutoCount();
+      }
     }
     
     function reset() {
+      // Save current count to history before resetting
+      saveToHistory();
+      
       count = 0;
       document.getElementById('count').innerText = count;
+      
+      // Save to localStorage
+      saveData();
+      
       updateProgress();
+      
+      // Stop auto count if it's running
+      stopAutoCount();
     }
     
     function updateProgress() {
@@ -699,7 +1022,61 @@
       const goalSelect = document.getElementById('daily-goal');
       dailyGoal = parseInt(goalSelect.value);
       previousPercentage = 0; // Reset to allow celebration again
+      saveData();
       updateProgress();
+    }
+    
+    function updateAutoCount() {
+      const autoCountSelect = document.getElementById('auto-count');
+      autoCountTarget = parseInt(autoCountSelect.value);
+      saveData();
+      
+      if (autoCountTarget > 0) {
+        startAutoCount();
+      } else {
+        stopAutoCount();
+      }
+    }
+    
+    function updateAutoSpeed() {
+      const autoSpeedSelect = document.getElementById('auto-speed');
+      autoCountSpeed = parseInt(autoSpeedSelect.value);
+      saveData();
+      
+      // If auto count is running, restart it with new speed
+      if (autoCountInterval) {
+        stopAutoCount();
+        if (autoCountTarget > 0) {
+          startAutoCount();
+        }
+      }
+    }
+    
+    function startAutoCount() {
+      if (autoCountInterval) {
+        clearInterval(autoCountInterval);
+      }
+      
+      const indicator = document.getElementById('auto-count-indicator');
+      indicator.classList.add('active');
+      
+      autoCountInterval = setInterval(() => {
+        if (count < autoCountTarget) {
+          increment();
+        } else {
+          stopAutoCount();
+        }
+      }, autoCountSpeed);
+    }
+    
+    function stopAutoCount() {
+      if (autoCountInterval) {
+        clearInterval(autoCountInterval);
+        autoCountInterval = null;
+      }
+      
+      const indicator = document.getElementById('auto-count-indicator');
+      indicator.classList.remove('active');
     }
     
     // Initialize the app
@@ -707,8 +1084,22 @@
       // Create background particles
       createParticles();
       
+      // Load data from localStorage
+      loadData();
+      
       // Initialize progress bar
       updateProgress();
+      
+      // Check if auto count should start
+      if (autoCountTarget > 0) {
+        startAutoCount();
+      }
+    });
+    
+    // Save data before leaving the page
+    window.addEventListener('beforeunload', () => {
+      saveToHistory();
+      saveData();
     });
   </script>
 
