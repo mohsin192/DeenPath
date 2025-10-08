@@ -1,239 +1,352 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DeenPath - Footer Demo</title>
-  <style>
-    /* ==== GLOBAL RESET ==== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeenPath - Footer Component</title>
+    <link rel="icon" type="image/png" href="pics/logo.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Scheherazade&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #002b18;
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #f4f4f4;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
+        /* Footer Styles */
+        footer {
+            background: linear-gradient(135deg, #013220, #002b18);
+            padding: 60px 0 20px;
+            border-top: 2px solid gold;
+        }
 
-    main {
-      flex: 1;
-      padding: 20px;
-      text-align: center;
-    }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
 
-    /* ==== FOOTER STYLE ==== */
-    footer {
-      background: linear-gradient(to right, #012d1b, #024b2b);
-      color: #ccc;
-      padding: 3rem 1.5rem 1rem;
-      position: relative;
-    }
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+        }
 
-    .footer-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+        .footer-logo h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: gold;
+            font-family: 'Scheherazade', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
 
-    /* Logo and About */
-    .footer-logo h3 {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 1rem;
-    }
+        .footer-logo img {
+            height: 40px;
+            border-radius: 8px;
+        }
 
-    .footer-logo img {
-      height: 50px;
-      width: 50px;
-      border-radius: 8px;
-      box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
-    }
+        .footer-logo p {
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
 
-    .footer-logo b {
-      font-family: Algerian, serif;
-      font-size: 25px;
-      color: gold;
-      letter-spacing: 2px;
-    }
+        .social {
+            display: flex;
+            gap: 15px;
+        }
 
-    .footer-logo p {
-      color: #bbb;
-      font-size: 0.95rem;
-      margin-top: 0.5rem;
-    }
+        .social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.2);
+            color: gold;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
 
-    /* Social Icons */
-    .social {
-      display: flex;
-      gap: 10px;
-      margin-top: 1rem;
-    }
+        .social a:nth-child(2) {
+            animation-delay: 0.5s;
+        }
 
-    .social a {
-      width: 40px;
-      height: 40px;
-      background: #014d2c;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: gold;
-      text-decoration: none;
-      font-weight: bold;
-      transition: all 0.3s ease;
-    }
+        .social a:nth-child(3) {
+            animation-delay: 1s;
+        }
 
-    .social a:hover {
-      background: gold;
-      color: #014d2c;
-      transform: scale(1.1);
-    }
+        .social a:nth-child(4) {
+            animation-delay: 1.5s;
+        }
 
-    /* Footer Links */
-    footer h3 {
-      color: gold;
-      font-size: 1.3rem;
-      margin-bottom: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
+        .social a:hover {
+            background: gold;
+            color: #002b18;
+            transform: translateY(-3px) rotate(360deg);
+            animation: none;
+        }
 
-    footer ul {
-      list-style: none;
-    }
+        footer h3 {
+            color: gold;
+            font-family: 'Scheherazade', serif;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
 
-    footer ul li {
-      margin: 0.5rem 0;
-    }
+        footer h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: gold;
+        }
 
-    footer ul li a {
-      color: #ccc;
-      text-decoration: none;
-      transition: color 0.3s ease;
-      font-size: 1rem;
-    }
+        footer ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
 
-    footer ul li a:hover {
-      color: gold;
-    }
+        footer ul li {
+            margin-bottom: 12px;
+        }
 
-    /* Footer Bottom */
-    .footer-bottom {
-      text-align: center;
-      border-top: 1px solid rgba(255, 215, 0, 0.3);
-      padding-top: 1rem;
-      margin-top: 2rem;
-      font-size: 0.85rem;
-      color: #aaa;
-    }
+        footer ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .footer-logo h3 {
-        flex-direction: column;
-        text-align: center;
-      }
+        footer ul li a:hover {
+            color: gold;
+            padding-left: 5px;
+        }
 
-      .footer-logo p {
-        text-align: center;
-      }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+            color: #ccc;
+        }
 
-      .social {
-        justify-content: center;
-      }
+        /* Animated Login Button */
+        .animated-login-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #002b18;
+            background: linear-gradient(135deg, #ffd700, #f5c518);
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: loginPulse 2s infinite;
+            z-index: 1;
+            margin-top: 15px;
+        }
+        
+        .animated-login-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+            z-index: -1;
+        }
+        
+        .animated-login-btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .animated-login-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .animated-login-btn:hover {
+            background: linear-gradient(135deg, #f5c518, #e6ac00);
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
+            animation: none;
+        }
+        
+        .animated-login-btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(255, 215, 0, 0.4);
+        }
+        
+        @keyframes loginPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
+                transform: scale(1.05);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+                transform: scale(1);
+            }
+        }
+        
+        /* Login button container */
+        .login-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
 
-      footer h3 {
-        text-align: center;
-      }
+        /* Animations */
+        @keyframes pulse {
+            0% { 
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+                transform: scale(1);
+            }
+            70% { 
+                box-shadow: 0 0 0 15px rgba(255, 215, 0, 0);
+                transform: scale(1.05);
+            }
+            100% { 
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+                transform: scale(1);
+            }
+        }
 
-      footer ul {
-        text-align: center;
-      }
-    }
-  </style>
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Responsive Behavior */
+        @media (max-width: 768px) {
+            .footer-logo h3 {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-logo p {
+                text-align: center;
+            }
+
+            .social {
+                justify-content: center;
+            }
+
+            footer h3 {
+                text-align: center;
+            }
+
+            footer ul {
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Demo Content -->
+    <div style="padding: 50px; text-align: center;">
+        <h1 style="color: gold; font-family: 'Scheherazade', serif; margin-bottom: 20px;">DeenPath Footer Component</h1>
+        <p style="color: #ccc; max-width: 800px; margin: 0 auto;">This is a standalone demonstration of the footer component from the DeenPath website. The footer includes social media links, navigation links, Islamic resources, and contact information.</p>
+    </div>
 
-  <!-- Footer Placeholder -->
-  <div id="footer"></div>
-
-  <script>
-    // JS: Dynamically insert footer
-    document.addEventListener("DOMContentLoaded", function () {
-      const footerHTML = `
-        <footer>
-          <div class="footer-container">
-            <!-- Logo Section -->
+    <!-- Footer Component -->
+    <footer>
+        <div class="footer-container">
             <div class="footer-logo">
-              <h3>
-                <img src="pics/logo.jpg" alt="DeenPath Logo">
-                <b>DeenPath</b>
-              </h3>
-              <p>DeenPath is your trusted companion for authentic Islamic knowledge and spiritual growth.</p>
-              <div class="social">
-                <a href="#">F</a>
-                <a href="#">T</a>
-                <a href="#">Y</a>
-                <a href="#">I</a>
-              </div>
+                <h3>
+                    <img src="pics/logo.jpg" alt="DeenPath Logo">
+                    <b>DeenPath</b>
+                </h3>
+                <p>DeenPath is your trusted companion for authentic Islamic knowledge and spiritual growth.</p>
+                <div class="social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
             </div>
 
-            <!-- Quick Links -->
             <div>
-              <h3>Quick Links</h3>
-              <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="privacy.html">Privacy Policy</a></li>
-                <li><a href="FAQs.html">FAQs</a></li>
-              </ul>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                    <li><a href="FAQs.html">FAQs</a></li>
+                    <li><a href="portfolio.html">portfolio</a></li>
+                </ul>
             </div>
 
-            <!-- Islamic Resources -->
             <div>
-              <h3>Islamic Resources</h3>
-              <ul>
-                <li><a href="quran.html">Quran</a></li>
-                <li><a href="surah.html">Surah</a></li>
-                <li><a href="nt.html">Namaz Time</a></li>
-                <li><a href="calender.html">Calendar</a></li>
-                <li><a href="counter.html">Tasbeeh Counter</a></li>
-                <li><a href="course.html">course</a></li>
-              </ul>
+                <h3>Islamic Resources</h3>
+                <ul>
+                    <li><a href="quran.html">Quran</a></li>
+                    <li><a href="surah.html">Surah</a></li>
+                    <li><a href="namaz-time.html">Namaz Time</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
+                    <li><a href="counter.html">Tasbeeh Counter</a></li>
+                    <li><a href="course.html">Course</a></li>
+                    <li><a href="Student Testimonials.html">Student Testimonials</a></li>
+                </ul>
             </div>
 
-            <!-- Contact Info -->
             <div>
-              <h3>Contact</h3>
-              <ul>
-                <li><a href="mailto:mohsingohar759@gmail.com">mohsingohar759@gmail.com</a></li>
-                <li><a href="#">+92 300 1234567</a></li>
-                <li><a href="#">Karachi, Pakistan</a></li>
-              </ul>
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="mailto:mohsingohar759@gmail.com">mohsingohar759@gmail.com</a></li>
+                    <li><a href="#">+92 300 1234567</a></li>
+                    <li><a href="#">Karachi, Pakistan</a></li>
+                </ul>
+                <div class="login-btn-container">
+                    <a href="login.html" class="animated-login-btn">Login</a>
+                </div>
             </div>
-          </div>
+        </div>
 
-          <!-- Footer Bottom -->
-          <div class="footer-bottom">
+        <div class="footer-bottom">
             © <span id="year"></span> DeenPath. All Rights Reserved.
-          </div>
-        </footer>
-      `;
+        </div>
+    </footer>
 
-      // Inject footer into the placeholder
-      document.getElementById("footer").innerHTML = footerHTML;
-
-      // Dynamic Year Update
-      document.getElementById("year").textContent = new Date().getFullYear();
-    });
-  </script>
+    <script>
+        // Dynamic Year Update
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>

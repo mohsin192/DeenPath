@@ -145,9 +145,7 @@
             height: 300px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
-            }
-
-        
+        }
 
         .hero h1 {
             font-size: 3.5rem;
@@ -191,7 +189,7 @@
             padding: 120px 0;
             background-color: white;
             position: relative;
-            margin-top: 0; /* Removed the margin-top that was causing the issue */
+            margin-top: 0;
         }
 
         .path-section::before {
@@ -627,114 +625,270 @@
             font-size: 1.4rem;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #002b18;
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
 
-        /* Footer Style */
+        /* Footer Styles */
         footer {
-            background: linear-gradient(to right, #012d1b, #024b2b);
-            color: #ccc;
-            padding: 3rem 1.5rem 1rem;
-            position: relative;
+            background: linear-gradient(135deg, #013220, #002b18);
+            padding: 60px 0 20px;
+            border-top: 2px solid gold;
         }
 
         .footer-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
             max-width: 1200px;
             margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
         }
 
-        /* Logo and About */
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+        }
+
         .footer-logo h3 {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 1rem;
+            color: gold;
+            font-family: 'Scheherazade', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
         }
 
         .footer-logo img {
-            height: 50px;
-            width: 50px;
+            height: 40px;
             border-radius: 8px;
-            box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
-        }
-
-        .footer-logo b {
-            font-family: Algerian, serif;
-            font-size: 25px;
-            color: gold;
-            letter-spacing: 2px;
         }
 
         .footer-logo p {
-            color: #bbb;
-            font-size: 0.95rem;
-            margin-top: 0.5rem;
+            color: #ccc;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
 
-        /* Social Icons */
         .social {
             display: flex;
-            gap: 10px;
-            margin-top: 1rem;
+            gap: 15px;
         }
 
         .social a {
-            width: 40px;
-            height: 40px;
-            background: #014d2c;
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.2);
             color: gold;
-            text-decoration: none;
-            font-weight: bold;
             transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .social a:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .social a:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        .social a:nth-child(4) {
+            animation-delay: 1.5s;
         }
 
         .social a:hover {
             background: gold;
-            color: #014d2c;
-            transform: scale(1.1);
+            color: #002b18;
+            transform: translateY(-3px) rotate(360deg);
+            animation: none;
         }
 
-        /* Footer Links */
         footer h3 {
             color: gold;
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-family: 'Scheherazade', serif;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        footer h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: gold;
         }
 
         footer ul {
             list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
         footer ul li {
-            margin: 0.5rem 0;
+            margin-bottom: 12px;
         }
 
         footer ul li a {
             color: #ccc;
             text-decoration: none;
-            transition: color 0.3s ease;
-            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
         footer ul li a:hover {
             color: gold;
+            padding-left: 5px;
         }
 
-        /* Footer Bottom */
         .footer-bottom {
             text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
             border-top: 1px solid rgba(255, 215, 0, 0.3);
-            padding-top: 1rem;
-            margin-top: 2rem;
-            font-size: 0.85rem;
-            color: #aaa;
+            color: #ccc;
+        }
+
+        /* Animated Login Button */
+        .animated-login-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #002b18;
+            background: linear-gradient(135deg, #ffd700, #f5c518);
+            border: none;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: loginPulse 2s infinite;
+            z-index: 1;
+            margin-top: 15px;
+        }
+        
+        .animated-login-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 2s infinite;
+            z-index: -1;
+        }
+        
+        .animated-login-btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+        
+        .animated-login-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .animated-login-btn:hover {
+            background: linear-gradient(135deg, #f5c518, #e6ac00);
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.6);
+            animation: none;
+        }
+        
+        .animated-login-btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(255, 215, 0, 0.4);
+        }
+        
+        @keyframes loginPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
+                transform: scale(1.05);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+                transform: scale(1);
+            }
+        }
+        
+        /* Login button container */
+        .login-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { 
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
+                transform: scale(1);
+            }
+            70% { 
+                box-shadow: 0 0 0 15px rgba(255, 215, 0, 0);
+                transform: scale(1.05);
+            }
+            100% { 
+                box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Responsive Behavior */
+        @media (max-width: 768px) {
+            .footer-logo h3 {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-logo p {
+                text-align: center;
+            }
+
+            .social {
+                justify-content: center;
+            }
+
+            footer h3 {
+                text-align: center;
+            }
+
+            footer ul {
+                text-align: center;
+            }
         }
 
         /* Islamic-themed image placeholders */
@@ -871,6 +1025,7 @@
                         <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
                         <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+                        <li class="nav-item"><a class="nav-link" href="feature.html">Feature</a></li>
                     </ul>
 
                     <!-- Digital Clock -->
@@ -958,7 +1113,10 @@
         </div>
     </section>
 
-    <!-- Knowledge Sections -->
+    
+
+
+<!-- Knowledge Sections -->
     <section class="knowledge-sections" id="knowledge">
         <div class="container">
             <div class="section-title">
@@ -1177,64 +1335,43 @@
     </div>
 
     <!-- Contemporary Issues Content -->
-<div class="detailed-content" id="contemporary-content">
-    <div class="content-container">
-        <img src="pics/Contemporary Issues.jpg" alt="Contemporary Issues" style="width:100%; border-radius:10px;">
-
-        <div class="content-header">
-            <h2>Contemporary Issues</h2>
-            <p>Addressing modern challenges through Islamic principles</p>
-        </div>
-
-        <div class="content-grid">
-            <!-- Card 1 -->
-            <div class="content-card">
-                <img src="pics/ethics.jpg" alt="Islamic Ethics" class="card-img">
-                <h3><i class="fas fa-balance-scale"></i> Islamic Ethics in Modern Life</h3>
-                <p>Learn how to apply Islamic ethical principles to contemporary issues in business, finance, healthcare, and technology while maintaining Islamic values.</p>
+    <div class="detailed-content" id="contemporary-content">
+        <div class="content-container">
+            <div class="content-header">
+                <h2>Contemporary Issues</h2>
+                <p>Addressing modern challenges through Islamic principles</p>
             </div>
-
-            <!-- Card 2 -->
-            <div class="content-card">
-                <img src="pics/family.jpg" alt="Family Issues" class="card-img">
-                <h3><i class="fas fa-users"></i> Family and Social Issues</h3>
-                <p>Address modern family challenges including parenting, marriage, divorce, and social relationships through the guidance of Quran and Sunnah.</p>
+            <div class="content-grid">
+                <div class="content-card">
+                    <h3><i class="fas fa-balance-scale"></i> Islamic Ethics in Modern Life</h3>
+                    <p>Learn how to apply Islamic ethical principles to contemporary issues in business, finance, healthcare, and technology while maintaining Islamic values.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-users"></i> Family and Social Issues</h3>
+                    <p>Address modern family challenges including parenting, marriage, divorce, and social relationships through the guidance of Quran and Sunnah.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-microscope"></i> Science and Islam</h3>
+                    <p>Explore the relationship between Islamic teachings and modern scientific developments, including bioethics, environmental issues, and technological advancements.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-globe"></i> Islam and Global Challenges</h3>
+                    <p>Understand Islamic perspectives on global issues such as poverty, climate change, human rights, and international relations.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-graduation-cap"></i> Islamic Education Today</h3>
+                    <p>Learn about contemporary approaches to Islamic education, balancing traditional knowledge with modern educational methods and addressing the needs of Muslim youth.</p>
+                </div>
+                <div class="content-card">
+                    <h3><i class="fas fa-hands-helping"></i> Community Development</h3>
+                    <p>Discover Islamic principles for building strong, vibrant Muslim communities in the modern world, addressing issues of integration, identity, and social responsibility.</p>
+                </div>
             </div>
-
-            <!-- Card 3 -->
-            <div class="content-card">
-                <img src="pics/science.jpg" alt="Science and Islam" class="card-img">
-                <h3><i class="fas fa-microscope"></i> Science and Islam</h3>
-                <p>Explore the relationship between Islamic teachings and modern scientific developments, including bioethics, environmental issues, and technological advancements.</p>
+            <div style="text-align: center;">
+                <a href="#" class="back-button" onclick="showKnowledgeCards()">Back to Explore</a>
             </div>
-
-            <!-- Card 4 -->
-            <div class="content-card">
-                <img src="pics/global.jpg" alt="Islam and Global Challenges" class="card-img">
-                <h3><i class="fas fa-globe"></i> Islam and Global Challenges</h3>
-                <p>Understand Islamic perspectives on global issues such as poverty, climate change, human rights, and international relations.</p>
-            </div>
-
-            <!-- Card 5 -->
-            <div class="content-card">
-                <img src="pics/education.jpg" alt="Islamic Education" class="card-img">
-                <h3><i class="fas fa-graduation-cap"></i> Islamic Education Today</h3>
-                <p>Learn about contemporary approaches to Islamic education, balancing traditional knowledge with modern educational methods and addressing the needs of Muslim youth.</p>
-            </div>
-
-            <!-- Card 6 -->
-            <div class="content-card">
-                <img src="pics/community.jpg" alt="Community Development" class="card-img">
-                <h3><i class="fas fa-hands-helping"></i> Community Development</h3>
-                <p>Discover Islamic principles for building strong, vibrant Muslim communities in the modern world, addressing issues of integration, identity, and social responsibility.</p>
-            </div>
-        </div>
-
-        <div style="text-align: center;">
-            <a href="islamicknowledge.html" class="back-button" onclick="showKnowledgeCards()">Back to Explore</a>
         </div>
     </div>
-</div>
 
     <!-- Community Development Content -->
     <div class="detailed-content" id="community-content">
@@ -1270,7 +1407,7 @@
                 </div>
             </div>
             <div style="text-align: center;">
-                <a href="islamicknowledge.html" class="back-button" onclick="showKnowledgeCards()">Back to Explore</a>
+                <a href="#" class="back-button" onclick="showKnowledgeCards()">Back to Explore</a>
             </div>
         </div>
     </div>
@@ -1316,11 +1453,10 @@
             </div>
         </div>
     </section>
-
-    <!-- Footer -->
+    
+    <!-- Footer Component -->
     <footer>
         <div class="footer-container">
-            <!-- Logo Section -->
             <div class="footer-logo">
                 <h3>
                     <img src="pics/logo.jpg" alt="DeenPath Logo">
@@ -1335,7 +1471,6 @@
                 </div>
             </div>
 
-            <!-- Quick Links -->
             <div>
                 <h3>Quick Links</h3>
                 <ul>
@@ -1343,22 +1478,23 @@
                     <li><a href="about.html">About Us</a></li>
                     <li><a href="privacy.html">Privacy Policy</a></li>
                     <li><a href="FAQs.html">FAQs</a></li>
+                    <li><a href="portfolio.html">portfolio</a></li>
                 </ul>
             </div>
 
-            <!-- Islamic Resources -->
             <div>
                 <h3>Islamic Resources</h3>
                 <ul>
                     <li><a href="quran.html">Quran</a></li>
                     <li><a href="surah.html">Surah</a></li>
-                    <li><a href="nt.html">Namaz Time</a></li>
-                    <li><a href="calender.html">Calendar</a></li>
+                    <li><a href="namaz-time.html">Namaz Time</a></li>
+                    <li><a href="calendar.html">Calendar</a></li>
                     <li><a href="counter.html">Tasbeeh Counter</a></li>
+                    <li><a href="course.html">Course</a></li>
+                    <li><a href="Student Testimonials.html">Student Testimonials</a></li>
                 </ul>
             </div>
 
-            <!-- Contact Info -->
             <div>
                 <h3>Contact</h3>
                 <ul>
@@ -1366,14 +1502,21 @@
                     <li><a href="#">+92 300 1234567</a></li>
                     <li><a href="#">Karachi, Pakistan</a></li>
                 </ul>
+                <div class="login-btn-container">
+                    <a href="login.html" class="animated-login-btn">Login</a>
+                </div>
             </div>
         </div>
 
-        <!-- Footer Bottom -->
         <div class="footer-bottom">
             © <span id="year"></span> DeenPath. All Rights Reserved.
         </div>
     </footer>
+
+    <script>
+        // Dynamic Year Update
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
 
     <!-- Scripts -->
     <script>
