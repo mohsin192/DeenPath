@@ -33,57 +33,83 @@
   }
   a{color:inherit;text-decoration:none}
   .wrap{max-width:1100px;margin:0 auto;padding:18px}
-  .topbar{
+  
+  /* Top Categories Bar */
+  .top-categories {
     position:sticky; top:0; z-index:10;
     backdrop-filter: blur(10px);
     background: rgba(17,34,25,.7);
     border-bottom:1px solid var(--border);
+    padding: 15px 0;
   }
-  .brand{
+  .brand {
     display:flex;align-items:center;gap:10px;
+    justify-content: center;
+    margin-bottom: 15px;
   }
-  .brand .logo{
+  .brand .logo {
     width:34px;height:34px;border-radius:10px;
     background:linear-gradient(135deg, var(--primary), #34e2b8);
     box-shadow:0 6px 16px rgba(0,200,150,.35);
   }
   .brand h1{font-size:1.05rem;margin:0;font-weight:800;letter-spacing:.3px}
-  .top-grid{
-    display:grid;grid-template-columns: 1fr; gap:10px; align-items:center;
-  }
-  @media(min-width:720px){
-    .top-grid{ grid-template-columns: auto 1fr auto; }
-  }
-  .search{
+  
+  .search {
     display:flex;align-items:center; gap:10px;
     background:var(--panel); border:1px solid var(--border);
     padding:10px 12px;border-radius:12px;
+    margin-bottom: 15px;
   }
-  .search input{
+  .search input {
     flex:1; background:transparent; border:0; outline:0; color:var(--text);
     font-size:.95rem;
   }
-  .pill{
+  
+  .pill {
     border:1px solid var(--border);
     background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
     padding:8px 12px; border-radius:999px; font-weight:700; color:var(--muted);
     display:inline-flex; align-items:center; gap:8px; cursor:pointer;
+    white-space: nowrap;
+    font-size: 0.85rem;
   }
   .pill.active{ color:var(--primary); border-color:var(--primary); box-shadow:0 0 0 4px var(--ring); }
-  .chip-row{ display:flex; gap:8px; flex-wrap:wrap; }
-  .layout{ display:grid; grid-template-columns: 1fr; gap:16px; }
-  @media(min-width:980px){
-    .layout{ grid-template-columns: 260px 1fr; align-items:start; }
+  .chip-row { 
+    display:flex; 
+    gap:6px; 
+    flex-wrap:nowrap; 
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 5px;
+    scrollbar-width: none; /* Firefox */
   }
-  .side{
-    position:sticky; top:78px;
-    padding:14px; border:1px solid var(--border); border-radius:14px; background:var(--panel);
+  .chip-row::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
   }
-  .side h3{ margin:4px 0 12px; font-size:.95rem; color:var(--muted); }
-  .side .group{ display:grid; gap:8px; }
-  .grid{ display:grid; grid-template-columns: 1fr; gap:12px; }
-  @media(min-width:640px){ .grid{ grid-template-columns: repeat(2,1fr); } }
-  @media(min-width:1080px){ .grid{ grid-template-columns: repeat(2,1fr); } }
+  
+  .controls {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  .controls h3 {
+    margin: 0 0 10px 0;
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+  .control-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .grid{ 
+    display:grid; 
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap:15px; 
+  }
   .card{
     padding:14px; border-radius:14px; background:var(--card);
     border:1px solid var(--border);
@@ -99,6 +125,7 @@
   .btn{
     width:100%; text-align:center; padding:8px 10px; border-radius:10px; font-weight:800;
     border:1px solid var(--border); background:rgba(255,255,255,.02); color:var(--text); cursor:pointer;
+    font-size: 0.85rem;
   }
   .btn:hover{ border-color:var(--primary); color:var(--primary); }
   .btn.primary{ background:linear-gradient(180deg, rgba(0,200,150,.18), rgba(0,200,150,.0)); color:var(--primary); border-color:var(--primary); }
@@ -110,24 +137,81 @@
   .block{ display:none; }
   .block.show{ display:block; }
 
+  /* Mobile specific styles */
+  @media(max-width:767px) {
+    .wrap {
+      padding: 12px;
+    }
+    
+    .brand h1 {
+      font-size: 0.9rem;
+    }
+    
+    .search {
+      padding: 8px 10px;
+    }
+    
+    .search input {
+      font-size: 0.85rem;
+    }
+    
+    .pill {
+      padding: 6px 10px;
+      font-size: 0.8rem;
+    }
+    
+    .card {
+      padding: 12px;
+    }
+    
+    .title {
+      font-size: 0.9rem;
+    }
+    
+    .arabic {
+      font-size: 1rem;
+    }
+    
+    .small {
+      font-size: 0.8rem;
+    }
+    
+    .btn {
+      padding: 6px 8px;
+      font-size: 0.8rem;
+    }
+    
+    .grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+  }
+
+  /* Touch-friendly interaction */
+  @media (hover: none) {
+    .card:hover {
+      border-color: var(--border);
+      box-shadow: none;
+      transform: none;
+    }
+    
+    .card:active {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+  }
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="wrap top-grid">
+<div class="top-categories">
+  <div class="wrap">
     <div class="brand">
       <div class="logo" aria-hidden="true"></div>
       <h1>All Duas</h1>
     </div>
 
-    <label class="search" aria-label="Search duas">
-      🔎
-      <input id="searchInput" type="search" placeholder="Search duas by title, Arabic, or meaning…">
-      <button id="clearSearch" class="pill" type="button" title="Clear">✖</button>
-    </label>
-
-    <div class="chip-row" id="quickFilters" aria-label="Quick filters">
+    <div class="chip-row" id="categoryFilters" aria-label="Categories">
       <button class="pill active" data-filter="all">All</button>
       <button class="pill" data-filter="morning">Morning</button>
       <button class="pill" data-filter="evening">Evening</button>
@@ -138,26 +222,27 @@
       <button class="pill" data-filter="sleep">Sleep</button>
       <button class="pill" data-filter="fav">★ Favorites</button>
     </div>
+
+    <label class="search" aria-label="Search duas">
+      🔎
+      <input id="searchInput" type="search" placeholder="Search duas...">
+      <button id="clearSearch" class="pill" type="button" title="Clear">✖</button>
+    </label>
   </div>
 </div>
 
-<div class="wrap layout">
-  <aside class="side" aria-label="Categories">
-    <h3>Categories</h3>
-    <div class="group" id="sideCats"></div>
-
-    <h3 style="margin-top:16px;">Display</h3>
-    <div class="group">
+<div class="wrap">
+  <div class="controls">
+    <h3>Display Options</h3>
+    <div class="control-group">
       <label class="pill"><input type="checkbox" id="toggleTranslit"> Show Transliteration</label>
       <label class="pill"><input type="checkbox" id="toggleTranslate" checked> Show Translation</label>
     </div>
-  </aside>
+  </div>
 
-  <main>
-    <div id="cards" class="grid" aria-live="polite"></div>
-    <div id="emptyState" class="empty" style="display:none">No duas found. Try different filters or search.</div>
-    <p class="note">Tip: Click "♡ Save" to add a dua to Favorites. Your selection is saved on this device.</p>
-  </main>
+  <div id="cards" class="grid" aria-live="polite"></div>
+  <div id="emptyState" class="empty" style="display:none">No duas found. Try different filters or search.</div>
+  <p class="note">Tip: Click "♡ Save" to add a dua to Favorites. Your selection is saved on this device.</p>
 </div>
 
 <script>
@@ -334,8 +419,7 @@ const els = {
   empty: document.getElementById('emptyState'),
   search: document.getElementById('searchInput'),
   clear: document.getElementById('clearSearch'),
-  chips: document.getElementById('quickFilters'),
-  sideCats: document.getElementById('sideCats'),
+  categoryFilters: document.getElementById('categoryFilters'),
   toggleTranslit: document.getElementById('toggleTranslit'),
   toggleTranslate: document.getElementById('toggleTranslate'),
 };
@@ -356,18 +440,18 @@ const favKey = 'duas:favorites';
 let favorites = new Set(JSON.parse(localStorage.getItem(favKey) || '[]'));
 let currentFilter = 'all';
 
-function buildSide(){
-  els.sideCats.innerHTML = '';
+function buildCategoryFilters(){
+  els.categoryFilters.innerHTML = '';
   CATS.forEach(c=>{
     const b=document.createElement('button');
     b.className='pill' + (c.key==='all'?' active':'');
     b.dataset.filter=c.key;
     b.textContent=c.label;
     b.onclick = () => setFilter(c.key);
-    els.sideCats.appendChild(b);
+    els.categoryFilters.appendChild(b);
   });
 }
-buildSide();
+buildCategoryFilters();
 
 function syncActiveChips(){
   document.querySelectorAll('[data-filter]').forEach(el=>{
@@ -466,7 +550,7 @@ function render(){
   });
 }
 
-els.chips.addEventListener('click', e=>{
+els.categoryFilters.addEventListener('click', e=>{
   const f = e.target.closest('[data-filter]');
   if(!f) return;
   setFilter(f.dataset.filter);
