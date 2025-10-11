@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LocalStorage Working Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      padding: 20px;
+    }
+    .person-box {
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    label {
+      display: inline-block;
+      width: 80px;
+    }
+    input {
+      padding: 5px;
+      margin-bottom: 10px;
+      width: 180px;
+    }
+    button {
+      padding: 8px 15px;
+      margin-right: 8px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .save { background: #28a745; color: white; }
+    .show { background: #007bff; color: white; }
+    .clear { background: #dc3545; color: white; }
+    pre {
+      background: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <h2>👩‍💻 LocalStorage (2 Persons - Final Working)</h2>
+
+  <div class="person-box">
+    <h3>Person 1</h3>
+    <label>Name:</label><input type="text" id="name1"><br>
+    <label>Age:</label><input type="number" id="age1"><br>
+    <label>City:</label><input type="text" id="city1"><br>
+  </div>
+
+  <div class="person-box">
+    <h3>Person 2</h3>
+    <label>Name:</label><input type="text" id="name2"><br>
+    <label>Age:</label><input type="number" id="age2"><br>
+    <label>City:</label><input type="text" id="city2"><br>
+  </div>
+
+  <button class="save" onclick="saveData()">💾 Save Data</button>
+  <button class="show" onclick="showData()">👁 Show Data</button>
+  <button class="clear" onclick="clearData()">🧹 Clear Data</button>
+
+  <h3>📦 Stored Data:</h3>
+  <pre id="output"></pre>
+
+  <script>
+    // ✅ Save Data in localStorage
+    function saveData() {
+      const person1 = {
+        name: document.getElementById("name1").value,
+        age: document.getElementById("age1").value,
+        city: document.getElementById("city1").value
+      };
+      const person2 = {
+        name: document.getElementById("name2").value,
+        age: document.getElementById("age2").value,
+        city: document.getElementById("city2").value
+      };
+
+      // Save only if fields filled
+      if (person1.name && person2.name) {
+        localStorage.setItem("person1", JSON.stringify(person1));
+        localStorage.setItem("person2", JSON.stringify(person2));
+        alert("✅ Data saved successfully!");
+      } else {
+        alert("⚠️ Please fill all fields!");
+      }
+    }
+
+    // ✅ Show Data
+    function showData() {
+      const p1 = JSON.parse(localStorage.getItem("person1"));
+      const p2 = JSON.parse(localStorage.getItem("person2"));
+      
+      if (p1 && p2) {
+        document.getElementById("output").textContent =
+          `Person 1: ${p1.name} (${p1.age}), ${p1.city}\n` +
+          `Person 2: ${p2.name} (${p2.age}), ${p2.city}`;
+      } else {
+        document.getElementById("output").textContent = "⚠️ No data found!";
+      }
+    }
+
+    // ✅ Clear Data
+    function clearData() {
+      localStorage.removeItem("person1");
+      localStorage.removeItem("person2");
+      document.getElementById("output").textContent = "";
+      alert("🧹 LocalStorage cleared!");
+    }
+  </script>
+
+</body>
+</html>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>DeenPath Registration</title>
+  <title>DeenPath Login</title>
   <link rel="icon" type="image/png" href="pics/logo.jpg">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Scheherazade&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -53,10 +53,8 @@
       100% { transform: translateY(-10vh); opacity: 0; }
     }
 
-
-
     /* ===== Form Container ===== */
-    .registration-container {
+    .login-container {
       position: relative;
       z-index: 2;
       background: rgba(255, 255, 255, 0.1);
@@ -77,10 +75,37 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ===== Heading ===== */
-    .registration-container h2 {
+    /* ===== Logo Section ===== */
+    .logo-section {
       text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .logo-section img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+    }
+
+    .logo-section h2 {
+      font-family: 'Scheherazade', serif;
       font-size: 2rem;
+      color: gold;
+      margin-bottom: 5px;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+    }
+
+    .logo-section p {
+      color: #ccc;
+      font-size: 14px;
+    }
+
+    /* ===== Heading ===== */
+    .login-container h3 {
+      text-align: center;
+      font-size: 1.8rem;
       color: gold;
       margin-bottom: 25px;
       text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
@@ -101,8 +126,7 @@
       font-size: 18px;
     }
 
-    .registration-container input,
-    .registration-container select {
+    .login-container input {
       width: 100%;
       padding: 12px 12px 12px 45px;
       border: none;
@@ -114,8 +138,7 @@
       transition: 0.3s;
     }
 
-    .registration-container input:focus,
-    .registration-container select:focus {
+    .login-container input:focus {
       background: rgba(255, 255, 255, 0.3);
       border: 1px solid gold;
       box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
@@ -132,49 +155,61 @@
       font-size: 16px;
     }
 
-    /* ===== Checkboxes ===== */
-    .checkbox-container {
+    /* ===== Remember Me & Forgot Password ===== */
+    .form-options {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      margin-bottom: 20px;
       font-size: 14px;
-      margin-bottom: 15px;
     }
 
-    .checkbox-container input {
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .remember-me input {
       width: auto;
       transform: scale(1.2);
       cursor: pointer;
     }
 
-    .checkbox-container label a {
+    .forgot-password {
       color: gold;
       text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .forgot-password:hover {
+      text-decoration: underline;
     }
 
     /* ===== Submit Button ===== */
-    .registration-container input[type="submit"] {
+    .login-container input[type="submit"] {
       background: linear-gradient(135deg, goldenrod, gold);
       color: black;
       font-weight: bold;
       cursor: pointer;
       transition: 0.3s;
+      margin-top: 10px;
     }
 
-    .registration-container input[type="submit"]:hover {
+    .login-container input[type="submit"]:hover {
       background: linear-gradient(135deg, gold, goldenrod);
       box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
     }
 
-    /* ===== Login Link ===== */
-    .login-link {
+    /* ===== Register Link ===== */
+    .register-link {
       text-align: center;
       margin-top: 15px;
       font-size: 14px;
       color: #ccc;
     }
 
-    .login-link a {
+    .register-link a {
       color: gold;
       text-decoration: none;
     }
@@ -214,13 +249,65 @@
       50% { transform: translateY(-8px); }
     }
 
+    /* ===== Error Message ===== */
+    .error-message {
+      background: rgba(220, 53, 69, 0.8);
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
+      display: none;
+    }
+
+    /* ===== Social Login ===== */
+    .social-login {
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    .social-login p {
+      color: #ccc;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+
+    .social-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .social-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .social-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+    }
+
     /* ===== Mobile Responsive ===== */
     @media (max-width: 480px) {
-      .registration-container {
+      .login-container {
         padding: 25px;
       }
-      .registration-container h2 {
-        font-size: 1.8rem;
+      .login-container h3 {
+        font-size: 1.6rem;
+      }
+      .form-options {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
       }
     }
   </style>
@@ -229,24 +316,25 @@
   <!-- Floating Background Particles -->
   <div class="particles" id="particles"></div>
 
-  <!-- Glowing Orbs -->
-  <div class="orb orb1"></div>
-  <div class="orb orb2"></div>
-
   <!-- Success Popup -->
   <div class="success-message" id="successMessage">
     <i class="fas fa-check-circle"></i>
-    <h3>Registration Successful!</h3>
+    <h3>Login Successful!</h3>
     <p>Redirecting to home page...</p>
   </div>
 
-  <!-- Registration Form -->
-  <form id="registrationForm" class="registration-container">
-    <h2>Create Account</h2>
+  <!-- Login Form -->
+  <form id="loginForm" class="login-container">
+    <div class="logo-section">
+      <img src="pics/logo.jpg" alt="DeenPath Logo">
+      <h2>DeenPath</h2>
+      <p>Your Guide to Islamic Knowledge</p>
+    </div>
 
-    <div class="form-group">
-      <i class="fas fa-user"></i>
-      <input type="text" name="fullName" placeholder="Full Name" required>
+    <h3>Welcome Back</h3>
+
+    <div class="error-message" id="errorMessage">
+      Invalid email or password. Please try again.
     </div>
 
     <div class="form-group">
@@ -262,43 +350,27 @@
       </span>
     </div>
 
-    <div class="form-group">
-      <i class="fas fa-lock"></i>
-      <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
-      <span class="password-toggle" onclick="togglePassword('confirmPassword')">
-        <i class="fas fa-eye"></i>
-      </span>
+    <div class="form-options">
+      <div class="remember-me">
+        <input type="checkbox" id="remember">
+        <label for="remember">Remember me</label>
+      </div>
+      <a href="#" class="forgot-password">Forgot Password?</a>
     </div>
 
-    <div class="form-group">
-      <i class="fas fa-globe"></i>
-      <select name="country" required>
-        <option value="" disabled selected>Select Country</option>
-        <option value="pakistan">Pakistan</option>
-        <option value="india">India</option>
-        <option value="bangladesh">Bangladesh</option>
-        <option value="saudi-arabia">Saudi Arabia</option>
-        <option value="uae">UAE</option>
-        <option value="usa">USA</option>
-        <option value="uk">UK</option>
-        <option value="other">Other</option>
-      </select>
+    <input type="submit" value="Login">
+
+    <div class="social-login">
+      <p>Or login with</p>
+      <div class="social-buttons">
+        <a href="#" class="social-btn"><i class="fab fa-google"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+      </div>
     </div>
 
-    <div class="checkbox-container">
-      <input type="checkbox" id="terms" required>
-      <label for="terms">I agree to the <a href="#">Terms & Conditions</a></label>
-    </div>
-
-    <div class="checkbox-container">
-      <input type="checkbox" id="newsletter">
-      <label for="newsletter">Subscribe to our newsletter</label>
-    </div>
-
-    <input type="submit" value="Register Now">
-
-    <div class="login-link">
-      Already have an account? <a href="login.html">Login here</a>
+    <div class="register-link">
+      Don't have an account? <a href="register.html">Register here</a>
     </div>
   </form>
 
@@ -341,27 +413,92 @@
     }
 
     // ===== Form Validation & Submission =====
-    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
+      const email = document.querySelector('input[name="email"]').value;
       const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
+      const rememberMe = document.getElementById('remember').checked;
       const successPopup = document.getElementById('successMessage');
+      const errorMessage = document.getElementById('errorMessage');
 
-      if (password !== confirmPassword) {
-        alert('Passwords do not match!');
-        return;
+      // Simple validation (in a real app, this would be server-side)
+      if (email && password) {
+        // Hide error message if it was shown
+        errorMessage.style.display = 'none';
+        
+        // Store remember me preference
+        if (rememberMe) {
+          localStorage.setItem('rememberMe', 'true');
+          localStorage.setItem('email', email);
+        } else {
+          localStorage.removeItem('rememberMe');
+          localStorage.removeItem('email');
+        }
+
+        // Show success popup
+        successPopup.classList.add('show');
+
+        // Redirect after 2.5s
+        setTimeout(() => {
+          successPopup.classList.remove('show');
+          window.location.href = 'index.html';
+        }, 2500);
+      } else {
+        // Show error message
+        errorMessage.style.display = 'block';
       }
+    });
 
-      // Show success popup
-      successPopup.classList.add('show');
+    // ===== Check for Remembered Email on Page Load =====
+    window.addEventListener('load', () => {
+      const rememberedEmail = localStorage.getItem('email');
+      const rememberMeChecked = localStorage.getItem('rememberMe') === 'true';
+      
+      if (rememberedEmail) {
+        document.querySelector('input[name="email"]').value = rememberedEmail;
+        document.getElementById('remember').checked = rememberMeChecked;
+      }
+    });
 
-      // Redirect after 2.5s
-      setTimeout(() => {
-        successPopup.classList.remove('show');
-        window.location.href = 'index.html';
-      }, 2500);
+    // ===== Forgot Password Handler =====
+    document.querySelector('.forgot-password').addEventListener('click', function(e) {
+      e.preventDefault();
+      // In a real app, this would navigate to a password reset page
+      alert('Password reset functionality would be implemented here.');
     });
   </script>
+  <?php
+session_start();
+include 'db_connect.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $sql = "SELECT * FROM login WHERE email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+
+        if (password_verify($password, $user['password'])) {
+            $_SESSION['user'] = $user['email'];
+            echo "<script>alert('Login successful!'); window.location.href='index.html';</script>";
+        } else {
+            echo "<script>alert('Incorrect password!'); window.history.back();</script>";
+        }
+    } else {
+        echo "<script>alert('No user found with this email!'); window.history.back();</script>";
+    }
+
+    $stmt->close();
+    $conn->close();
+}
+?>
+
 </body>
 </html>
