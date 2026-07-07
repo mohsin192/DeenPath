@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - DeenPath</title>
+    <link rel="icon" type="image/png" href="pics/logo.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="deen.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0a2f1d;
+            --gold: #d4af37;
+            --gold-light: #f0d78c;
+            --white: #ffffff;
+            --off-white: #f8f5f0;
+            --text-dark: #1a1a2e;
+            --text-light: #6b6b7a;
+            --shadow: 0 8px 30px rgba(0,0,0,0.12);
+            --shadow-gold: 0 8px 30px rgba(212, 175, 55, 0.3);
+            --radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--off-white); color: var(--text-dark); overflow-x: hidden; }
+        h1, h2 { font-family: 'Playfair Display', serif; font-weight: 700; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+        .section-padding { padding: 80px 0; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 2.8rem; position: relative; display: inline-block; }
+        .section-title h2::after {
+            content: ''; position: absolute; bottom: -10px; left: 50%;
+            transform: translateX(-50%);
+            width: 60px; height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 2px;
+        }
+        .section-title p { color: var(--text-light); max-width: 600px; margin: 15px auto 0; }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--primary); padding: 12px 32px; border-radius: 50px;
+            font-weight: 600; border: none; transition: var(--transition);
+            box-shadow: var(--shadow-gold);
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(212,175,55,0.4); color: var(--primary); }
+
+        .page-hero {
+            background: linear-gradient(135deg, var(--primary), #0a3a22);
+            padding: 140px 0 80px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-hero::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: url('pics/islamic art.png') center/cover no-repeat;
+            opacity: 0.15; z-index: 0;
+        }
+        .page-hero .container { position: relative; z-index: 1; }
+        .page-hero h1 { font-size: 3.5rem; color: var(--gold); }
+        .page-hero p { color: rgba(255,255,255,0.8); max-width: 600px; margin: 15px auto 0; font-size: 1.2rem; }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        .portfolio-item {
+            background: var(--white); border-radius: var(--radius);
+            overflow: hidden; box-shadow: var(--shadow);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: var(--transition);
+        }
+        .portfolio-item:hover { transform: translateY(-8px); box-shadow: var(--shadow-gold); border-color: var(--gold); }
+        .portfolio-item .image {
+            height: 200px; overflow: hidden;
+            position: relative;
+        }
+        .portfolio-item .image img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .portfolio-item:hover .image img { transform: scale(1.05); }
+        .portfolio-item .image .overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: var(--transition);
+        }
+        .portfolio-item:hover .image .overlay { opacity: 1; }
+        .portfolio-item .image .overlay .btn {
+            padding: 10px 24px; border-radius: 50px;
+            background: var(--gold); color: var(--primary);
+            border: none; font-weight: 600; text-decoration: none;
+        }
+        .portfolio-item .content {
+            padding: 20px 24px 24px;
+        }
+        .portfolio-item .content h4 {
+            font-size: 1.2rem; margin-bottom: 4px;
+        }
+        .portfolio-item .content p {
+            color: var(--text-light); font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+        .portfolio-item .content .tags {
+            display: flex; gap: 6px; flex-wrap: wrap;
+        }
+        .portfolio-item .content .tags span {
+            padding: 4px 12px; border-radius: 50px;
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--gold); font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 767px) {
+            .page-hero h1 { font-size: 2.5rem; }
+            .section-title h2 { font-size: 2rem; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<!-- ========================================
+   DEENPATH - PREMIUM NAVBAR
+   ======================================== -->
+<nav class="navbar navbar-expand-lg fixed-top" id="main-navbar">
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="index.html">
+            <img src="pic/logo.jpg" alt="DeenPath" class="navbar-logo">
+            <span class="navbar-brand-text">Deen<span>Path</span></span>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about-us.html">About</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="resourcesDropdown" role="button" data-bs-toggle="dropdown">
+                        Resources
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="quran.html">📖 Quran</a></li>
+                        <li><a class="dropdown-item" href="surah.html">📚 Surah</a></li>
+                        <li><a class="dropdown-item" href="du-as.html">🤲 Duas</a></li>
+                        <li><a class="dropdown-item" href="namaztime.html">🕌 Prayer Times</a></li>
+                        <li><a class="dropdown-item" href="calender.html">📅 Calendar</a></li>
+                        <li><a class="dropdown-item" href="counter.html">📿 Tasbeeh</a></li>
+                        <li><a class="dropdown-item" href="qibla.html">🧭 Qibla</a></li>
+                        <li><a class="dropdown-item" href="mosque.html">🕌 Mosque Finder</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="gallery.html">Gallery</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="explore.html">Explore</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="portfolio.html">Portfolio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+            </ul>
+
+            <!-- Actions -->
+            <div class="navbar-actions">
+                <button class="search-toggle" id="search-toggle" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+                
+                <div class="dark-mode-toggle">
+                    <input type="checkbox" id="dark-mode-toggle">
+                    <label for="dark-mode-toggle" class="toggle-label">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                        <span class="toggle-ball"></span>
+                    </label>
+                </div>
+
+                <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+                <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-overlay-content">
+            <button class="search-close" id="search-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="search-input" placeholder="Search for Islamic knowledge..." autofocus>
+            </div>
+            <div class="search-results" id="search-results"></div>
+        </div>
+    </div>
+</nav>
+ 
+
+    <section class="page-hero">
+        <div class="container">
+            <h1 data-aos="fade-down">Our Portfolio</h1>
+            <p data-aos="fade-up" data-aos-delay="100">Explore our projects and achievements</p>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Featured Projects</h2>
+                <p>Our work at a glance</p>
+            </div>
+
+            <div class="portfolio-grid" id="portfolioGrid" data-aos="fade-up">
+                <!-- JavaScript will generate -->
+            </div>
+        </div>
+    </section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <!-- Brand -->
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <img src="pics/logo.jpg" alt="DeenPath">
+                    <span>DeenPath</span>
+                </div>
+                <p>Your trusted companion for authentic Islamic knowledge and spiritual growth.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="explore.html">Explore</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources -->
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="quran.html">Quran</a></li>
+                    <li><a href="surah.html">Surah</a></li>
+                    <li><a href="duas.html">Duas</a></li>
+                    <li><a href="nt.html">Prayer Times</a></li>
+                    <li><a href="calender.html">Calendar</a></li>
+                    <li><a href="counter.html">Tasbeeh</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-contact-col">
+                <h4>Contact</h4>
+                <p><i class="fas fa-envelope"></i> mohsingohar759@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +92 3412126649</p>
+                <p><i class="fas fa-map-marker-alt"></i> Karachi, Pakistan</p>
+                <div class="footer-newsletter">
+                    <h4>Newsletter</h4>
+                    <form id="newsletter-form">
+                        <div class="newsletter-input">
+                            <input type="email" placeholder="Your email" required>
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> DeenPath. All Rights Reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="FAQs.html">FAQs</a>
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, easing: 'ease-in-out', once: true });
+
+        const portfolioItems = [
+            { title: "Quran Explorer", desc: "Complete Quran with translations and recitations", tags: ["Quran", "Education"], image: "pics/Quranhead.jpg", link: "quran.html" },
+            { title: "Prayer Times App", desc: "Accurate prayer times with athan alerts", tags: ["Prayer", "Utility"], image: "pics/prayers.jpg", link: "nt.html" },
+            { title: "Islamic Gallery", desc: "Beautiful collection of Islamic art and architecture", tags: ["Gallery", "Art"], image: "pics/mosqueg.jpg", link: "gallery.html" },
+            { title: "Tasbeeh Counter", desc: "Digital tasbeeh for daily dhikr", tags: ["Dhikr", "Tool"], image: "pics/counter.png", link: "counter.html" },
+            { title: "Qibla Compass", desc: "Find the exact Qibla direction", tags: ["Qibla", "Compass"], image: "pics/qibla.png", link: "qibla.html" },
+            { title: "Mosque Finder", desc: "Locate mosques near you", tags: ["Mosque", "Location"], image: "pics/mosques.jpeg", link: "mosque.html" },
+        ];
+
+        function renderPortfolio() {
+            const grid = document.getElementById('portfolioGrid');
+            grid.innerHTML = portfolioItems.map(item => `
+                <div class="portfolio-item">
+                    <div class="image">
+                        <img src="${item.image}" alt="${item.title}" loading="lazy">
+                        <div class="overlay">
+                            <a href="${item.link}" class="btn">View Project</a>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <h4>${item.title}</h4>
+                        <p>${item.desc}</p>
+                        <div class="tags">
+                            ${item.tags.map(tag => `<span>${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('components/navbar.html').then(r=>r.text()).then(d=>document.getElementById('navbar-placeholder').innerHTML=d);
+            fetch('components/footer.html').then(r=>r.text()).then(d=>document.getElementById('footer-placeholder').innerHTML=d);
+            renderPortfolio();
+        });
+    </script>
+    <script src="deen.js"></script>
+</body>
+</html>

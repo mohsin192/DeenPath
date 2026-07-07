@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surah - DeenPath</title>
+    <link rel="icon" type="image/png" href="pics/logo.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="deen.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a2f1d;
+            --gold: #d4af37;
+            --gold-light: #f0d78c;
+            --white: #ffffff;
+            --off-white: #f8f5f0;
+            --text-dark: #1a1a2e;
+            --text-light: #6b6b7a;
+            --shadow: 0 8px 30px rgba(0,0,0,0.12);
+            --shadow-gold: 0 8px 30px rgba(212, 175, 55, 0.3);
+            --radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--off-white); color: var(--text-dark); overflow-x: hidden; }
+        h1, h2 { font-family: 'Playfair Display', serif; font-weight: 700; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+        .section-padding { padding: 80px 0; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 2.8rem; position: relative; display: inline-block; }
+        .section-title h2::after {
+            content: ''; position: absolute; bottom: -10px; left: 50%;
+            transform: translateX(-50%);
+            width: 60px; height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 2px;
+        }
+        .section-title p { color: var(--text-light); max-width: 600px; margin: 15px auto 0; }
+
+        .page-hero {
+            background: linear-gradient(135deg, var(--primary), #0a3a22);
+            padding: 140px 0 80px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-hero::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: url('pics/quranbg.jpg') center/cover no-repeat;
+            opacity: 0.15; z-index: 0;
+        }
+        .page-hero .container { position: relative; z-index: 1; }
+        .page-hero h1 { font-size: 3.5rem; color: var(--gold); }
+        .page-hero p { color: rgba(255,255,255,0.8); max-width: 600px; margin: 15px auto 0; font-size: 1.2rem; }
+
+        .surah-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .surah-card {
+            background: var(--white); border-radius: var(--radius);
+            padding: 18px 16px; text-align: center;
+            box-shadow: var(--shadow); transition: var(--transition);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            cursor: pointer; text-decoration: none; color: var(--text-dark);
+        }
+        .surah-card:hover {
+            transform: translateY(-6px); box-shadow: var(--shadow-gold);
+            border-color: var(--gold);
+        }
+        .surah-card .number {
+            display: inline-block;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--primary); font-weight: 700;
+            line-height: 36px; font-size: 0.9rem;
+            margin-bottom: 6px;
+        }
+        .surah-card .name { font-weight: 600; font-size: 0.95rem; }
+        .surah-card .meta { font-size: 0.75rem; color: var(--text-light); }
+
+        .search-box {
+            max-width: 500px; margin: 0 auto 40px;
+        }
+        .search-box input {
+            width: 100%; padding: 14px 20px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50px;
+            font-size: 1rem; transition: var(--transition);
+            background: var(--white);
+        }
+        .search-box input:focus { border-color: var(--gold); outline: none; box-shadow: 0 0 20px rgba(212, 175, 55, 0.15); }
+
+        @media (max-width: 767px) {
+            .page-hero h1 { font-size: 2.5rem; }
+            .section-title h2 { font-size: 2rem; }
+            .surah-grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        }
+        @media (max-width: 480px) {
+            .surah-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+<!-- ========================================
+   DEENPATH - PREMIUM NAVBAR
+   ======================================== -->
+<nav class="navbar navbar-expand-lg fixed-top" id="main-navbar">
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="index.html">
+            <img src="pic/logo.jpg" alt="DeenPath" class="navbar-logo">
+            <span class="navbar-brand-text">Deen<span>Path</span></span>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about-us.html">About</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="resourcesDropdown" role="button" data-bs-toggle="dropdown">
+                        Resources
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="quran.html">📖 Quran</a></li>
+                        <li><a class="dropdown-item" href="surah.html">📚 Surah</a></li>
+                        <li><a class="dropdown-item" href="du-as.html">🤲 Duas</a></li>
+                        <li><a class="dropdown-item" href="namaztime.html">🕌 Prayer Times</a></li>
+                        <li><a class="dropdown-item" href="calender.html">📅 Calendar</a></li>
+                        <li><a class="dropdown-item" href="counter.html">📿 Tasbeeh</a></li>
+                        <li><a class="dropdown-item" href="qibla.html">🧭 Qibla</a></li>
+                        <li><a class="dropdown-item" href="mosque.html">🕌 Mosque Finder</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="gallery.html">Gallery</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="explore.html">Explore</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="portfolio.html">Portfolio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+            </ul>
+
+            <!-- Actions -->
+            <div class="navbar-actions">
+                <button class="search-toggle" id="search-toggle" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+                
+                <div class="dark-mode-toggle">
+                    <input type="checkbox" id="dark-mode-toggle">
+                    <label for="dark-mode-toggle" class="toggle-label">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                        <span class="toggle-ball"></span>
+                    </label>
+                </div>
+
+                <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+                <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-overlay-content">
+            <button class="search-close" id="search-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="search-input" placeholder="Search for Islamic knowledge..." autofocus>
+            </div>
+            <div class="search-results" id="search-results"></div>
+        </div>
+    </div>
+</nav>
+ 
+
+    <section class="page-hero">
+        <div class="container">
+            <h1 data-aos="fade-down">Surah List</h1>
+            <p data-aos="fade-up" data-aos-delay="100">114 Surahs of the Holy Quran</p>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Read by Surah</h2>
+                <p>Select a surah to start reading</p>
+            </div>
+
+            <div class="search-box" data-aos="fade-up">
+                <input type="text" id="surahSearch" placeholder="Search surah...">
+            </div>
+
+            <div class="surah-grid" id="surahGrid" data-aos="fade-up">
+                <!-- JavaScript will generate -->
+            </div>
+        </div>
+    </section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <!-- Brand -->
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <img src="pics/logo.jpg" alt="DeenPath">
+                    <span>DeenPath</span>
+                </div>
+                <p>Your trusted companion for authentic Islamic knowledge and spiritual growth.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="explore.html">Explore</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources -->
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="quran.html">Quran</a></li>
+                    <li><a href="surah.html">Surah</a></li>
+                    <li><a href="duas.html">Duas</a></li>
+                    <li><a href="nt.html">Prayer Times</a></li>
+                    <li><a href="calender.html">Calendar</a></li>
+                    <li><a href="counter.html">Tasbeeh</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-contact-col">
+                <h4>Contact</h4>
+                <p><i class="fas fa-envelope"></i> mohsingohar759@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +92 3412126649</p>
+                <p><i class="fas fa-map-marker-alt"></i> Karachi, Pakistan</p>
+                <div class="footer-newsletter">
+                    <h4>Newsletter</h4>
+                    <form id="newsletter-form">
+                        <div class="newsletter-input">
+                            <input type="email" placeholder="Your email" required>
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> DeenPath. All Rights Reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="FAQs.html">FAQs</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, easing: 'ease-in-out', once: true });
+
+        const surahs = [
+            { number: 1, name: "Al-Fatihah", verses: 7 },
+            { number: 2, name: "Al-Baqarah", verses: 286 },
+            { number: 3, name: "Al-'Imran", verses: 200 },
+            { number: 4, name: "An-Nisa", verses: 176 },
+            { number: 5, name: "Al-Ma'idah", verses: 120 },
+            { number: 6, name: "Al-An'am", verses: 165 },
+            { number: 7, name: "Al-A'raf", verses: 206 },
+            { number: 8, name: "Al-Anfal", verses: 75 },
+            { number: 9, name: "At-Tawbah", verses: 129 },
+            { number: 10, name: "Yunus", verses: 109 },
+            { number: 11, name: "Hud", verses: 123 },
+            { number: 12, name: "Yusuf", verses: 111 },
+            { number: 13, name: "Ar-Ra'd", verses: 43 },
+            { number: 14, name: "Ibrahim", verses: 52 },
+            { number: 15, name: "Al-Hijr", verses: 99 },
+            { number: 16, name: "An-Nahl", verses: 128 },
+            { number: 17, name: "Al-Isra", verses: 111 },
+            { number: 18, name: "Al-Kahf", verses: 110 },
+            { number: 19, name: "Maryam", verses: 98 },
+            { number: 20, name: "Ta-Ha", verses: 135 },
+            { number: 21, name: "Al-Anbiya", verses: 112 },
+            { number: 22, name: "Al-Hajj", verses: 78 },
+            { number: 23, name: "Al-Mu'minun", verses: 118 },
+            { number: 24, name: "An-Nur", verses: 64 },
+            { number: 25, name: "Al-Furqan", verses: 77 },
+            { number: 26, name: "Ash-Shu'ara", verses: 227 },
+            { number: 27, name: "An-Naml", verses: 93 },
+            { number: 28, name: "Al-Qasas", verses: 88 },
+            { number: 29, name: "Al-'Ankabut", verses: 69 },
+            { number: 30, name: "Ar-Rum", verses: 60 },
+            { number: 31, name: "Luqman", verses: 34 },
+            { number: 32, name: "As-Sajdah", verses: 30 },
+            { number: 33, name: "Al-Ahzab", verses: 73 },
+            { number: 34, name: "Saba", verses: 54 },
+            { number: 35, name: "Fatir", verses: 45 },
+            { number: 36, name: "Ya-Sin", verses: 83 },
+            { number: 37, name: "As-Saffat", verses: 182 },
+            { number: 38, name: "Sad", verses: 88 },
+            { number: 39, name: "Az-Zumar", verses: 75 },
+            { number: 40, name: "Ghafir", verses: 85 },
+            { number: 41, name: "Fussilat", verses: 54 },
+            { number: 42, name: "Ash-Shura", verses: 53 },
+            { number: 43, name: "Az-Zukhruf", verses: 89 },
+            { number: 44, name: "Ad-Dukhan", verses: 59 },
+            { number: 45, name: "Al-Jathiyah", verses: 37 },
+            { number: 46, name: "Al-Ahqaf", verses: 35 },
+            { number: 47, name: "Muhammad", verses: 38 },
+            { number: 48, name: "Al-Fath", verses: 29 },
+            { number: 49, name: "Al-Hujurat", verses: 18 },
+            { number: 50, name: "Qaf", verses: 45 },
+            { number: 51, name: "Adh-Dhariyat", verses: 60 },
+            { number: 52, name: "At-Tur", verses: 49 },
+            { number: 53, name: "An-Najm", verses: 62 },
+            { number: 54, name: "Al-Qamar", verses: 55 },
+            { number: 55, name: "Ar-Rahman", verses: 78 },
+            { number: 56, name: "Al-Waqi'ah", verses: 96 },
+            { number: 57, name: "Al-Hadid", verses: 29 },
+            { number: 58, name: "Al-Mujadilah", verses: 22 },
+            { number: 59, name: "Al-Hashr", verses: 24 },
+            { number: 60, name: "Al-Mumtahanah", verses: 13 },
+            { number: 61, name: "As-Saff", verses: 14 },
+            { number: 62, name: "Al-Jumu'ah", verses: 11 },
+            { number: 63, name: "Al-Munafiqun", verses: 11 },
+            { number: 64, name: "At-Taghabun", verses: 18 },
+            { number: 65, name: "At-Talaq", verses: 12 },
+            { number: 66, name: "At-Tahrim", verses: 12 },
+            { number: 67, name: "Al-Mulk", verses: 30 },
+            { number: 68, name: "Al-Qalam", verses: 52 },
+            { number: 69, name: "Al-Haqqah", verses: 52 },
+            { number: 70, name: "Al-Ma'arij", verses: 44 },
+            { number: 71, name: "Nuh", verses: 28 },
+            { number: 72, name: "Al-Jinn", verses: 28 },
+            { number: 73, name: "Al-Muzzammil", verses: 20 },
+            { number: 74, name: "Al-Muddaththir", verses: 56 },
+            { number: 75, name: "Al-Qiyamah", verses: 40 },
+            { number: 76, name: "Al-Insan", verses: 31 },
+            { number: 77, name: "Al-Mursalat", verses: 50 },
+            { number: 78, name: "An-Naba", verses: 40 },
+            { number: 79, name: "An-Nazi'at", verses: 46 },
+            { number: 80, name: "'Abasa", verses: 42 },
+            { number: 81, name: "At-Takwir", verses: 29 },
+            { number: 82, name: "Al-Infitar", verses: 19 },
+            { number: 83, name: "Al-Mutaffifin", verses: 36 },
+            { number: 84, name: "Al-Inshiqaq", verses: 25 },
+            { number: 85, name: "Al-Buruj", verses: 22 },
+            { number: 86, name: "At-Tariq", verses: 17 },
+            { number: 87, name: "Al-A'la", verses: 19 },
+            { number: 88, name: "Al-Ghashiyah", verses: 26 },
+            { number: 89, name: "Al-Fajr", verses: 30 },
+            { number: 90, name: "Al-Balad", verses: 20 },
+            { number: 91, name: "Ash-Shams", verses: 15 },
+            { number: 92, name: "Al-Layl", verses: 21 },
+            { number: 93, name: "Ad-Duha", verses: 11 },
+            { number: 94, name: "Ash-Sharh", verses: 8 },
+            { number: 95, name: "At-Tin", verses: 8 },
+            { number: 96, name: "Al-'Alaq", verses: 19 },
+            { number: 97, name: "Al-Qadr", verses: 5 },
+            { number: 98, name: "Al-Bayyinah", verses: 8 },
+            { number: 99, name: "Az-Zalzalah", verses: 8 },
+            { number: 100, name: "Al-'Adiyat", verses: 11 },
+            { number: 101, name: "Al-Qari'ah", verses: 11 },
+            { number: 102, name: "At-Takathur", verses: 8 },
+            { number: 103, name: "Al-'Asr", verses: 3 },
+            { number: 104, name: "Al-Humazah", verses: 9 },
+            { number: 105, name: "Al-Fil", verses: 5 },
+            { number: 106, name: "Quraysh", verses: 4 },
+            { number: 107, name: "Al-Ma'un", verses: 7 },
+            { number: 108, name: "Al-Kawthar", verses: 3 },
+            { number: 109, name: "Al-Kafirun", verses: 6 },
+            { number: 110, name: "An-Nasr", verses: 3 },
+            { number: 111, name: "Al-Masad", verses: 5 },
+            { number: 112, name: "Al-Ikhlas", verses: 4 },
+            { number: 113, name: "Al-Falaq", verses: 5 },
+            { number: 114, name: "An-Nas", verses: 6 }
+        ];
+
+        function renderSurahs(filter = '') {
+            const grid = document.getElementById('surahGrid');
+            const filtered = filter ? surahs.filter(s => 
+                s.name.toLowerCase().includes(filter) || 
+                s.number.toString().includes(filter)
+            ) : surahs;
+
+            grid.innerHTML = filtered.map(s => `
+                <a href="pics/surah/${s.number}.pdf" target="_blank" class="surah-card">
+                    <div class="number">${s.number}</div>
+                    <div class="name">${s.name}</div>
+                    <div class="meta">${s.verses} verses</div>
+                </a>
+            `).join('');
+        }
+
+        document.getElementById('surahSearch').addEventListener('input', function() {
+            renderSurahs(this.value.toLowerCase());
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('components/navbar.html').then(r=>r.text()).then(d=>document.getElementById('navbar-placeholder').innerHTML=d);
+            fetch('components/footer.html').then(r=>r.text()).then(d=>document.getElementById('footer-placeholder').innerHTML=d);
+            renderSurahs();
+        });
+    </script>
+    <script src="deen.js"></script>
+</body>
+</html>

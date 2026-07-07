@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasbeeh Counter - DeenPath</title>
+    <link rel="icon" type="image/png" href="pics/logo.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="deen.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a2f1d;
+            --gold: #d4af37;
+            --gold-light: #f0d78c;
+            --white: #ffffff;
+            --off-white: #f8f5f0;
+            --text-dark: #1a1a2e;
+            --text-light: #6b6b7a;
+            --shadow: 0 8px 30px rgba(0,0,0,0.12);
+            --shadow-gold: 0 8px 30px rgba(212, 175, 55, 0.3);
+            --radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--off-white); color: var(--text-dark); overflow-x: hidden; }
+        h1, h2 { font-family: 'Playfair Display', serif; font-weight: 700; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+        .section-padding { padding: 80px 0; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 2.8rem; position: relative; display: inline-block; }
+        .section-title h2::after {
+            content: ''; position: absolute; bottom: -10px; left: 50%;
+            transform: translateX(-50%);
+            width: 60px; height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 2px;
+        }
+        .section-title p { color: var(--text-light); max-width: 600px; margin: 15px auto 0; }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--primary); padding: 12px 32px; border-radius: 50px;
+            font-weight: 600; border: none; transition: var(--transition);
+            box-shadow: var(--shadow-gold);
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(212,175,55,0.4); color: var(--primary); }
+
+        .page-hero {
+            background: linear-gradient(135deg, var(--primary), #0a3a22);
+            padding: 140px 0 80px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-hero::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: url('pics/counter.png') center/cover no-repeat;
+            opacity: 0.15; z-index: 0;
+        }
+        .page-hero .container { position: relative; z-index: 1; }
+        .page-hero h1 { font-size: 3.5rem; color: var(--gold); }
+        .page-hero p { color: rgba(255,255,255,0.8); max-width: 600px; margin: 15px auto 0; font-size: 1.2rem; }
+
+        .counter-container {
+            max-width: 500px; margin: 0 auto;
+            background: var(--white); border-radius: var(--radius);
+            padding: 40px; box-shadow: var(--shadow);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+        .counter-display {
+            text-align: center; padding: 30px 0;
+        }
+        .counter-display .arabic {
+            font-family: 'Noto Naskh Arabic', serif;
+            font-size: 2rem; color: var(--primary);
+            margin-bottom: 10px;
+        }
+        .counter-display .number {
+            font-family: 'Playfair Display', serif;
+            font-size: 6rem; font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+        .counter-display .number.pop {
+            animation: pop 0.3s ease;
+        }
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        .counter-display .label {
+            color: var(--text-light); font-size: 1rem;
+            margin-top: 8px;
+        }
+
+        .counter-buttons {
+            display: flex; gap: 12px;
+            justify-content: center; flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .counter-buttons button {
+            padding: 14px 28px; border-radius: 50px;
+            border: none; font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .counter-buttons .btn-increment {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--primary);
+            flex: 2;
+        }
+        .counter-buttons .btn-increment:hover { transform: scale(1.05); box-shadow: var(--shadow-gold); }
+        .counter-buttons .btn-reset {
+            background: var(--off-white); color: var(--text-dark);
+            flex: 1;
+        }
+        .counter-buttons .btn-reset:hover { background: #e74c3c; color: #fff; }
+
+        .progress-container {
+            margin-top: 20px;
+        }
+        .progress-container .progress-bar {
+            height: 8px; border-radius: 50px;
+            background: var(--off-white); overflow: hidden;
+        }
+        .progress-container .progress-bar .fill {
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 50px;
+            transition: width 0.5s ease;
+        }
+        .progress-container .progress-text {
+            display: flex; justify-content: space-between;
+            font-size: 0.85rem; color: var(--text-light);
+            margin-top: 6px;
+        }
+
+        .preset-buttons {
+            display: flex; gap: 8px;
+            justify-content: center; flex-wrap: wrap;
+            margin-top: 16px;
+        }
+        .preset-buttons button {
+            padding: 6px 16px; border-radius: 50px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            background: transparent; font-size: 0.85rem;
+            transition: var(--transition); cursor: pointer;
+        }
+        .preset-buttons button:hover {
+            background: var(--gold); color: var(--primary);
+            border-color: var(--gold);
+        }
+
+        @media (max-width: 767px) {
+            .page-hero h1 { font-size: 2.5rem; }
+            .section-title h2 { font-size: 2rem; }
+            .counter-display .number { font-size: 4.5rem; }
+            .counter-container { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+<!-- ========================================
+   DEENPATH - PREMIUM NAVBAR
+   ======================================== -->
+<nav class="navbar navbar-expand-lg fixed-top" id="main-navbar">
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="index.html">
+            <img src="pic/logo.jpg" alt="DeenPath" class="navbar-logo">
+            <span class="navbar-brand-text">Deen<span>Path</span></span>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about-us.html">About</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="resourcesDropdown" role="button" data-bs-toggle="dropdown">
+                        Resources
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="quran.html">📖 Quran</a></li>
+                        <li><a class="dropdown-item" href="surah.html">📚 Surah</a></li>
+                        <li><a class="dropdown-item" href="du-as.html">🤲 Duas</a></li>
+                        <li><a class="dropdown-item" href="namaztime.html">🕌 Prayer Times</a></li>
+                        <li><a class="dropdown-item" href="calender.html">📅 Calendar</a></li>
+                        <li><a class="dropdown-item" href="counter.html">📿 Tasbeeh</a></li>
+                        <li><a class="dropdown-item" href="qibla.html">🧭 Qibla</a></li>
+                        <li><a class="dropdown-item" href="mosque.html">🕌 Mosque Finder</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="gallery.html">Gallery</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="explore.html">Explore</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="portfolio.html">Portfolio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+            </ul>
+
+            <!-- Actions -->
+            <div class="navbar-actions">
+                <button class="search-toggle" id="search-toggle" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+                
+                <div class="dark-mode-toggle">
+                    <input type="checkbox" id="dark-mode-toggle">
+                    <label for="dark-mode-toggle" class="toggle-label">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                        <span class="toggle-ball"></span>
+                    </label>
+                </div>
+
+                <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+                <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-overlay-content">
+            <button class="search-close" id="search-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="search-input" placeholder="Search for Islamic knowledge..." autofocus>
+            </div>
+            <div class="search-results" id="search-results"></div>
+        </div>
+    </div>
+</nav>
+ 
+    <section class="page-hero">
+        <div class="container">
+            <h1 data-aos="fade-down">Tasbeeh Counter</h1>
+            <p data-aos="fade-up" data-aos-delay="100">Digital tasbeeh for your daily dhikr</p>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Digital Tasbeeh</h2>
+                <p>Keep track of your dhikr with ease</p>
+            </div>
+
+            <div class="counter-container" data-aos="fade-up">
+                <div class="counter-display">
+                    <div class="arabic">سُبْحَانَ اللَّهِ</div>
+                    <div class="number" id="counterNumber">0</div>
+                    <div class="label">Tasbeeh Count</div>
+                </div>
+
+                <div class="counter-buttons">
+                    <button class="btn-increment" onclick="incrementCounter()">
+                        <i class="fas fa-plus-circle"></i> Count
+                    </button>
+                    <button class="btn-reset" onclick="resetCounter()">
+                        <i class="fas fa-undo"></i> Reset
+                    </button>
+                </div>
+
+                <div class="preset-buttons">
+                    <button onclick="setPreset(33)">33</button>
+                    <button onclick="setPreset(100)">100</button>
+                    <button onclick="setPreset(500)">500</button>
+                    <button onclick="setPreset(1000)">1000</button>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span id="progressLabel">0%</span>
+                        <span>Target: <span id="targetDisplay">100</span></span>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 16px;">
+                    <button class="btn btn-primary" onclick="saveCounter()">
+                        <i class="fas fa-save"></i> Save Progress
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <!-- Brand -->
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <img src="pics/logo.jpg" alt="DeenPath">
+                    <span>DeenPath</span>
+                </div>
+                <p>Your trusted companion for authentic Islamic knowledge and spiritual growth.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="explore.html">Explore</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources -->
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="quran.html">Quran</a></li>
+                    <li><a href="surah.html">Surah</a></li>
+                    <li><a href="duas.html">Duas</a></li>
+                    <li><a href="nt.html">Prayer Times</a></li>
+                    <li><a href="calender.html">Calendar</a></li>
+                    <li><a href="counter.html">Tasbeeh</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-contact-col">
+                <h4>Contact</h4>
+                <p><i class="fas fa-envelope"></i> mohsingohar759@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +92 3412126649</p>
+                <p><i class="fas fa-map-marker-alt"></i> Karachi, Pakistan</p>
+                <div class="footer-newsletter">
+                    <h4>Newsletter</h4>
+                    <form id="newsletter-form">
+                        <div class="newsletter-input">
+                            <input type="email" placeholder="Your email" required>
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> DeenPath. All Rights Reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="FAQs.html">FAQs</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, easing: 'ease-in-out', once: true });
+
+        let counter = 0;
+        let target = 100;
+
+        function updateDisplay() {
+            document.getElementById('counterNumber').textContent = counter;
+            const percent = Math.min((counter / target) * 100, 100);
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressLabel').textContent = Math.round(percent) + '%';
+            document.getElementById('targetDisplay').textContent = target;
+
+            // Pop animation
+            const el = document.getElementById('counterNumber');
+            el.classList.remove('pop');
+            setTimeout(() => el.classList.add('pop'), 10);
+
+            // Save to localStorage
+            localStorage.setItem('tasbeehCount', counter);
+            localStorage.setItem('tasbeehTarget', target);
+        }
+
+        function incrementCounter() {
+            counter++;
+            updateDisplay();
+            // Vibrate on mobile
+            if (navigator.vibrate) navigator.vibrate(50);
+        }
+
+        function resetCounter() {
+            if (confirm('Reset counter to 0?')) {
+                counter = 0;
+                updateDisplay();
+            }
+        }
+
+        function setPreset(value) {
+            target = value;
+            updateDisplay();
+        }
+
+        function saveCounter() {
+            localStorage.setItem('tasbeehCount', counter);
+            localStorage.setItem('tasbeehTarget', target);
+            alert('Progress saved!');
+        }
+
+        // Load saved data
+        document.addEventListener('DOMContentLoaded', function() {
+            const saved = localStorage.getItem('tasbeehCount');
+            const savedTarget = localStorage.getItem('tasbeehTarget');
+            if (saved) counter = parseInt(saved);
+            if (savedTarget) target = parseInt(savedTarget);
+            updateDisplay();
+
+            fetch('components/navbar.html').then(r=>r.text()).then(d=>document.getElementById('navbar-placeholder').innerHTML=d);
+            fetch('components/footer.html').then(r=>r.text()).then(d=>document.getElementById('footer-placeholder').innerHTML=d);
+        });
+    </script>
+    <script src="deen.js"></script>
+</body>
+</html>

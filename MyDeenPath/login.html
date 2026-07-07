@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - DeenPath</title>
+    <link rel="icon" type="image/png" href="pics/logo.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="deen.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a2f1d;
+            --gold: #d4af37;
+            --gold-light: #f0d78c;
+            --white: #ffffff;
+            --off-white: #f8f5f0;
+            --text-dark: #1a1a2e;
+            --text-light: #6b6b7a;
+            --shadow: 0 8px 30px rgba(0,0,0,0.12);
+            --shadow-gold: 0 8px 30px rgba(212, 175, 55, 0.3);
+            --radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--primary), #0a3a22);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        h1, h2 { font-family: 'Playfair Display', serif; font-weight: 700; }
+
+        .login-container {
+            max-width: 440px; width: 100%;
+            background: var(--white); border-radius: var(--radius);
+            padding: 40px; box-shadow: var(--shadow);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .login-container .logo {
+            text-align: center; margin-bottom: 30px;
+        }
+        .login-container .logo img {
+            width: 70px; height: 70px; border-radius: 50%;
+            border: 3px solid var(--gold);
+            margin-bottom: 12px;
+        }
+        .login-container .logo h2 {
+            color: var(--gold); font-size: 2rem;
+        }
+        .login-container .logo p {
+            color: var(--text-light); font-size: 0.95rem;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        .form-group label {
+            font-weight: 600; color: var(--text-dark);
+            display: block; margin-bottom: 6px;
+        }
+        .form-group input {
+            width: 100%; padding: 14px 18px;
+            border: 2px solid #e0e0e0; border-radius: 12px;
+            font-size: 1rem; transition: var(--transition);
+            background: var(--off-white);
+        }
+        .form-group input:focus {
+            border-color: var(--gold); outline: none;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+
+        .form-options {
+            display: flex; justify-content: space-between;
+            align-items: center; margin-bottom: 20px;
+        }
+        .form-options .remember {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.9rem; color: var(--text-light);
+        }
+        .form-options .remember input { width: auto; }
+        .form-options a { color: var(--gold); text-decoration: none; font-size: 0.9rem; }
+        .form-options a:hover { text-decoration: underline; }
+
+        .btn-login {
+            width: 100%; padding: 14px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--primary); border: none; border-radius: 12px;
+            font-weight: 600; font-size: 1.1rem; cursor: pointer;
+            transition: var(--transition); box-shadow: var(--shadow-gold);
+        }
+        .btn-login:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(212,175,55,0.4); }
+
+        .register-link {
+            text-align: center; margin-top: 16px;
+            color: var(--text-light); font-size: 0.95rem;
+        }
+        .register-link a { color: var(--gold); text-decoration: none; font-weight: 600; }
+        .register-link a:hover { text-decoration: underline; }
+
+        .social-login {
+            margin-top: 20px; text-align: center;
+        }
+        .social-login p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 12px; }
+        .social-login .social-btns {
+            display: flex; gap: 12px; justify-content: center;
+        }
+        .social-login .social-btns button {
+            width: 48px; height: 48px; border-radius: 50%;
+            border: 2px solid #e0e0e0; background: transparent;
+            font-size: 18px; cursor: pointer; transition: var(--transition);
+        }
+        .social-login .social-btns button:hover {
+            border-color: var(--gold); background: var(--gold);
+            color: var(--primary);
+        }
+
+        .error-msg {
+            background: #fee; color: #c0392b;
+            padding: 12px; border-radius: 12px;
+            margin-bottom: 16px; display: none;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 480px) {
+            .login-container { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+<!-- ========================================
+   DEENPATH - PREMIUM NAVBAR
+   ======================================== -->
+<nav class="navbar navbar-expand-lg fixed-top" id="main-navbar">
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="index.html">
+            <img src="pic/logo.jpg" alt="DeenPath" class="navbar-logo">
+            <span class="navbar-brand-text">Deen<span>Path</span></span>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about-us.html">About</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="resourcesDropdown" role="button" data-bs-toggle="dropdown">
+                        Resources
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="quran.html">📖 Quran</a></li>
+                        <li><a class="dropdown-item" href="surah.html">📚 Surah</a></li>
+                        <li><a class="dropdown-item" href="du-as.html">🤲 Duas</a></li>
+                        <li><a class="dropdown-item" href="namaztime.html">🕌 Prayer Times</a></li>
+                        <li><a class="dropdown-item" href="calender.html">📅 Calendar</a></li>
+                        <li><a class="dropdown-item" href="counter.html">📿 Tasbeeh</a></li>
+                        <li><a class="dropdown-item" href="qibla.html">🧭 Qibla</a></li>
+                        <li><a class="dropdown-item" href="mosque.html">🕌 Mosque Finder</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="gallery.html">Gallery</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="explore.html">Explore</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="portfolio.html">Portfolio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+            </ul>
+
+            <!-- Actions -->
+            <div class="navbar-actions">
+                <button class="search-toggle" id="search-toggle" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+                
+                <div class="dark-mode-toggle">
+                    <input type="checkbox" id="dark-mode-toggle">
+                    <label for="dark-mode-toggle" class="toggle-label">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                        <span class="toggle-ball"></span>
+                    </label>
+                </div>
+
+                <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+                <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-overlay-content">
+            <button class="search-close" id="search-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="search-input" placeholder="Search for Islamic knowledge..." autofocus>
+            </div>
+            <div class="search-results" id="search-results"></div>
+        </div>
+    </div>
+</nav>
+ 
+
+    <div class="login-container">
+        <div class="logo">
+            <img src="pics/logo.jpg" alt="DeenPath">
+            <h2>DeenPath</h2>
+            <p>Welcome back to DeenPath</p>
+        </div>
+
+        <div class="error-msg" id="errorMsg">Invalid email or password.</div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="loginEmail" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password" required>
+            </div>
+
+            <div class="form-options">
+                <label class="remember">
+                    <input type="checkbox" id="rememberMe"> Remember me
+                </label>
+                <a href="#">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn-login">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+        </form>
+
+        <div class="register-link">
+            Don't have an account? <a href="register.html">Register here</a>
+        </div>
+
+        <div class="social-login">
+            <p>Or login with</p>
+            <div class="social-btns">
+                <button><i class="fab fa-google"></i></button>
+                <button><i class="fab fa-facebook-f"></i></button>
+                <button><i class="fab fa-twitter"></i></button>
+            </div>
+        </div>
+    </div>
+    
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <!-- Brand -->
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <img src="pics/logo.jpg" alt="DeenPath">
+                    <span>DeenPath</span>
+                </div>
+                <p>Your trusted companion for authentic Islamic knowledge and spiritual growth.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="explore.html">Explore</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources -->
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="quran.html">Quran</a></li>
+                    <li><a href="surah.html">Surah</a></li>
+                    <li><a href="duas.html">Duas</a></li>
+                    <li><a href="nt.html">Prayer Times</a></li>
+                    <li><a href="calender.html">Calendar</a></li>
+                    <li><a href="counter.html">Tasbeeh</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-contact-col">
+                <h4>Contact</h4>
+                <p><i class="fas fa-envelope"></i> mohsingohar759@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +92 3412126649</p>
+                <p><i class="fas fa-map-marker-alt"></i> Karachi, Pakistan</p>
+                <div class="footer-newsletter">
+                    <h4>Newsletter</h4>
+                    <form id="newsletter-form">
+                        <div class="newsletter-input">
+                            <input type="email" placeholder="Your email" required>
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> DeenPath. All Rights Reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="FAQs.html">FAQs</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (email && password) {
+                // Store login state
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userEmail', email);
+                
+                // Show success and redirect
+                alert('Login successful! Welcome back.');
+                window.location.href = 'index.html';
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        });
+
+        // Check if already logged in
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            // Redirect to home if already logged in
+            // window.location.href = 'index.html';
+        }
+    </script>
+    <script src="deen.js"></script>
+</body>
+</html>

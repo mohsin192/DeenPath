@@ -1,0 +1,971 @@
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeenPath - Your Guide to the Straight Path</title>
+    <link rel="icon" type="image/png" href="pic/logo.jpg">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="deen.css" rel="stylesheet">
+    
+    <style>
+        /* ========================================
+           GLOBAL STYLES
+           ======================================== */
+        :root {
+            --primary: #0a2f1d;
+            --primary-light: #1a4f2d;
+            --gold: #d4af37;
+            --gold-light: #f0d78c;
+            --white: #ffffff;
+            --off-white: #f8f5f0;
+            --text-dark: #1a1a2e;
+            --text-light: #6b6b7a;
+            --shadow: 0 8px 30px rgba(0,0,0,0.12);
+            --shadow-gold: 0 8px 30px rgba(212, 175, 55, 0.3);
+            --radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--off-white);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+        .section-padding { padding: 80px 0; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 2.8rem; position: relative; display: inline-block; }
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 2px;
+        }
+        .section-title p { color: var(--text-light); max-width: 600px; margin: 15px auto 0; }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--primary);
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            border: none;
+            transition: var(--transition);
+            box-shadow: var(--shadow-gold);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(212, 175, 55, 0.4);
+            color: var(--primary);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--gold);
+            border: 2px solid var(--gold);
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .btn-outline:hover {
+            background: var(--gold);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+        .btn-glass {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .btn-glass:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+            color: #fff;
+        }
+
+        /* Cards */
+        .card-premium {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            height: 100%;
+        }
+        .card-premium:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+            border-color: var(--gold);
+        }
+
+        /* Loading Screen */
+        #loading-screen {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #loading-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .loading-spinner {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top-color: var(--gold);
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text { color: #fff; font-family: 'Playfair Display', serif; font-size: 1.8rem; }
+        .loading-text span { color: var(--gold); }
+
+        /* Scroll Progress */
+        #scroll-progress {
+            position: fixed; top: 0; left: 0;
+            width: 0; height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            z-index: 9998;
+            transition: width 0.1s linear;
+        }
+
+        /* Back to Top */
+        #back-to-top {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--primary);
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: var(--shadow-gold);
+            transition: var(--transition);
+            opacity: 0; visibility: hidden;
+            transform: translateY(20px);
+            z-index: 999;
+        }
+        #back-to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+        #back-to-top:hover { transform: translateY(-5px) scale(1.1); }
+
+        /* ========================================
+           HERO SECTION
+           ======================================== */
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary), #0a3a22);
+            overflow: hidden;
+            padding: 120px 0 80px;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('https://images.unsplash.com/photo-1586308296721-e04e6b9e3c5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        .hero-section .container { position: relative; z-index: 1; }
+        .hero-content { max-width: 700px; }
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 18px;
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50px;
+            color: var(--gold);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+        .hero-section h1 {
+            color: #fff;
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            line-height: 1.1;
+            margin-bottom: 15px;
+        }
+        .hero-section h1 .highlight { color: var(--gold); position: relative; }
+        .hero-section h1 .highlight::after {
+            content: '';
+            position: absolute;
+            bottom: 4px; left: 0; right: 0;
+            height: 6px;
+            background: var(--gold);
+            opacity: 0.3;
+            border-radius: 2px;
+        }
+        .hero-section p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.2rem;
+            max-width: 550px;
+            margin-bottom: 30px;
+        }
+        .hero-buttons { display: flex; gap: 15px; flex-wrap: wrap; }
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .hero-stat .number {
+            display: block;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--gold);
+            font-family: 'Playfair Display', serif;
+        }
+        .hero-stat .label { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+        .hero-image-wrapper {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        .hero-image-wrapper img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* ========================================
+           FEATURES
+           ======================================== */
+        .features-section { background: var(--off-white); }
+        .feature-card { text-align: center; padding: 32px 24px; }
+        .feature-card .icon-wrapper {
+            width: 72px; height: 72px;
+            margin: 0 auto 16px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            color: var(--primary);
+            transition: var(--transition);
+        }
+        .feature-card:hover .icon-wrapper {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: var(--shadow-gold);
+        }
+        .feature-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
+        .feature-card p { font-size: 0.95rem; margin: 0; color: var(--text-light); }
+        .feature-card .read-more {
+            display: inline-block;
+            margin-top: 12px;
+            color: var(--gold);
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .feature-card .read-more:hover { padding-left: 8px; }
+
+        /* ========================================
+           STATS
+           ======================================== */
+        .stats-section {
+            background: linear-gradient(135deg, var(--primary), #0a3a22);
+            padding: 60px 0;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            text-align: center;
+        }
+        .stat-item .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--gold);
+            display: block;
+        }
+        .stat-item .stat-label { color: rgba(255,255,255,0.7); font-size: 1rem; }
+
+        /* ========================================
+           PRAYER TIMES
+           ======================================== */
+        .prayer-section { background: var(--white); }
+        .prayer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+        }
+        .prayer-card {
+            background: var(--off-white);
+            border-radius: 12px;
+            padding: 20px 16px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+        .prayer-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+        .prayer-card .prayer-icon { font-size: 24px; color: var(--gold); margin-bottom: 8px; }
+        .prayer-card .prayer-name { font-weight: 600; color: var(--primary); font-size: 0.9rem; }
+        .prayer-card .prayer-time {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+        .prayer-card.current {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            border-color: var(--gold);
+        }
+        .prayer-card.current .prayer-name,
+        .prayer-card.current .prayer-time,
+        .prayer-card.current .prayer-icon { color: var(--primary); }
+
+        /* ========================================
+           TESTIMONIALS
+           ======================================== */
+        .testimonials-section { background: var(--off-white); }
+        .testimonial-card { padding: 32px; position: relative; }
+        .testimonial-card .quote-icon { font-size: 2rem; color: var(--gold); opacity: 0.3; margin-bottom: 16px; }
+        .testimonial-card blockquote {
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 16px;
+            font-size: 1.05rem;
+        }
+        .testimonial-card .testimonial-author { display: flex; align-items: center; gap: 12px; }
+        .testimonial-card .author-avatar {
+            width: 48px; height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .testimonial-card .author-name { font-weight: 600; }
+        .testimonial-card .author-role { font-size: 0.85rem; color: var(--text-light); }
+
+        /* ========================================
+           CTA
+           ======================================== */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary), #0a3a22);
+            padding: 80px 0;
+            text-align: center;
+        }
+        .cta-section h2 { color: #fff; font-size: clamp(2rem, 3.5vw, 3rem); }
+        .cta-section p { color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto 30px; font-size: 1.2rem; }
+        .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 991px) {
+            .hero-section { min-height: auto; padding: 100px 0 60px; }
+            .hero-section h1 { font-size: 2.8rem; }
+            .hero-stats { gap: 20px; flex-wrap: wrap; }
+            .hero-stat .number { font-size: 1.8rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+            .stat-item .stat-number { font-size: 2.5rem; }
+        }
+        @media (max-width: 767px) {
+            .hero-section h1 { font-size: 2.2rem; }
+            .hero-section p { font-size: 1rem; }
+            .hero-buttons { flex-direction: column; gap: 12px; }
+            .hero-buttons .btn { width: 100%; justify-content: center; }
+            .hero-stats { flex-direction: column; gap: 12px; align-items: center; }
+            .hero-image-wrapper img { height: 300px; }
+            .stats-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+            .stat-item .stat-number { font-size: 2rem; }
+            .prayer-grid { grid-template-columns: repeat(3, 1fr); }
+            .section-title h2 { font-size: 2rem; }
+        }
+        @media (max-width: 480px) {
+            .prayer-grid { grid-template-columns: repeat(2, 1fr); }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+<!-- ========================================
+   DEENPATH - PREMIUM NAVBAR
+   ======================================== -->
+<nav class="navbar navbar-expand-lg fixed-top" id="main-navbar">
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="index.html">
+            <img src="pic/logo.jpg" alt="DeenPath" class="navbar-logo">
+            <span class="navbar-brand-text">Deen<span>Path</span></span>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about-us.html">About</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="resourcesDropdown" role="button" data-bs-toggle="dropdown">
+                        Resources
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="quran.html">📖 Quran</a></li>
+                        <li><a class="dropdown-item" href="surah.html">📚 Surah</a></li>
+                        <li><a class="dropdown-item" href="du-as.html">🤲 Duas</a></li>
+                        <li><a class="dropdown-item" href="namaztime.html">🕌 Prayer Times</a></li>
+                        <li><a class="dropdown-item" href="calender.html">📅 Calendar</a></li>
+                        <li><a class="dropdown-item" href="counter.html">📿 Tasbeeh</a></li>
+                        <li><a class="dropdown-item" href="qibla.html">🧭 Qibla</a></li>
+                        <li><a class="dropdown-item" href="mosque.html">🕌 Mosque Finder</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="gallery.html">Gallery</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="explore.html">Explore</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="portfolio.html">Portfolio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+            </ul>
+
+            <!-- Actions -->
+            <div class="navbar-actions">
+                <button class="search-toggle" id="search-toggle" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+                
+                <div class="dark-mode-toggle">
+                    <input type="checkbox" id="dark-mode-toggle">
+                    <label for="dark-mode-toggle" class="toggle-label">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                        <span class="toggle-ball"></span>
+                    </label>
+                </div>
+
+                <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+                <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-overlay-content">
+            <button class="search-close" id="search-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="search-input" placeholder="Search for Islamic knowledge..." autofocus>
+            </div>
+            <div class="search-results" id="search-results"></div>
+        </div>
+    </div>
+</nav>
+ 
+
+    <!-- Loading Screen -->
+    <div id="loading-screen">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Deen<span>Path</span></div>
+    </div>
+
+    <!-- Scroll Progress -->
+    <div id="scroll-progress"></div>
+
+    <!-- Back to Top -->
+    <button id="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- ===== NAVBAR ===== -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- ========================================
+    HERO SECTION
+    ======================================== -->
+    <section class="hero-section" id="home">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 hero-content" data-aos="fade-right">
+                    <span class="hero-badge">Welcome to DeenPath</span>
+                    <h1>
+                        Your Guide to the
+                        <span class="highlight">Straight Path</span>
+                    </h1>
+                    <p>Discover authentic Islamic knowledge, accurate prayer times, and spiritual resources to enrich your faith journey.</p>
+                    <div class="hero-buttons">
+                        <a href="explore.html" class="btn btn-primary">
+                            <i class="fas fa-book-open"></i> Start Exploring
+                        </a>
+                        <a href="about-us.html" class="btn btn-glass">Learn More</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <span class="number" data-target="5000">0</span>
+                            <span class="label">Students</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="number" data-target="50">0</span>
+                            <span class="label">Courses</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="number" data-target="30">0</span>
+                            <span class="label">Scholars</span>
+                        </div>
+                        <div class="hero-stat">
+                            <span class="number" data-target="25">0</span>
+                            <span class="label">Countries</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="hero-image-wrapper">
+                        <img src="pic/headmosqueex.jpg" alt="Islamic Architecture" loading="lazy">
+                        <div style="position: absolute; bottom: 20px; left: 20px; right: 20px; padding: 16px 20px; background: rgba(0,0,0,0.6); backdrop-filter: blur(12px); border-radius: 12px; border: none;">
+                            <p style="color: #fff; margin: 0; font-size: 0.9rem;">
+                                <i class="fas fa-mosque" style="color: var(--gold);"></i>
+                                "The best of you are those who learn the Quran and teach it."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+    STATISTICS SECTION
+    ======================================== -->
+    <section class="stats-section" data-aos="fade-up">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item" data-aos="zoom-in" data-aos-delay="100">
+                    <span class="stat-number" data-target="5000">0</span>
+                    <span class="stat-label">Happy Students</span>
+                </div>
+                <div class="stat-item" data-aos="zoom-in" data-aos-delay="200">
+                    <span class="stat-number" data-target="98">0</span>
+                    <span class="stat-label">Satisfaction Rate</span>
+                </div>
+                <div class="stat-item" data-aos="zoom-in" data-aos-delay="300">
+                    <span class="stat-number" data-target="50">0</span>
+                    <span class="stat-label">Expert Scholars</span>
+                </div>
+                <div class="stat-item" data-aos="zoom-in" data-aos-delay="400">
+                    <span class="stat-number" data-target="25">0</span>
+                    <span class="stat-label">Countries</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+    FEATURES SECTION
+    ======================================== -->
+    <section class="features-section section-padding" id="features">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Explore Islamic Knowledge</h2>
+                <p>Your comprehensive Islamic resources for spiritual growth and understanding</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-premium feature-card">
+                        <div class="icon-wrapper"><i class="fas fa-book-quran"></i></div>
+                        <h3>Quranic Studies</h3>
+                        <p>Access the complete Quran with translations and recitations</p>
+                        <a href="quran.html" class="read-more">Learn More →</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-premium feature-card">
+                        <div class="icon-wrapper"><i class="fas fa-moon"></i></div>
+                        <h3>Prayer Times</h3>
+                        <p>Accurate prayer times based on your location</p>
+                        <a href="nt.html" class="read-more">Learn More →</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-premium feature-card">
+                        <div class="icon-wrapper"><i class="fas fa-compass"></i></div>
+                        <h3>Qibla Direction</h3>
+                        <p>Find the exact Qibla direction from anywhere</p>
+                        <a href="qibla.html" class="read-more">Learn More →</a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="card-premium feature-card">
+                        <div class="icon-wrapper"><i class="fas fa-mosque"></i></div>
+                        <h3>Mosque Finder</h3>
+                        <p>Locate mosques near you with prayer times</p>
+                        <a href="mosque.html" class="read-more">Learn More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+    PRAYER TIMES SECTION
+    ======================================== -->
+    <section class="prayer-section section-padding" id="prayer">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Today's Prayer Times</h2>
+                <p>Stay connected with your daily prayers</p>
+            </div>
+            <div class="prayer-grid" id="prayer-grid" data-aos="fade-up">
+                <!-- JavaScript will populate -->
+            </div>
+            <div class="text-center mt-4" data-aos="fade-up">
+                <a href="namaztime.html" class="btn btn-primary">
+                    <i class="fas fa-calendar-alt"></i> View Full Schedule
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+    TESTIMONIALS SECTION
+    ======================================== -->
+    <section class="testimonials-section section-padding" id="testimonials">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>What Our Users Say</h2>
+                <p>Hear from our community about their experience with DeenPath</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-premium testimonial-card">
+                        <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                        <blockquote>DeenPath has transformed my daily Islamic practices. The prayer time reminders and Quran translations are amazing.</blockquote>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">AK</div>
+                            <div>
+                                <div class="author-name">Ahmed Khan</div>
+                                <div class="author-role">Software Engineer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-premium testimonial-card">
+                        <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                        <blockquote>As a new Muslim, DeenPath has been my guide. The resources are authentic and easy to understand.</blockquote>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">SM</div>
+                            <div>
+                                <div class="author-name">Sarah Miller</div>
+                                <div class="author-role">Teacher</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-premium testimonial-card">
+                        <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                        <blockquote>The Qibla compass and mosque finder have been invaluable during my travels. Simply amazing!</blockquote>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">MR</div>
+                            <div>
+                                <div class="author-name">Mohammed Rahman</div>
+                                <div class="author-role">Business Consultant</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+    CTA SECTION
+    ======================================== -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content" data-aos="fade-up">
+                <h2>Start Your Islamic Journey Today</h2>
+                <p>Join thousands of students who have transformed their understanding of Islam through DeenPath.</p>
+                <div class="cta-buttons">
+                    <a href="register.html" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Sign Up Now
+                    </a>
+                    <a href="about-us.html" class="btn btn-glass">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <!-- Brand -->
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <img src="pics/logo.jpg" alt="DeenPath">
+                    <span>DeenPath</span>
+                </div>
+                <p>Your trusted companion for authentic Islamic knowledge and spiritual growth.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="explore.html">Explore</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources -->
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="quran.html">Quran</a></li>
+                    <li><a href="surah.html">Surah</a></li>
+                    <li><a href="duas.html">Duas</a></li>
+                    <li><a href="nt.html">Prayer Times</a></li>
+                    <li><a href="calender.html">Calendar</a></li>
+                    <li><a href="counter.html">Tasbeeh</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-contact-col">
+                <h4>Contact</h4>
+                <p><i class="fas fa-envelope"></i> mohsingohar759@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +92 3412126649</p>
+                <p><i class="fas fa-map-marker-alt"></i> Karachi, Pakistan</p>
+                <div class="footer-newsletter">
+                    <h4>Newsletter</h4>
+                    <form id="newsletter-form">
+                        <div class="newsletter-input">
+                            <input type="email" placeholder="Your email" required>
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> DeenPath. All Rights Reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="FAQs.html">FAQs</a>
+            </div>
+        </div>
+    </div>
+</footer>
+ <!-- ========================================
+    SCRIPTS
+    ======================================== -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="deen.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+    <script>
+        // ========================================
+        // INITIALIZE AOS
+        // ========================================
+        AOS.init({ duration: 800, easing: 'ease-in-out', once: true, mirror: false });
+
+        // ========================================
+        // LOAD NAVBAR & FOOTER
+        // ========================================
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('components/navbar.html')
+                .then(r => r.text())
+                .then(data => document.getElementById('navbar-placeholder').innerHTML = data)
+                .catch(() => console.warn('Navbar not found'));
+
+            fetch('components/footer.html')
+                .then(r => r.text())
+                .then(data => document.getElementById('footer-placeholder').innerHTML = data)
+                .catch(() => console.warn('Footer not found'));
+
+            // Hide loading screen
+            setTimeout(() => {
+                document.getElementById('loading-screen').classList.add('hidden');
+            }, 800);
+        });
+
+        // ========================================
+        // SCROLL PROGRESS
+        // ========================================
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            document.getElementById('scroll-progress').style.width = progress + '%';
+
+            // Back to top
+            const btn = document.getElementById('back-to-top');
+            if (scrollTop > 300) {
+                btn.classList.add('visible');
+            } else {
+                btn.classList.remove('visible');
+            }
+        });
+
+        document.getElementById('back-to-top').addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ========================================
+        // PRAYER TIMES
+        // ========================================
+        function updatePrayerTimes() {
+            const grid = document.getElementById('prayer-grid');
+            const now = new Date();
+            const totalMinutes = now.getHours() * 60 + now.getMinutes();
+
+            const prayers = [
+                { name: 'Fajr', icon: 'fa-cloud-sun', time: '05:00 AM', start: 5*60, end: 12*60 },
+                { name: 'Dhuhr', icon: 'fa-sun', time: '12:30 PM', start: 12*60, end: 16*60 },
+                { name: 'Asr', icon: 'fa-cloud-sun', time: '04:00 PM', start: 16*60, end: 18*60 },
+                { name: 'Maghrib', icon: 'fa-moon', time: '06:30 PM', start: 18*60, end: 20*60 },
+                { name: 'Isha', icon: 'fa-moon', time: '08:00 PM', start: 20*60, end: 5*60+24*60 }
+            ];
+
+            let current = '';
+            prayers.forEach(p => {
+                if (p.start < p.end) {
+                    if (totalMinutes >= p.start && totalMinutes < p.end) current = p.name;
+                } else {
+                    if (totalMinutes >= p.start || totalMinutes < p.end) current = p.name;
+                }
+            });
+
+            grid.innerHTML = prayers.map(p => `
+                <div class="prayer-card ${p.name === current ? 'current' : ''}">
+                    <div class="prayer-icon"><i class="fas ${p.icon}"></i></div>
+                    <div class="prayer-name">${p.name}</div>
+                    <div class="prayer-time">${p.time}</div>
+                </div>
+            `).join('');
+        }
+
+        updatePrayerTimes();
+        setInterval(updatePrayerTimes, 60000);
+
+        // ========================================
+        // COUNTER ANIMATION
+        // ========================================
+        function animateCounters() {
+            document.querySelectorAll('.stat-number, .hero-stat .number').forEach(el => {
+                const target = parseInt(el.getAttribute('data-target'));
+                if (!target) return;
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            let current = 0;
+                            const duration = 2000;
+                            const startTime = performance.now();
+                            
+                            function update(time) {
+                                const elapsed = time - startTime;
+                                const progress = Math.min(elapsed / duration, 1);
+                                const ease = 1 - Math.pow(1 - progress, 3);
+                                current = Math.floor(ease * target);
+                                
+                                if (target > 100) {
+                                    el.textContent = current.toLocaleString() + '+';
+                                } else {
+                                    el.textContent = current + '%';
+                                }
+                                
+                                if (progress < 1) {
+                                    requestAnimationFrame(update);
+                                } else {
+                                    el.textContent = target.toLocaleString() + (target > 100 ? '+' : '%');
+                                }
+                            }
+                            
+                            requestAnimationFrame(update);
+                            observer.unobserve(el);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                observer.observe(el);
+            });
+        }
+
+        setTimeout(animateCounters, 500);
+    </script>
+    <script src="deen.js"></script>
+</body>
+</html>

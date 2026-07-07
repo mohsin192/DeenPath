@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - DeenPath</title>
+    <link rel="icon" type="image/png" href="pics/logo.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="deen.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a2f1d;
+            --gold: #d4af37;
+            --gold-light: #f0d78c;
+            --white: #ffffff;
+            --off-white: #f8f5f0;
+            --text-dark: #1a1a2e;
+            --text-light: #6b6b7a;
+            --shadow: 0 8px 30px rgba(0,0,0,0.12);
+            --shadow-gold: 0 8px 30px rgba(212, 175, 55, 0.3);
+            --radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--off-white); color: var(--text-dark); overflow-x: hidden; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 700; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+        .section-padding { padding: 80px 0; }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 2.8rem; position: relative; display: inline-block; }
+        .section-title h2::after {
+            content: ''; position: absolute; bottom: -10px; left: 50%;
+            transform: translateX(-50%);
+            width: 60px; height: 3px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 2px;
+        }
+        .section-title p { color: var(--text-light); max-width: 600px; margin: 15px auto 0; }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: var(--primary); padding: 12px 32px; border-radius: 50px;
+            font-weight: 600; border: none; transition: var(--transition);
+            box-shadow: var(--shadow-gold);
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(212,175,55,0.4); color: var(--primary); }
+        .btn-outline {
+            background: transparent; color: var(--gold);
+            border: 2px solid var(--gold); padding: 12px 32px;
+            border-radius: 50px; font-weight: 600; transition: var(--transition);
+        }
+        .btn-outline:hover { background: var(--gold); color: var(--primary); transform: translateY(-3px); }
+
+        .card-premium {
+            background: var(--white); border-radius: var(--radius); padding: 30px;
+            box-shadow: var(--shadow); transition: var(--transition);
+            border: 1px solid rgba(212, 175, 55, 0.1); height: 100%;
+        }
+        .card-premium:hover { transform: translateY(-8px); box-shadow: 0 16px 48px rgba(0,0,0,0.15); border-color: var(--gold); }
+
+        /* Hero */
+        .page-hero {
+            background: linear-gradient(135deg, var(--primary), #0a3a22);
+            padding: 140px 0 80px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+        .page-hero::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: url('https://images.unsplash.com/photo-1586308296721-e04e6b9e3c5d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+            opacity: 0.1; z-index: 0;
+        }
+        .page-hero .container { position: relative; z-index: 1; }
+        .page-hero h1 { font-size: 3.5rem; color: var(--gold); }
+        .page-hero p { color: rgba(255,255,255,0.8); max-width: 600px; margin: 15px auto 0; font-size: 1.2rem; }
+
+        /* Mission Vision */
+        .mission-vision .icon-box {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px; color: var(--primary);
+            margin: 0 auto 16px;
+            transition: var(--transition);
+        }
+        .mission-vision .card-premium:hover .icon-box { transform: scale(1.1) rotate(5deg); }
+
+        /* Timeline */
+        .timeline-item {
+            display: flex; gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .timeline-item:last-child { border-bottom: none; }
+        .timeline-year {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem; font-weight: 700;
+            color: var(--gold); min-width: 100px;
+        }
+        .timeline-content h4 { font-size: 1.2rem; margin-bottom: 4px; }
+        .timeline-content p { color: var(--text-light); margin: 0; }
+
+        /* Team */
+        .team-card { text-align: center; padding: 24px; }
+        .team-card .avatar {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            border: 4px solid var(--gold);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .team-card:hover .avatar { transform: scale(1.05); border-color: var(--gold-light); }
+        .team-card .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .team-card h4 { font-size: 1.2rem; margin-bottom: 4px; }
+        .team-card p { color: var(--text-light); font-size: 0.9rem; margin: 0; }
+
+        /* Values */
+        .value-item { text-align: center; padding: 24px; }
+        .value-item .value-icon {
+            font-size: 40px; color: var(--gold);
+            margin-bottom: 12px;
+            transition: var(--transition);
+        }
+        .value-item:hover .value-icon { transform: scale(1.2); }
+
+        @media (max-width: 767px) {
+            .page-hero h1 { font-size: 2.5rem; }
+            .section-title h2 { font-size: 2rem; }
+            .timeline-item { flex-direction: column; gap: 8px; }
+            .timeline-year { min-width: auto; }
+        }
+    </style>
+</head>
+<body>
+    <!-- ========================================
+   DEENPATH - PREMIUM NAVBAR
+   ======================================== -->
+<nav class="navbar navbar-expand-lg fixed-top" id="main-navbar">
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="index.html">
+            <img src="pic/logo.jpg" alt="DeenPath" class="navbar-logo">
+            <span class="navbar-brand-text">Deen<span>Path</span></span>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="about-us.html">About</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="resourcesDropdown" role="button" data-bs-toggle="dropdown">
+                        Resources
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="quran.html">📖 Quran</a></li>
+                        <li><a class="dropdown-item" href="surah.html">📚 Surah</a></li>
+                        <li><a class="dropdown-item" href="du-as.html">🤲 Duas</a></li>
+                        <li><a class="dropdown-item" href="namaztime.html">🕌 Prayer Times</a></li>
+                        <li><a class="dropdown-item" href="calender.html">📅 Calendar</a></li>
+                        <li><a class="dropdown-item" href="counter.html">📿 Tasbeeh</a></li>
+                        <li><a class="dropdown-item" href="qibla.html">🧭 Qibla</a></li>
+                        <li><a class="dropdown-item" href="mosque.html">🕌 Mosque Finder</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="gallery.html">Gallery</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="explore.html">Explore</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="portfolio.html">Portfolio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact</a>
+                </li>
+            </ul>
+
+            <!-- Actions -->
+            <div class="navbar-actions">
+                <button class="search-toggle" id="search-toggle" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+                
+                <div class="dark-mode-toggle">
+                    <input type="checkbox" id="dark-mode-toggle">
+                    <label for="dark-mode-toggle" class="toggle-label">
+                        <i class="fas fa-moon"></i>
+                        <i class="fas fa-sun"></i>
+                        <span class="toggle-ball"></span>
+                    </label>
+                </div>
+
+                <a href="register.html" class="btn btn-primary btn-sm">Register</a>
+                <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-overlay-content">
+            <button class="search-close" id="search-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="search-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="search-input" placeholder="Search for Islamic knowledge..." autofocus>
+            </div>
+            <div class="search-results" id="search-results"></div>
+        </div>
+    </div>
+</nav>
+ 
+
+    <section class="page-hero">
+        <div class="container">
+            <h1 data-aos="fade-down">About DeenPath</h1>
+            <p data-aos="fade-up" data-aos-delay="100">Your trusted companion for authentic Islamic knowledge and spiritual growth</p>
+        </div>
+    </section>
+
+    <section class="mission-vision section-padding">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="card-premium text-center">
+                        <div class="icon-box"><i class="fas fa-bullseye"></i></div>
+                        <h3>Our Mission</h3>
+                        <p style="color: var(--text-light);">To provide authentic Islamic education and resources online in an easy and accessible way for Muslims worldwide.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="card-premium text-center">
+                        <div class="icon-box"><i class="fas fa-eye"></i></div>
+                        <h3>Our Vision</h3>
+                        <p style="color: var(--text-light);">To become the leading platform for Islamic knowledge, connecting Muslims globally with authentic scholarship.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding" style="background: var(--white);">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Our Journey</h2>
+                <p>The story of DeenPath from inception to today</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8" data-aos="fade-up">
+                    <div class="card-premium">
+                        <div class="timeline-item">
+                            <div class="timeline-year">2020</div>
+                            <div class="timeline-content">
+                                <h4>Founded</h4>
+                                <p>DeenPath was founded with a vision to make Islamic knowledge accessible to everyone.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2021</div>
+                            <div class="timeline-content">
+                                <h4>First Launch</h4>
+                                <p>Launched our first platform with Quran, prayer times, and Islamic resources.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2022</div>
+                            <div class="timeline-content">
+                                <h4>Community Growth</h4>
+                                <p>Reached 1000+ students and expanded our course offerings.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2023</div>
+                            <div class="timeline-content">
+                                <h4>Global Reach</h4>
+                                <p>Expanded to 25+ countries with 50+ expert scholars.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2024</div>
+                            <div class="timeline-content">
+                                <h4>Today</h4>
+                                <p>5000+ students, 50+ courses, and growing every day.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <div class="section-title" data-aos="fade-up">
+                <h2>Our Core Values</h2>
+                <p>The principles that guide everything we do</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-premium value-item">
+                        <div class="value-icon"><i class="fas fa-heart"></i></div>
+                        <h4>Sincerity</h4>
+                        <p style="color: var(--text-light); font-size: 0.95rem;">Pure intentions in seeking and spreading knowledge</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-premium value-item">
+                        <div class="value-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h4>Authenticity</h4>
+                        <p style="color: var(--text-light); font-size: 0.95rem;">Content verified by qualified Islamic scholars</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-premium value-item">
+                        <div class="value-icon"><i class="fas fa-users"></i></div>
+                        <h4>Community</h4>
+                        <p style="color: var(--text-light); font-size: 0.95rem;">Building a supportive learning community</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="card-premium value-item">
+                        <div class="value-icon"><i class="fas fa-star"></i></div>
+                        <h4>Excellence</h4>
+                        <p style="color: var(--text-light); font-size: 0.95rem;">Striving for the highest quality in everything</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <!-- Brand -->
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <img src="pics/logo.jpg" alt="DeenPath">
+                    <span>DeenPath</span>
+                </div>
+                <p>Your trusted companion for authentic Islamic knowledge and spiritual growth.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="explore.html">Explore</a></li>
+                </ul>
+            </div>
+
+            <!-- Resources -->
+            <div class="footer-links">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="quran.html">Quran</a></li>
+                    <li><a href="surah.html">Surah</a></li>
+                    <li><a href="duas.html">Duas</a></li>
+                    <li><a href="nt.html">Prayer Times</a></li>
+                    <li><a href="calender.html">Calendar</a></li>
+                    <li><a href="counter.html">Tasbeeh</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div class="footer-contact-col">
+                <h4>Contact</h4>
+                <p><i class="fas fa-envelope"></i> mohsingohar759@gmail.com</p>
+                <p><i class="fas fa-phone"></i> +92 3412126649</p>
+                <p><i class="fas fa-map-marker-alt"></i> Karachi, Pakistan</p>
+                <div class="footer-newsletter">
+                    <h4>Newsletter</h4>
+                    <form id="newsletter-form">
+                        <div class="newsletter-input">
+                            <input type="email" placeholder="Your email" required>
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; <span id="year"></span> DeenPath. All Rights Reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="FAQs.html">FAQs</a>
+            </div>
+        </div>
+    </div>
+</footer>
+    <div id="footer-placeholder"></div>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, easing: 'ease-in-out', once: true });
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('components/navbar.html').then(r=>r.text()).then(d=>document.getElementById('navbar-placeholder').innerHTML=d);
+            fetch('components/footer.html').then(r=>r.text()).then(d=>document.getElementById('footer-placeholder').innerHTML=d);
+        });
+    </script>
+</body>
+</html>
